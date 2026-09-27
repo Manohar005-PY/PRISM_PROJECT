@@ -1,0 +1,8 @@
+{
+  "system_name": "PRISM_Full_Pipeline",
+  "prediction_horizon_seconds": 3.0,
+  "risk_ema_alpha": 0.4,
+  "kalman_process_noise": 0.5,
+  "tracking_gating_threshold": 9.21,
+  "description": "Complete PRISM predictive collision prediction and spatial avoidance pipeline"
+}

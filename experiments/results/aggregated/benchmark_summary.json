@@ -1,0 +1,32 @@
+{
+  "metadata": {
+    "scenarios_count": 10,
+    "seed": 42
+  },
+  "metrics": {
+    "baseline_distance": {
+      "hazard_detection_rate": 71.42857142857143,
+      "false_alarm_rate": 0.0,
+      "unnecessary_stop_rate": 0.0,
+      "decision_switch_rate": 4.8,
+      "position_rmse": 2.8460113853755407,
+      "total_samples": 510
+    },
+    "baseline_ttc": {
+      "hazard_detection_rate": 88.09523809523809,
+      "false_alarm_rate": 4.666666666666667,
+      "unnecessary_stop_rate": 4.666666666666667,
+      "decision_switch_rate": 3.2,
+      "position_rmse": 2.8460113853755407,
+      "total_samples": 510
+    },
+    "prism_full": {
+      "hazard_detection_rate": 66.66666666666666,
+      "false_alarm_rate": 4.333333333333334,
+      "unnecessary_stop_rate": 4.333333333333334,
+      "decision_switch_rate": 9.0,
+      "position_rmse": 2.8460113853755407,
+      "total_samples": 510
+    }
+  }
+}

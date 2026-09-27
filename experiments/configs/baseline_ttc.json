@@ -1,0 +1,5 @@
+{
+  "system_name": "TTCBaseline",
+  "ttc_threshold_seconds": 2.5,
+  "description": "Instantaneous relative motion TTC baseline without temporal smoothing or spatial evasion"
+}

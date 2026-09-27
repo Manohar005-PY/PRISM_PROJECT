@@ -1,0 +1,15 @@
+metric,value
+total_runs_evaluated,40
+total_frames_evaluated,4540
+position_2d_mae_m,0.0101
+position_2d_rmse_m,0.0174
+mean_mota,0.9968
+mean_idf1,0.9985
+pred_1s_mae_m,0.0913
+pred_2s_mae_m,0.2483
+pred_3s_mae_m,0.5028
+ttc_mae_s,0.211
+dcpa_mae_m,0.0758
+mean_warning_lead_time_s,2.9893
+false_warning_rate_safe_runs,0.9167
+total_failures_identified,39

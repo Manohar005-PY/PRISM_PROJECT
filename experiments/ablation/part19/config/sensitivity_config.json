@@ -1,0 +1,62 @@
+[
+  {
+    "param_name": "horizon",
+    "target_component": "RiskConfig",
+    "nominal_value": 3.0,
+    "sweep_values": [
+      2.0,
+      3.0,
+      4.0
+    ],
+    "unit": "s",
+    "description": "Predictive risk evaluation lookahead time horizon."
+  },
+  {
+    "param_name": "thresh_high",
+    "target_component": "RiskConfig",
+    "nominal_value": 0.7,
+    "sweep_values": [
+      0.6,
+      0.7,
+      0.8
+    ],
+    "unit": "score",
+    "description": "Threshold for escalating to HIGH risk level and initiating active warning/avoidance."
+  },
+  {
+    "param_name": "alpha_smooth",
+    "target_component": "RiskConfig",
+    "nominal_value": 0.6,
+    "sweep_values": [
+      0.3,
+      0.6,
+      0.9
+    ],
+    "unit": "coefficient",
+    "description": "Exponential moving average smoothing factor for continuous risk score."
+  },
+  {
+    "param_name": "k_sigma",
+    "target_component": "RiskConfig",
+    "nominal_value": 1.0,
+    "sweep_values": [
+      0.5,
+      1.0,
+      2.0
+    ],
+    "unit": "multiplier",
+    "description": "Positional uncertainty covariance expansion multiplier for physical safety boundary."
+  },
+  {
+    "param_name": "sigma_a",
+    "target_component": "KalmanFilterConfig",
+    "nominal_value": 0.5,
+    "sweep_values": [
+      0.25,
+      0.5,
+      1.0
+    ],
+    "unit": "m/s^2",
+    "description": "Standard deviation of process acceleration noise in Kalman state filter."
+  }
+]

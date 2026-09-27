@@ -1,0 +1,7 @@
+scenario_family,total_runs,col_runs,safe_runs,collision_event_recall,proximity_caution_alert_rate,false_collision_warning_rate,mean_lead_time_s,median_lead_time_s,tracking_continuity,mean_track_coverage,mean_detection_association_coverage,total_zero_detections,total_coasting_frames,mean_gap_bridging_rate,mean_decision_changes,mean_steering_reversals,mean_latency_ms
+R01_stationary,3,3,0,1.0,N/A,N/A,6.5,6.5,0.9937,0.9937,0.9937,0,0,N/A,10.67,0.33,33.245
+R02_head_on,3,3,0,1.0,N/A,N/A,3.3995,2.5326,0.7888,0.7888,0.7888,0,0,N/A,12.67,0.33,32.165
+R03_lateral_crossing,4,2,2,1.0,1.0,1.0,2.7623,2.7623,0.9921,0.9921,0.9921,0,0,N/A,7.25,0.0,32.992
+R04_moving_away,2,0,2,N/A,1.0,1.0,N/A,N/A,1.0,1.0,1.0,0,0,N/A,5.5,0.0,32.82
+R05_direction_change,2,0,2,N/A,1.0,1.0,N/A,N/A,1.0,0.8067,1.0,53,7,0.1321,6.5,0.0,32.201
+R06_multiple_objects,3,3,0,1.0,N/A,N/A,5.3667,6.5,1.0,1.0,1.0,0,0,N/A,16.0,0.0,34.816

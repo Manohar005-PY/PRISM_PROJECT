@@ -1,0 +1,15 @@
+{
+  "prediction_horizon": 3.0,
+  "min_safe_clearance_m": 0.5,
+  "lead_time_late_threshold_s": 0.5,
+  "decision_instability_threshold": 5,
+  "steering_reversal_threshold": 2,
+  "variants": [
+    "FULL_PRISM",
+    "NO_KALMAN",
+    "POSITION_ONLY",
+    "TTC_ONLY",
+    "DCPA_ONLY",
+    "NO_PREDICTIVE_RISK"
+  ]
+}

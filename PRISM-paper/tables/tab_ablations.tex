@@ -1,0 +1,25 @@
+% Table VI: Component Ablation Analysis
+\begin{table}[t]
+\caption{Systematic Component Ablation Study Across 40 Benchmark Runs}
+\label{tab:ablations}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabularx}{\columnwidth}{Xcccc}
+\toprule
+\textbf{Ablated Architecture} & \textbf{Recall (\%)} & \textbf{FAR (\%)} & \textbf{Lead (s)} & \textbf{Reversals} \\
+\midrule
+Full PRISM Framework & 100.0 & 15.4 & 2.90 & 0.20 \\
+Variant A: No EMA Smoothing & 100.0 & 16.7 & 2.84 & 0.32 \\
+Variant B: No Covariance ($k_\sigma=0$) & 100.0 & 14.1 & 2.89 & 0.24 \\
+Variant C: No Direction ($w_{\text{dir}}=0$) & 100.0 & 14.1 & 2.90 & 0.22 \\
+Variant D: No Speed ($w_{\text{speed}}=0$) & 100.0 & 14.1 & 2.90 & 0.22 \\
+Variant E: No CPA Distance & 100.0 & 11.5 & 2.51 & 0.05 \\
+Variant F: No TTC Urgency & 100.0 & 28.2 & 2.39 & 0.28 \\
+Variant G: No Kalman Filtering & 100.0 & 66.7 & 2.66 & 1.23 \\
+Variant H: Position-Only Tracking & 100.0 & 66.7 & 2.66 & 0.80 \\
+\bottomrule
+\end{tabularx}
+\vspace{0.04cm}
+\par{\raggedright \scriptsize Reversals denote mean steering direction changes per run. Eliminating Kalman filtering increases steering flapping by $6\times$.\par}
+\end{table}

@@ -1,0 +1,26 @@
+% Table VII: Embedded Host Runtime Latency and Resource Profile
+\begin{table}[t]
+\caption{Embedded Host Runtime Latency and Resource Breakdown}
+\label{tab:runtime_profile}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\columnwidth}{Xcccc}
+\toprule
+\textbf{Pipeline Stage} & \textbf{Mean (ms)} & \textbf{P95 (ms)} & \textbf{P99 (ms)} & \textbf{FPS} \\
+\midrule
+Visual Perception (Inference) & 28.50 & 31.80 & 33.50 & 35.1 \\
+Ground-Plane Ray Projection & 0.012 & 0.018 & 0.025 & $>10\text{k}$ \\
+Multi-Object Tracking & 0.075 & 0.110 & 0.140 & $>10\text{k}$ \\
+Kalman State Covariance Update & 0.038 & 0.060 & 0.080 & $>10\text{k}$ \\
+Collision Trajectory Prediction & 0.340 & 0.460 & 0.580 & 2940 \\
+Predictive Risk Scoring & 0.022 & 0.035 & 0.045 & $>10\text{k}$ \\
+Corridor Ray-Cast Arbitration & 0.085 & 0.130 & 0.160 & $>10\text{k}$ \\
+\midrule
+\textbf{Algorithmic Core Subtotal} & \textbf{0.572} & \textbf{0.880} & \textbf{1.030} & \textbf{1748} \\
+\textbf{Total Mobile Pipeline Loop} & \textbf{31.62} & \textbf{34.20} & \textbf{36.80} & \textbf{31.6} \\
+\bottomrule
+\end{tabularx}
+\vspace{0.04cm}
+\par{\raggedright \scriptsize Profiled over 510 continuous video frames on target mobile host hardware. Core algorithmic processing executes in sub-millisecond time.\par}
+\end{table}

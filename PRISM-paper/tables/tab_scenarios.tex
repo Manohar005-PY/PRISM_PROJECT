@@ -1,0 +1,27 @@
+% Table III: Six Canonical Simulation Evaluation Scenarios
+\begin{table}[t]
+\caption{Six Canonical Simulation Interaction Scenarios}
+\label{tab:scenarios}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabularx}{\columnwidth}{p{2.3cm}X}
+\toprule
+\textbf{Scenario Family} & \textbf{Kinematic Interaction Geometry} \\
+\midrule
+\textbf{Stationary} (\texttt{S01}) & Immobile obstacle at $(0, 2.5\text{m})$. Benchmarks warning lead time against distance baselines. \\
+\addlinespace[2pt]
+\textbf{Head-On} (\texttt{S02}) & Direct centerline approach ($Z: 5\text{m} \to 0\text{m}$, closing $2.0\text{m/s}$, impact at $t=2.5\text{s}$). Tests emergency stopping. \\
+\addlinespace[2pt]
+\textbf{Crossing} (\texttt{S03}) & Perpendicular transit ($X: -2.5\text{m} \to +2.5\text{m}$ at $Z=3\text{m}$). Tests 2D CPA trajectory prediction. \\
+\addlinespace[2pt]
+\textbf{Moving Away} (\texttt{S04}) & Target moving away ($Z: 2\text{m} \to 5\text{m}$). Tests suppression of departure false alarms. \\
+\addlinespace[2pt]
+\textbf{Direction Change} (\texttt{S05}) & Approaching obstacle veering away at $t=2.5\text{s}$. Tests dynamic path re-estimation. \\
+\addlinespace[2pt]
+\textbf{Multiple Objects} (\texttt{S06}) & Multi-agent hallway with static clutter and approaching threat. Tests multi-track arbitration. \\
+\bottomrule
+\end{tabularx}
+\vspace{0.04cm}
+\par{\raggedright \scriptsize Six canonical interaction families evaluated in simulation and real-world video. Corridor squeeze (\texttt{S07}) and noise sweeps (\texttt{S08}) serve as supplementary stress tests.\par}
+\end{table}

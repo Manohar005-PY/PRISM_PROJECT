@@ -1,0 +1,54 @@
+% Table 1: Frozen PRISM Android System Configuration Parameters (PRISM-L1.0)
+\begin{table}[t]
+\caption{Frozen PRISM-L1.0 Android System Configuration Parameters}
+\label{tab:configuration}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabularx}{\columnwidth}{p{2.3cm}p{1.9cm}X}
+\toprule
+\textbf{Subsystem} & \textbf{Parameter} & \textbf{Value / Operational Role} \\
+\midrule
+\textbf{CameraX \& Frame}
+  & Backpressure policy & \texttt{KEEP\_ONLY\_LATEST} ($N=1$ frame) \\
+  & Max stale delta & $\Delta t > 0.25$\,s $\to$ \texttt{DEGRADED} state \\
+  & Grid resolution & $32 \times 24$ subsampling grid on Y plane \\
+\midrule
+\textbf{Perception \& Geometry}
+  & Edge / Contrast thresholds & Sobel $E > 38f$, Local contrast $> 24f$ \\
+  & Min cluster size & $\ge 6$ contiguous connected cells \\
+  & Camera mount & Height $h=1.30$\,m, Pitch $\theta_p = 12^\circ$ ($0.209$\,rad) \\
+  & Depth range ($Z$) & $0.40$\,m $\le Z \le 6.50$\,m; Corridor $|X| \le 1.25$\,m \\
+  & Physical height ($H$) & $0.32$\,m $\le H \le 2.40$\,m (volumetric $\ge 0.22$\,m) \\
+  & Physical width ($W$) & $0.10$\,m $\le W \le 2.20$\,m; Aspect $0.15 \le H/W \le 5.5$ \\
+  & Covariance model & $R(Z) = 0.04 + 0.015 Z$ \\
+\midrule
+\textbf{Tracking \& Kalman}
+  & Confirmation rule & $\ge 2$ hits (fast confirm if $Z < 1.0$\,m and geom $\ge 0.50$) \\
+  & Association gating & $d_{\text{gate}} = \max(0.90, \min(1.80, 1.0 + 2.0 v \Delta t))$\,m \\
+  & Max velocity clamp & $|V_x| \le 3.5$\,m/s, $|V_z| \le 4.5$\,m/s (EMA $\alpha = 0.50$) \\
+  & Track pruning & Missed frames $> 5$ or physical confidence $< 0.15$ \\
+\midrule
+\textbf{IMU \& Motion Fusion}
+  & Orientation fusion & Gyro integration + gravity correction ($\alpha = 0.05$) \\
+  & Step peak threshold & $1.20$\,m/s$^2$ dynamic acceleration peak \\
+  & Refractory period & $0.28$\,s minimum inter-step interval; max $1.80$\,s \\
+  & Motion energy RMS & Stationary $< 0.25$\,m/s$^2$; Active $> 0.60$\,m/s$^2$ \\
+  & Gyro stationary gate & Angular rate $< 0.20$\,rad/s; Min 2 steps for walking \\
+\midrule
+\textbf{Collision \& Decisions}
+  & Safety envelope & $R_{\text{corridor}} = 0.70$\,m, Corridor check $Z < 2.8$\,m \\
+  & Emergency stop & $Z < 1.0$\,m ($|X| \le 0.6$\,m) or risk score $\ge 85.0$ \\
+  & Evasion turn & $Z < 2.6$\,m, threat conf $\ge 0.70$, heading $\pm 0.45$\,rad \\
+  & Turn hysteresis & $\Delta C_{\text{hyst}} = 0.15$ cost barrier against chattering \\
+\midrule
+\textbf{Multimodal Warnings}
+  & Warning taxonomy & 6 severities, 7 spatial sectors, 6 distance bands \\
+  & Spatial audio panning & Linear pan $\in [-1.0, 1.0]$, 44.1\,kHz stereo PCM \\
+  & Cooldown \& dedup & $1.5$\,s cooldown; suppression in \texttt{CLEAR}/\texttt{AWARE} \\
+\bottomrule
+\end{tabularx}
+\vspace{-0.15cm}
+\par{\raggedright \tiny Frozen snapshot from \texttt{PRISM-L1.0-config.json} and Kotlin source implementation.\par}
+\vspace{-0.3cm}
+\end{table}

@@ -1,0 +1,31 @@
+% Table I: System Architecture Components and Typed Contracts
+\begin{table}[t]
+\caption{PRISM System Architecture Components and Typed Contracts}
+\label{tab:components}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabularx}{\columnwidth}{p{2.6cm}X}
+\toprule
+\textbf{Subsystem \& Contract} & \textbf{Implemented Responsibilities} \\
+\midrule
+\textbf{Spatial Perception}\par\scriptsize\texttt{ObjectObservation} & Sobel gradient energy ($E>28$), BFS clustering, standing height filter ($\ge 0.4\text{m}$). \\
+\addlinespace[2pt]
+\textbf{Ground Projection}\par\scriptsize\texttt{PhysicalObservation} & Monocular inverse ray $(u,v) \to (X,Z)$, dynamic $R(Z)$, horizon rejection. \\
+\addlinespace[2pt]
+\textbf{Tracking}\par\scriptsize\texttt{TrackedObservation} & Mahalanobis gating ($\chi_2^2 \le 9.21$), Hungarian matching, 4-state lifecycle. \\
+\addlinespace[2pt]
+\textbf{State Estimation}\par\scriptsize\texttt{ObjectState} & Constant-velocity Kalman filter, Joseph-stabilized covariance update. \\
+\addlinespace[2pt]
+\textbf{Prediction}\par\scriptsize\texttt{Trajectory} & Analytical CPA ($t_{\text{CPA}}, d_{\text{CPA}}$), closed-form quadratic TTC ($T_H = 3.5\text{s}$). \\
+\addlinespace[2pt]
+\textbf{Risk Engine}\par\scriptsize\texttt{RiskAssessment} & 4-factor score ($S \in [0,1]$), covariance expansion $R_{\text{eff}}$, EMA smoothing. \\
+\addlinespace[2pt]
+\textbf{Decision Policy}\par\scriptsize\texttt{NavigationDecision} & 25-ray corridor casting, turn hysteresis ($\Delta C \ge 0.15$), emergency bypass. \\
+\addlinespace[2pt]
+\textbf{Presentation}\par\scriptsize\texttt{PresentationInst} & Rate-limited TTS (1.0s/1.6s/2.5s), spatial audio panning, haptic waveforms. \\
+\addlinespace[2pt]
+\textbf{Telemetry}\par\scriptsize\texttt{SSE / JSONL Stream} & Real-time HTTP/SSE (port 8080), 2D radar, structured session logging. \\
+\bottomrule
+\end{tabularx}
+\end{table}

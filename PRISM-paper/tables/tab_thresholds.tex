@@ -1,0 +1,25 @@
+% Table II: Operational Parameters and Decision Thresholds
+\begin{table}[t]
+\caption{Operational Parameters and Decision Thresholds}
+\label{tab:thresholds}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\columnwidth}{p{1.8cm}p{1.6cm}X}
+\toprule
+\textbf{Parameter} & \textbf{Value} & \textbf{Operational Role} \\
+\midrule
+$S_{\text{critical}}$ & $0.88$ ($88\%$) & Threshold triggering \texttt{CRITICAL} threat \\
+$S_{\text{high}}$ & $0.65$ ($65\%$) & Threshold triggering \texttt{HIGH} threat \\
+$S_{\text{medium}}$ & $0.35$ ($35\%$) & Threshold triggering \texttt{MEDIUM} threat \\
+$S_{\text{low}}$ & $0.20$ ($20\%$) & Threshold triggering \texttt{LOW} threat \\
+$w_{\text{time}}, w_{\text{dist}}$ & $0.45, 0.25$ & Urgency ($f_{\text{time}}$) and distance ($f_{\text{dist}}$) weights \\
+$w_{\text{speed}}, w_{\text{dir}}$ & $0.15, 0.15$ & Speed ($f_{\text{speed}}$) and sector ($f_{\text{dir}}$) weights \\
+$D_{\max}, T_H$ & $5.0\text{ m}, 3.5\text{ s}$ & Sensing range and forward prediction window \\
+$R_{\text{corridor}}, D_{\text{clear}}$ & $0.70\text{ m}, 1.0\text{ m}$ & Lateral clearance buffer and path threshold \\
+$\Delta C_{\text{hyst}}$ & $0.15$ & Cost barrier required to switch turn direction \\
+$T_{\text{cooldown}}$ & $1.5\text{ s}$ & Minimum cooldown between spoken alerts \\
+$N_{\text{buffer}}$ & $1\text{ frame}$ & Bounded camera buffer (\texttt{KEEP\_ONLY\_LATEST}) \\
+\bottomrule
+\end{tabularx}
+\end{table}

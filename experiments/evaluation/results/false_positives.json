@@ -1,0 +1,123 @@
+[
+  {
+    "run_id": "S03_crossing_miss_run_0004",
+    "scenario_family": "S03_lateral_crossing",
+    "first_warning_time_s": 0.2,
+    "time_in_warning_s": 0.45,
+    "min_clearance_m": 0.9192,
+    "decision_changes": 4,
+    "category": "Near-Miss Lateral Clearance Boundary",
+    "is_implementation_defect": false,
+    "rationale": "Pedestrian crosses path with safe CPA (1.2m-1.5m), but enters proactive avoidance safety margin."
+  },
+  {
+    "run_id": "S04_moving_away_run_0001",
+    "scenario_family": "S04_moving_away",
+    "first_warning_time_s": 0.0,
+    "time_in_warning_s": 0.2,
+    "min_clearance_m": 1.8,
+    "decision_changes": 2,
+    "category": "Forward Vehicle Proximity Caution",
+    "is_implementation_defect": false,
+    "rationale": "Leading pedestrian walking ahead in same direction within 3.0m forward corridor triggers cautious slowdown."
+  },
+  {
+    "run_id": "S04_moving_away_run_0002",
+    "scenario_family": "S04_moving_away",
+    "first_warning_time_s": 0.0,
+    "time_in_warning_s": 0.15,
+    "min_clearance_m": 2.6,
+    "decision_changes": 1,
+    "category": "Forward Vehicle Proximity Caution",
+    "is_implementation_defect": false,
+    "rationale": "Leading pedestrian walking ahead in same direction within 3.0m forward corridor triggers cautious slowdown."
+  },
+  {
+    "run_id": "S04_moving_away_run_0003",
+    "scenario_family": "S04_moving_away",
+    "first_warning_time_s": 0.0,
+    "time_in_warning_s": 0.15,
+    "min_clearance_m": 3.4,
+    "decision_changes": 1,
+    "category": "Forward Vehicle Proximity Caution",
+    "is_implementation_defect": false,
+    "rationale": "Leading pedestrian walking ahead in same direction within 3.0m forward corridor triggers cautious slowdown."
+  },
+  {
+    "run_id": "S04_moving_away_run_0004",
+    "scenario_family": "S04_moving_away",
+    "first_warning_time_s": 0.0,
+    "time_in_warning_s": 0.15,
+    "min_clearance_m": 4.2,
+    "decision_changes": 1,
+    "category": "Forward Vehicle Proximity Caution",
+    "is_implementation_defect": false,
+    "rationale": "Leading pedestrian walking ahead in same direction within 3.0m forward corridor triggers cautious slowdown."
+  },
+  {
+    "run_id": "S04_moving_away_run_0005",
+    "scenario_family": "S04_moving_away",
+    "first_warning_time_s": 0.0,
+    "time_in_warning_s": 0.15,
+    "min_clearance_m": 5.0,
+    "decision_changes": 1,
+    "category": "Forward Vehicle Proximity Caution",
+    "is_implementation_defect": false,
+    "rationale": "Leading pedestrian walking ahead in same direction within 3.0m forward corridor triggers cautious slowdown."
+  },
+  {
+    "run_id": "S05_direction_change_run_0001",
+    "scenario_family": "S05_direction_change",
+    "first_warning_time_s": 0.25,
+    "time_in_warning_s": 0.95,
+    "min_clearance_m": 1.0686,
+    "decision_changes": 2,
+    "category": "Pre-Turn Head-On Trajectory Caution",
+    "is_implementation_defect": false,
+    "rationale": "Pedestrian approaches on collision course before abruptly turning at t=2.5s; PRISM appropriately warned prior to turn."
+  },
+  {
+    "run_id": "S05_direction_change_run_0002",
+    "scenario_family": "S05_direction_change",
+    "first_warning_time_s": 0.25,
+    "time_in_warning_s": 0.95,
+    "min_clearance_m": 0.8133,
+    "decision_changes": 2,
+    "category": "Pre-Turn Head-On Trajectory Caution",
+    "is_implementation_defect": false,
+    "rationale": "Pedestrian approaches on collision course before abruptly turning at t=2.5s; PRISM appropriately warned prior to turn."
+  },
+  {
+    "run_id": "S05_direction_change_run_0003",
+    "scenario_family": "S05_direction_change",
+    "first_warning_time_s": 0.25,
+    "time_in_warning_s": 0.95,
+    "min_clearance_m": 0.8,
+    "decision_changes": 2,
+    "category": "Pre-Turn Head-On Trajectory Caution",
+    "is_implementation_defect": false,
+    "rationale": "Pedestrian approaches on collision course before abruptly turning at t=2.5s; PRISM appropriately warned prior to turn."
+  },
+  {
+    "run_id": "S05_direction_change_run_0004",
+    "scenario_family": "S05_direction_change",
+    "first_warning_time_s": 0.25,
+    "time_in_warning_s": 0.95,
+    "min_clearance_m": 0.8,
+    "decision_changes": 2,
+    "category": "Pre-Turn Head-On Trajectory Caution",
+    "is_implementation_defect": false,
+    "rationale": "Pedestrian approaches on collision course before abruptly turning at t=2.5s; PRISM appropriately warned prior to turn."
+  },
+  {
+    "run_id": "S05_direction_change_run_0005",
+    "scenario_family": "S05_direction_change",
+    "first_warning_time_s": 0.25,
+    "time_in_warning_s": 0.95,
+    "min_clearance_m": 0.8,
+    "decision_changes": 2,
+    "category": "Pre-Turn Head-On Trajectory Caution",
+    "is_implementation_defect": false,
+    "rationale": "Pedestrian approaches on collision course before abruptly turning at t=2.5s; PRISM appropriately warned prior to turn."
+  }
+]

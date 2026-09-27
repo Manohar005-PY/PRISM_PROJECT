@@ -1,0 +1,27 @@
+% Table VIII: Implemented Fault Isolation and Fail-Safe Degradation Modes
+\begin{table}[t]
+\caption{Implemented Fault Isolation and Fail-Safe Degradation Modes}
+\label{tab:failure_modes}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabularx}{\columnwidth}{p{2.6cm}X}
+\toprule
+\textbf{Failure Mode \& Trigger} & \textbf{Implemented System Mitigation} \\
+\midrule
+\textbf{Horizon Singularity}\par\scriptsize Contact at/above horizon & Ray rejected immediately; numerical divergence prevented. \\
+\addlinespace[2pt]
+\textbf{Stale Frame Ingestion}\par\scriptsize Arrival delta $\Delta t > 0.25\text{s}$ & State set to \texttt{DEGRADED}; forward speed advisory throttled. \\
+\addlinespace[2pt]
+\textbf{Out-of-Order Delivery}\par\scriptsize Timestamp delta $\Delta t < 0$ & Frame dropped; fail-safe \texttt{EMERGENCY\_STOP} commanded. \\
+\addlinespace[2pt]
+\textbf{Camera Source Loss}\par\scriptsize Driver exception / lock drop & Switch to mock fallback; audio/haptic safety state preserved. \\
+\addlinespace[2pt]
+\textbf{Presentation HAL Error}\par\scriptsize Audio/TTS driver crash & Error trapped by dispatcher; HUD and haptics remain live. \\
+\addlinespace[2pt]
+\textbf{Heading Oscillation}\par\scriptsize Cost difference $< 0.15$ & Lateral turn hysteresis holds active direction stably. \\
+\addlinespace[2pt]
+\textbf{Critical Threat Jump}\par\scriptsize Upward jump to \texttt{CRITICAL} & Hysteresis and cooldowns bypassed for immediate braking. \\
+\bottomrule
+\end{tabularx}
+\end{table}

@@ -1,0 +1,6 @@
+{
+  "system_name": "DistanceBaseline",
+  "stop_threshold_meters": 1.8,
+  "caution_threshold_meters": 3.0,
+  "description": "Pure reactive Euclidean proximity baseline"
+}

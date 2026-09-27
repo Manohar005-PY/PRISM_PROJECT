@@ -1,0 +1,22 @@
+% =========================================================================
+% SECTION 2: PRISM SYSTEM ARCHITECTURE
+% =========================================================================
+\section{PRISM System Architecture}
+\label{sec:architecture}
+
+PRISM is implemented as a modular, unidirectional real-time perception and warning architecture natively on Android (Fig.~\ref{fig:pipeline_architecture}). The architecture decouples hardware sensor ingestion, algorithmic state estimation, threat arbitration, and multimodal presentation.
+
+\input{figures/fig_pipeline.tex}
+
+The software architecture enforces four design principles:
+\begin{enumerate}
+    \item \textbf{Unidirectional Pipeline Flow}: Sensor measurements flow strictly forward through perception, geometric validation, tracking, hazard lifecycle, and presentation. No backward mutations exist between stages.
+    \item \textbf{Immutable Typed Data Contracts}: Subsystems communicate through immutable Kotlin data classes. Raw detections are encapsulated in \texttt{CandidateCluster}, geometric metrics in \texttt{CandidateGeometry}, tracking states in \texttt{TrackInfo}, navigation decisions in \texttt{PrismDecision}, and audio-haptic cues in \texttt{PrismPresentationCue}.
+    \item \textbf{Metric Cartesian Ground Space}: Downstream tracking, kinematics, collision geometry, and hazard arbitration operate in metric Cartesian ground coordinates $(X, Z) \in \mathbb{R}^2$ (lateral $X$, forward $Z$ in meters).
+    \item \textbf{Single-Frame Bounded Backpressure}: The perception loop maintains a bounded queue depth $N = 1$ to guarantee that variable processing times never induce queue latency accumulation.
+\end{enumerate}
+
+\input{tables/tab_configuration.tex}
+
+\subsection{Android Host and Runtime Lifecycle}
+The Android host is anchored by \texttt{PrismApplication} and \texttt{MainActivity}. The lifecycle is managed by \texttt{PrismRuntime}, which coordinates concurrent worker threads for camera frame analysis, sensor event listeners, and multimodal presentation channels. The runtime maintains three operating states: \texttt{RUNNING} (active processing), \texttt{DEGRADED} (sensor dropout or inter-frame delta $\Delta t > 0.25$\,s), and \texttt{STOPPED}. All thresholds are frozen in the \texttt{PRISM-L1.0-config.json} specification (Table~\ref{tab:configuration}) for reproducible execution.

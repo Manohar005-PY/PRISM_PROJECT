@@ -1,0 +1,7 @@
+variant,total_runs,col_runs,warning_rate,false_warning_rate,mean_lead_time_s,median_lead_time_s,std_lead_time_s,maintained_ratio,mean_decision_changes,mean_steering_reversals,mean_min_clearance_m,safe_clearance_ratio,mean_latency_ms
+FULL_PRISM,40,28,1.0,0.9167,2.9018,2.475,0.8388,1.0,4.58,0.2,0.1882,0.7973,0.592
+NO_KALMAN,40,28,1.0,0.6667,2.6625,2.375,1.032,1.0,5.58,1.23,0.1882,0.7973,0.547
+POSITION_ONLY,40,28,1.0,0.6667,2.6571,2.45,1.063,0.9986,4.85,0.8,0.1882,0.7973,0.595
+TTC_ONLY,40,28,1.0,0.1667,2.5143,2.35,0.7154,0.9378,4.3,0.28,0.1882,0.7973,0.598
+DCPA_ONLY,40,28,1.0,1.0,2.9929,2.7,0.8121,0.9961,3.9,0.05,0.1882,0.7973,0.598
+NO_PREDICTIVE_RISK,40,28,1.0,0.6667,2.3929,2.45,0.2067,0.9984,3.85,0.53,0.1882,0.7973,0.6

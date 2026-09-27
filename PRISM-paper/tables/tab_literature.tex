@@ -1,0 +1,24 @@
+% Table: Systematic Literature Comparison Across Paradigms
+\begin{table*}[t]
+\caption{Systematic Literature Comparison Across Assistive and Collision Avoidance Paradigms}
+\label{tab:literature_comparison}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabularx}{\textwidth}{p{3.2cm}p{2.1cm}ccccccc}
+\toprule
+\textbf{Work / System} & \textbf{Sensing Modality} & \textbf{Metric $(X,Z)$} & \textbf{Tracking} & \textbf{Prediction} & \textbf{TTC / CPA} & \textbf{Risk Model} & \textbf{Avoidance} & \textbf{Embedded Host} \\
+\midrule
+Electronic Cane~\cite{faria2010electronic} & Ultrasonic / Sonar & 1D Dist. & --- & --- & --- & Binary & --- & Dedicated MCU \\
+Wearable Suite~\cite{elmannai2017sensor} & Multi-Sensor & 1D Dist. & --- & --- & --- & Threshold & --- & Wearable Rig \\
+Guiding Glasses~\cite{bai2017smart} & RGB-D Camera & 3D Voxels & --- & --- & --- & Proximity & Sector Alert & Mobile GPU \\
+Multi-Cue Aid~\cite{zhao2020visual} & RGB-D + Sonar & 3D Points & Heuristic & --- & --- & Threshold & Discrete Cue & Laptop \\
+Monocular Aid~\cite{lin2021real} & Monocular RGB & 2D Ground & --- & --- & --- & Proximity & --- & Embedded SoC \\
+Auto / Marine~\cite{tam2009review, hayward1972characteristics} & Radar / AIS & 2D Global & EKF / GNN & Linear & Analytical & Threat Index & Waypoint & Desktop Server \\
+\midrule
+\textbf{PRISM (Proposed)} & \textbf{Monocular RGB} & \textbf{2D Ground} & \textbf{Joseph Kalman} & \textbf{Const.-Vel.} & \textbf{Closed-Form} & \textbf{4-Factor Cont.} & \textbf{Ray-Casting} & \textbf{Android (API 34)} \\
+\bottomrule
+\end{tabularx}
+\vspace{0.04cm}
+\par{\raggedright \scriptsize Properties supported directly by cited literature. "---" indicates capability absent or not reported in published work.\par}
+\end{table*}

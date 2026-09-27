@@ -1,0 +1,10 @@
+{
+  "name": "reactive_distance_baseline",
+  "version": "18.0.0",
+  "warning_distance_m": 3.0,
+  "avoidance_distance_m": 1.5,
+  "stop_distance_m": 0.8,
+  "lateral_turn_angle_rad": 0.35,
+  "hysteresis_frames": 2,
+  "description": "Pure reactive Euclidean proximity baseline mapping instantaneous obstacle distance to deterministic navigation decisions without trajectory prediction, TTC, or Kalman filtering."
+}

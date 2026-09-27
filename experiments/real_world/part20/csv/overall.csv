@@ -1,0 +1,2 @@
+total_runs,col_runs,safe_runs,collision_event_recall,collision_event_miss_rate,proximity_caution_alert_rate,false_collision_warning_rate,mean_lead_time_s,median_lead_time_s,std_lead_time_s,tracking_continuity,mean_track_coverage,mean_detection_association_coverage,total_zero_detection_frames,total_coasting_frames,mean_gap_bridging_rate,mean_detections,mean_decision_changes,mean_steering_reversals,mean_latency_ms
+17,11,6,1.0,0.0,1.0,1.0,4.6658,4.8,2.1041,0.9598,0.937,0.9598,53,7,0.1321,1.4,10.06,0.12,33.099

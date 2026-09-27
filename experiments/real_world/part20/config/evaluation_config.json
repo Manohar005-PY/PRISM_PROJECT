@@ -1,0 +1,16 @@
+{
+  "dataset_dir": "experiments/datasets/real_world",
+  "detector_type": "yolo",
+  "confidence_thresh": 0.35,
+  "prediction_horizon": 3.0,
+  "min_safe_clearance_m": 0.5,
+  "camera_config": {
+    "height_m": 1.25,
+    "pitch_rad": -0.05,
+    "resolution": [
+      720,
+      1280
+    ],
+    "nominal_fps": 30.0
+  }
+}

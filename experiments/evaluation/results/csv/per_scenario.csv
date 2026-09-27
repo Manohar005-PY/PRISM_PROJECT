@@ -1,0 +1,9 @@
+scenario_family,runs_count,pos_mae_m,confirmation_rate,id_switches,mean_lead_time_s,failures_count
+S01_stationary,5,0.0,1.0,0,4.48,1
+S02_head_on,5,0.0009,1.0,0,2.69,4
+S03_lateral_crossing,5,0.0012,1.0,0,3.2167,9
+S04_moving_away,5,0.0016,1.0,0,,0
+S05_direction_change,5,0.0327,1.0,1,,1
+S06_multiple_objects,5,0.0007,1.0,0,2.45,4
+S07_corridor_squeeze,5,0.0005,1.0,0,2.49,0
+S08_measurement_noise,5,0.043,1.0,0,2.7,20

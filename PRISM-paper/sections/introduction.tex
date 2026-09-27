@@ -1,0 +1,25 @@
+% =========================================================================
+% SECTION 1: INTRODUCTION
+% =========================================================================
+\section{Introduction}
+\label{sec:introduction}
+
+\IEEEPARstart{I}{ndependent} indoor mobility in dynamic, shared spaces---such as transit terminals, hospital corridors, and public buildings---presents critical spatial awareness challenges for blind and visually impaired (BVI) individuals. While traditional primary mobility tools (the long white cane and guide dogs) reliably detect immediate surfaces and drop-offs within a 1--2\,m radius, they do not provide advance awareness of dynamic pedestrians or obstacles approaching beyond physical reach~\cite{giudice2008blind,elmannai2017sensor}. Electronic Travel Aids (ETAs) have been explored to extend sensing range, yet most deployed systems operate under a \emph{reactive proximity paradigm}~\cite{tapu2020wearable,bai2017smart}, sounding alarms whenever any physical surface breaches a fixed distance boundary (e.g., $d \le 3.0$\,m).
+
+This reactive proximity formulation incurs two major operational failures:
+\begin{enumerate}
+    \item \textbf{Departure False Alarms}: A pedestrian walking ahead of the user at the same speed poses zero collision hazard, yet proximity sensors trigger continuous alarms, causing alert fatigue~\cite{tapu2020wearable}.
+    \item \textbf{Late Warnings on Fast Approaches}: A pedestrian approaching at walking speed ($v_{\text{closing}} \approx 2.5$\,m/s) leaves under one second of reaction time if first alerted at a fixed 2.5\,m boundary, which is insufficient for human verbal decoding and motor evasion~\cite{lin2021real}.
+\end{enumerate}
+
+Active depth cameras (RGB-D, LiDAR) resolve some geometric ambiguities but introduce high power consumption, thermal dissipation, form-factor bulk, and sunlight degradation~\cite{zhao2020visual}. In contrast, commodity Android smartphones represent an attractive assistive computing platform: they are globally pervasive, integrate rear cameras and 6-axis inertial measurement units (IMUs), provide hardware-accelerated audio and vibration engines, and support accessible non-visual interfaces~\cite{faria2010electronic}.
+
+To address these limitations, this paper presents \textbf{PRISM} (Probabilistic Real-time Infrastructure for Safe Mobility), a real-time Android application for indoor obstacle awareness. PRISM couples monocular camera vision with IMU sensor fusion on commodity Android smartphones, extracting candidate obstacles, validating physical geometry on the 2D ground plane, maintaining multi-object Kalman tracks, analytically computing Time-to-Collision (TTC) and Closest Point of Approach (CPA), arbitrating a 9-state hazard lifecycle, and delivering rate-limited multimodal warnings across speech, spatial audio, and haptics.
+
+\textbf{Contributions:} This paper presents:
+\begin{enumerate}
+    \item The design and complete Android implementation of an end-to-end, on-device obstacle awareness pipeline executing on Android API 26--34 without external infrastructure or depth cameras.
+    \item A multi-stage geometric and temporal reasoning engine combining monocular ground-plane inverse projection with IMU pitch/roll gravity compensation, multi-object Kalman tracking, and accelerometer-based user ego-motion estimation.
+    \item A structured 9-state hazard encounter lifecycle and multimodal warning architecture featuring 44.1\,kHz stereo spatial audio that decouples hazard localization from escape steering.
+    \item An empirical engineering evaluation comprising an automated 100-test Android software suite, 17 recorded real-world indoor video runs (2,827 frames), and a controlled A/B evaluation of multisensory feedback modes.
+\end{enumerate}

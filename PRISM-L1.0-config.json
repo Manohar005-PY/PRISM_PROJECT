@@ -1,0 +1,226 @@
+{
+  "_meta": {
+    "version": "PRISM-L1.0",
+    "frozen_at": "2026-09-27",
+    "description": "Frozen configuration snapshot for PRISM-L1.0 — do not modify. All thresholds sourced from source code at freeze date.",
+    "source_commit_note": "Corresponds to Phase L freeze. Branch: main. All 100/100 unit tests passing at snapshot time.",
+    "contact": "PRISM Research Project"
+  },
+
+  "perception": {
+    "_note": "Perception pipeline operates on monocular depth + foreground segmentation. Values are hard-coded in PrismCoreBridge.kt.",
+    "tracking": {
+      "confirmation_hits": 1,
+      "close_hazard_confirmation_threshold_m": 1.0,
+      "geometric_confidence_min_for_confirmed": 0.50,
+      "min_height_meters_for_confirmed": 0.22,
+      "max_missed_frames_before_delete": 5,
+      "physical_confidence_prune_threshold": 0.15,
+      "initial_temporal_confidence_close": 0.85,
+      "initial_temporal_confidence_far": 0.50,
+      "physical_confidence_weights": {
+        "geometric": 0.45,
+        "temporal": 0.55
+      },
+      "missed_frame_temporal_decay_factor": 0.80
+    },
+    "kalman_filter": {
+      "velocity_smoothing_alpha": 0.50,
+      "max_lateral_velocity_mps": 3.5,
+      "max_closing_velocity_mps": 4.5,
+      "position_gate_min_m": 0.90,
+      "position_gate_max_m": 1.80,
+      "position_gate_speed_scale": 2.0
+    },
+    "track_history_window": 6
+  },
+
+  "collision_assessment": {
+    "_note": "TTC and CPA computed analytically per frame in PrismCoreBridge.kt.",
+    "corridor_lateral_half_width_m": 1.20,
+    "egress_lateral_threshold_m": 0.45,
+    "egress_outward_velocity_threshold_mps": 0.12,
+    "ttc": {
+      "approach_velocity_threshold_mps": 0.10,
+      "cpa_crossing_time_window_s": [0.1, 4.0],
+      "cpa_crossing_distance_threshold_m": 0.70,
+      "receding_velocity_threshold_mps": 0.15,
+      "stationary_ttc_default_s": "z / 1.0",
+      "min_ttc_approach_s": 0.10,
+      "min_ttc_crossing_s": 0.20
+    },
+    "threat_confidence": {
+      "receding_score": 0.10,
+      "egressing_score": 0.25,
+      "in_corridor_close_score": 0.95,
+      "in_corridor_far_score": 0.80,
+      "cpa_crossing_score": 0.85,
+      "default_score": 0.30,
+      "close_distance_threshold_m": 2.5
+    },
+    "risk_scoring": {
+      "dist_factor_scale_m": 4.5,
+      "lateral_factor_scale_m": 1.2,
+      "speed_multipliers": {
+        "approaching": 1.3,
+        "receding": 0.20,
+        "egressing": 0.45,
+        "other": 1.0
+      },
+      "low_confidence_z_threshold_m": 1.0,
+      "low_confidence_geom_threshold": 0.50,
+      "max_risk_score": 100.0
+    }
+  },
+
+  "decision_arbitration": {
+    "_note": "Decision thresholds for action selection in PrismCoreBridge.kt processFrame().",
+    "emergency_stop": {
+      "close_z_threshold_m": 1.0,
+      "close_x_threshold_m": 0.60,
+      "risk_score_threshold": 85.0
+    },
+    "evasion_turn": {
+      "z_threshold_m": 2.6,
+      "threat_confidence_threshold": 0.70,
+      "lateral_hysteresis_threshold_m": 0.25,
+      "max_receding_vz_mps": 0.15
+    },
+    "slow_down": {
+      "z_threshold_m": 4.0,
+      "threat_confidence_threshold": 0.70,
+      "max_receding_vz_mps": 0.15
+    },
+    "corridor_block_check": {
+      "z_threshold_m": 2.8,
+      "left_x_threshold_m": -0.15,
+      "right_x_threshold_m": 0.15,
+      "max_receding_vz_mps": 0.15
+    },
+    "evasion_headings_rad": {
+      "turn_left": -0.45,
+      "turn_right": 0.45
+    }
+  },
+
+  "hazard_lifecycle": {
+    "_note": "State machine in PrismCoreBridge.kt. States: NONE, DETECTED, AWARE, CAUTION, ACTION_REQUIRED, EMERGENCY, USER_RESPONDING, HAZARD_PERSISTING, HAZARD_CLEARED.",
+    "persistence": {
+      "hold_resolution_z_threshold_m": 1.40,
+      "hold_resolution_relative_distance_m": 0.50,
+      "hold_resolution_receding_vz_mps": 0.20,
+      "hold_resolution_receding_z_min_m": 1.20,
+      "hold_resolution_corridor_exit_x_m": 1.25
+    },
+    "re_escalation": {
+      "resume_moving_vz_threshold_mps": -0.15,
+      "hold_distance_approach_margin_m": 0.10
+    },
+    "user_stopped_thresholds": {
+      "imu_state": "STATIONARY (from UserMotionState)",
+      "fallback_vz_threshold_mps": 0.18,
+      "fallback_stationary_z_min_m": 2.0,
+      "fallback_vz_stationary_threshold_mps": 0.10
+    }
+  },
+
+  "warning_system": {
+    "_note": "Severity levels and spatial taxonomy in WarningMessageGenerator.kt. Deduplication logic in PrismCoreBridge.kt.",
+    "severity_levels": ["CLEAR", "AWARE", "CAUTION", "DIRECTIONAL", "URGENT", "EMERGENCY"],
+    "spatial_mapping": {
+      "center_deadband_threshold": 0.15,
+      "slight_threshold": 0.40,
+      "regular_threshold": 0.85,
+      "sectors": ["FAR_LEFT", "LEFT", "SLIGHTLY_LEFT", "CENTER", "SLIGHTLY_RIGHT", "RIGHT", "FAR_RIGHT"]
+    },
+    "distance_bands_m": {
+      "CRITICAL": [0.0, 1.0],
+      "CLOSE": [1.0, 1.8],
+      "NEAR": [1.8, 2.8],
+      "MEDIUM": [2.8, 3.8],
+      "FAR": [3.8, 4.8],
+      "VERY_FAR": [4.8, "inf"]
+    }
+  },
+
+  "step_detector": {
+    "_note": "Values from StepDetectorConfig.kt (data class defaults). Tuned in Phase J.",
+    "step_threshold_mps2": 1.20,
+    "refractory_period_s": 0.28,
+    "max_step_interval_s": 1.80,
+    "stationary_energy_threshold_rms": 0.25,
+    "active_energy_threshold_rms": 0.60,
+    "gyro_stationary_threshold_rad_s": 0.20,
+    "min_steps_for_walking": 2,
+    "stopping_timeout_s": 1.00,
+    "stationary_timeout_s": 1.50,
+    "confidence_decay_per_dt": 0.02,
+    "confidence_reinforce_base": 0.85,
+    "confidence_reinforce_per_step": 0.03
+  },
+
+  "imu_orientation": {
+    "_note": "Gravity fusion in OrientationFusion.kt.",
+    "gravity_low_pass_alpha": "tuned per Phase G",
+    "pitch_roll_compensation": true,
+    "feeds_user_motion_estimator": true
+  },
+
+  "spatial_audio": {
+    "_note": "SpatialCue.kt and AndroidSpatialAudioChannel.kt (Phase K). Equal-power / linear panning law.",
+    "cue_types": ["HAZARD_LOCATION", "RECOMMENDED_DIRECTION"],
+    "multisensory_modes": ["SPEECH_ONLY", "MODE_A_SPEECH_HAPTIC", "MODE_B_SPEECH_SPATIAL_HAPTIC"],
+    "default_mode": "MODE_B_SPEECH_SPATIAL_HAPTIC",
+    "panning_law": "linear",
+    "pan_values_by_sector": {
+      "FAR_LEFT": -1.0,
+      "LEFT": -0.65,
+      "SLIGHTLY_LEFT": -0.35,
+      "CENTER": 0.0,
+      "SLIGHTLY_RIGHT": 0.35,
+      "RIGHT": 0.65,
+      "FAR_RIGHT": 1.0
+    },
+    "deduplication_cooldown_s": 1.5,
+    "suppressed_states": ["CLEAR", "AWARE"],
+    "caution_cue_type": "HAZARD_LOCATION",
+    "directional_urgent_cue_type": "RECOMMENDED_DIRECTION",
+    "directional_urgent_turn_left_pan": -0.65,
+    "directional_urgent_turn_right_pan": 0.65,
+    "emergency_cue": {
+      "pan": 0.0,
+      "frequency_hz": 1100,
+      "volume": 1.0,
+      "harmonic": true
+    },
+    "audio_synthesis": {
+      "sample_rate_hz": 44100,
+      "tone_duration_s": 0.25,
+      "attack_ms": 20,
+      "decay_ms": 30,
+      "fallback": "ToneGenerator"
+    }
+  },
+
+  "haptic": {
+    "_note": "AndroidHapticChannel.kt — VibrationEffect patterns.",
+    "patterns": {
+      "left": "VibrationEffect (left directional)",
+      "right": "VibrationEffect (right directional)",
+      "stop": "VibrationEffect (stop / hold)",
+      "emergency": "VibrationEffect (emergency pulse)"
+    },
+    "suppressed_in_mode": "SPEECH_ONLY"
+  },
+
+  "telemetry": {
+    "_note": "AndroidTelemetrySink.kt — JSON per-frame telemetry fields.",
+    "fields_per_frame": [
+      "frame_id", "timestamp", "decision_action", "risk_level", "risk_score",
+      "ttc", "cpa_distance", "active_tracks", "pipeline_ms", "effective_fps",
+      "user_motion_state", "motion_confidence", "step_count", "motion_energy",
+      "hazard_state", "warning_severity", "spatial_direction",
+      "spatial_pan", "spatial_cue_type", "spatial_sector"
+    ]
+  }
+}

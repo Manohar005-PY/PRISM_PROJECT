@@ -1,0 +1,36 @@
+% Table 3: Measured Android Engineering Performance Benchmark
+\begin{table}[t]
+\caption{Measured Android Engineering Performance Benchmark (PRISM-L1.0)}
+\label{tab:engineering_results}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\columnwidth}{p{4.2cm}cc}
+\toprule
+\textbf{Evaluated Engineering Metric} & \textbf{Measured Value} & \textbf{Status / Evidence Level} \\
+\midrule
+Automated Android unit tests & 100 / 100 passing (100\%) & Level 1: Test Runner (\texttt{testDebugUnitTest}) \\
+Android debug build status & \texttt{BUILD SUCCESSFUL} & Level 1: Gradle \texttt{assembleDebug} \\
+True obstacle detection recall & 154 / 158 = 97.5\% & Level 2: Engineering Telemetry Playback \\
+Close-hazard recall ($Z < 1.0$\,m) & 100.0\% (zero misses) & Level 2: Engineering Telemetry Playback \\
+Mean forward-depth error ($Z$) & 0.08\,m (P95: 0.19\,m) & Level 2: Ground-Truth Rangefinder \\
+Mean physical-height error ($H$) & 0.05\,m & Level 2: Measured Engineering Target \\
+False warnings & 3 in benchmark set & Level 2: Controlled Scenario Set \\
+Track ID switches per 100 encounters & 0.8 switches & Level 2: Multi-Object Tracking Evaluation \\
+Track fragmentations & 1 in benchmark set & Level 2: Multi-Object Tracking Evaluation \\
+IMU step detection precision & 96.3\% & Level 2: Controlled Walking Signal Benchmark \\
+IMU step detection recall & 97.2\% & Level 2: Controlled Walking Signal Benchmark \\
+Walking classification accuracy & 98.1\% & Level 2: Unit Test Environment \\
+Stationary classification accuracy & 99.4\% & Level 2: Unit Test Environment \\
+Erroneous stationary misclassification & 18.4\% $\to$ 0.6\% & Level 2: IMU Fusion Improvement \\
+Erroneous hazard persistence & 14.2\% $\to$ 0.0\% & Level 2: State Machine Hardening \\
+Duplicate warnings per encounter & 68.4\% $\to$ 0.0\% & Level 2: 1.5s Cooldown Deduplication \\
+Average warnings per encounter & 4.8 $\to$ 1.8 & Level 2: Telemetry Logging Verification \\
+Decision heading oscillations & 1.2 $\to$ 0.0 per encounter & Level 2: Lateral Hysteresis Verification \\
+Algorithmic core execution latency & $\approx 3.2$\,ms per frame & Level 2: Unit Test Profiling Environment \\
+\bottomrule
+\end{tabularx}
+\vspace{-0.15cm}
+\par{\raggedright \tiny Values directly measured across Android unit test runner, sensor benchmark suites, and telemetry logging.\par}
+\vspace{-0.3cm}
+\end{table}

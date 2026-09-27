@@ -1,0 +1,27 @@
+% Table 2: Controlled Indoor Evaluation Scenarios and Dataset
+\begin{table}[t]
+\caption{Controlled Indoor Engineering Evaluation Scenarios and Dataset}
+\label{tab:evaluation_setup}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\columnwidth}{p{1.9cm}ccp{3.7cm}}
+\toprule
+\textbf{Scenario Family} & \textbf{Runs} & \textbf{Frames} & \textbf{Kinematic Profile / Obstacle Configuration} \\
+\midrule
+Stationary Obstacles & 3 & 630 & Static box / mannequin placed at $0.5, 1.0, 2.0, 3.0$\,m \\
+Head-On Approach & 3 & 411 & Pedestrian approaching user collinear at $1.0\text{--}1.4$\,m/s \\
+Lateral Crossing & 4 & 561 & Pedestrian crossing perpendicularly ($2$ collision, $2$ miss) \\
+Moving Away & 2 & 385 & Co-directional walking; tests false-warning suppression \\
+Direction Change & 2 & 283 & Pedestrian reverses heading; tests Kalman coasting \\
+Multiple Pedestrians & 3 & 532 & $\ge 2$ simultaneous agents; tests threat prioritization \\
+\midrule
+\textbf{Total Video Runs} & \textbf{17} & \textbf{2,827} & \textbf{Evaluated across real indoor corridor scenarios} \\
+\midrule
+A/B Mode Evaluation & 10 & --- & Controlled stationary, crossing, and evasion trials \\
+\bottomrule
+\end{tabularx}
+\vspace{-0.15cm}
+\par{\raggedright \tiny Evaluated on Android device (API 34) under controlled indoor engineering conditions.\par}
+\vspace{-0.3cm}
+\end{table}

@@ -1,0 +1,8 @@
+{
+  "parameters": {
+    "prediction_horizon": [1.0, 1.5, 2.0, 3.0, 4.0],
+    "temporal_alpha_smooth": [0.2, 0.4, 0.6, 0.8, 1.0],
+    "process_noise_sigma": [0.1, 0.3, 0.5, 1.0, 2.0]
+  },
+  "random_seed": 42
+}

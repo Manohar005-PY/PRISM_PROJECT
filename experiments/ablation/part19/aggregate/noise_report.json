@@ -1,0 +1,1187 @@
+{
+  "DROPOUT_ONLY": {
+    "variants": {
+      "FULL_PRISM": {
+        "total_runs": 1,
+        "collision_runs": 1,
+        "safe_runs": 0,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.0,
+        "mean_warning_lead_time_s": 2.6,
+        "median_warning_lead_time_s": 2.6,
+        "std_warning_lead_time_s": 0.0,
+        "mean_maintained_ratio": 1.0,
+        "mean_decision_changes": 7.0,
+        "mean_steering_reversals": 0.0,
+        "mean_min_clearance_m": -0.7,
+        "mean_safe_clearance_ratio": 0.7723,
+        "mean_latency_ms": 0.482
+      },
+      "NO_KALMAN": {
+        "total_runs": 1,
+        "collision_runs": 1,
+        "safe_runs": 0,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.0,
+        "mean_warning_lead_time_s": 2.6,
+        "median_warning_lead_time_s": 2.6,
+        "std_warning_lead_time_s": 0.0,
+        "mean_maintained_ratio": 1.0,
+        "mean_decision_changes": 7.0,
+        "mean_steering_reversals": 1.0,
+        "mean_min_clearance_m": -0.7,
+        "mean_safe_clearance_ratio": 0.7723,
+        "mean_latency_ms": 0.446
+      },
+      "POSITION_ONLY": {
+        "total_runs": 1,
+        "collision_runs": 1,
+        "safe_runs": 0,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.0,
+        "mean_warning_lead_time_s": 2.6,
+        "median_warning_lead_time_s": 2.6,
+        "std_warning_lead_time_s": 0.0,
+        "mean_maintained_ratio": 1.0,
+        "mean_decision_changes": 7.0,
+        "mean_steering_reversals": 1.0,
+        "mean_min_clearance_m": -0.7,
+        "mean_safe_clearance_ratio": 0.7723,
+        "mean_latency_ms": 0.475
+      },
+      "TTC_ONLY": {
+        "total_runs": 1,
+        "collision_runs": 1,
+        "safe_runs": 0,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.0,
+        "mean_warning_lead_time_s": 2.35,
+        "median_warning_lead_time_s": 2.35,
+        "std_warning_lead_time_s": 0.0,
+        "mean_maintained_ratio": 1.0,
+        "mean_decision_changes": 5.0,
+        "mean_steering_reversals": 0.0,
+        "mean_min_clearance_m": -0.7,
+        "mean_safe_clearance_ratio": 0.7723,
+        "mean_latency_ms": 0.485
+      },
+      "DCPA_ONLY": {
+        "total_runs": 1,
+        "collision_runs": 1,
+        "safe_runs": 0,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.0,
+        "mean_warning_lead_time_s": 2.7,
+        "median_warning_lead_time_s": 2.7,
+        "std_warning_lead_time_s": 0.0,
+        "mean_maintained_ratio": 1.0,
+        "mean_decision_changes": 4.0,
+        "mean_steering_reversals": 0.0,
+        "mean_min_clearance_m": -0.7,
+        "mean_safe_clearance_ratio": 0.7723,
+        "mean_latency_ms": 0.473
+      },
+      "NO_PREDICTIVE_RISK": {
+        "total_runs": 1,
+        "collision_runs": 1,
+        "safe_runs": 0,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.0,
+        "mean_warning_lead_time_s": 2.5,
+        "median_warning_lead_time_s": 2.5,
+        "std_warning_lead_time_s": 0.0,
+        "mean_maintained_ratio": 1.0,
+        "mean_decision_changes": 5.0,
+        "mean_steering_reversals": 1.0,
+        "mean_min_clearance_m": -0.7,
+        "mean_safe_clearance_ratio": 0.7723,
+        "mean_latency_ms": 0.51
+      }
+    },
+    "pairwise": {
+      "NO_KALMAN": {
+        "total_pairs": 1,
+        "collision_pairs": 1,
+        "delta_lead_time": {
+          "mean_s": 0.0,
+          "median_s": 0.0,
+          "std_s": 0.0,
+          "cohens_d": 0.0,
+          "count": 1
+        },
+        "delta_min_clearance": {
+          "mean_m": 0.0,
+          "median_m": 0.0,
+          "std_m": 0.0,
+          "cohens_d": 0.0
+        },
+        "delta_decision_changes": {
+          "mean": 0.0,
+          "median": 0.0,
+          "std": 0.0
+        },
+        "delta_steering_reversals": {
+          "mean": 1.0,
+          "median": 1.0,
+          "std": 0.0
+        }
+      },
+      "POSITION_ONLY": {
+        "total_pairs": 1,
+        "collision_pairs": 1,
+        "delta_lead_time": {
+          "mean_s": 0.0,
+          "median_s": 0.0,
+          "std_s": 0.0,
+          "cohens_d": 0.0,
+          "count": 1
+        },
+        "delta_min_clearance": {
+          "mean_m": 0.0,
+          "median_m": 0.0,
+          "std_m": 0.0,
+          "cohens_d": 0.0
+        },
+        "delta_decision_changes": {
+          "mean": 0.0,
+          "median": 0.0,
+          "std": 0.0
+        },
+        "delta_steering_reversals": {
+          "mean": 1.0,
+          "median": 1.0,
+          "std": 0.0
+        }
+      },
+      "TTC_ONLY": {
+        "total_pairs": 1,
+        "collision_pairs": 1,
+        "delta_lead_time": {
+          "mean_s": 0.25,
+          "median_s": 0.25,
+          "std_s": 0.0,
+          "cohens_d": 0.0,
+          "count": 1
+        },
+        "delta_min_clearance": {
+          "mean_m": 0.0,
+          "median_m": 0.0,
+          "std_m": 0.0,
+          "cohens_d": 0.0
+        },
+        "delta_decision_changes": {
+          "mean": -2.0,
+          "median": -2.0,
+          "std": 0.0
+        },
+        "delta_steering_reversals": {
+          "mean": 0.0,
+          "median": 0.0,
+          "std": 0.0
+        }
+      },
+      "DCPA_ONLY": {
+        "total_pairs": 1,
+        "collision_pairs": 1,
+        "delta_lead_time": {
+          "mean_s": -0.1,
+          "median_s": -0.1,
+          "std_s": 0.0,
+          "cohens_d": 0.0,
+          "count": 1
+        },
+        "delta_min_clearance": {
+          "mean_m": 0.0,
+          "median_m": 0.0,
+          "std_m": 0.0,
+          "cohens_d": 0.0
+        },
+        "delta_decision_changes": {
+          "mean": -3.0,
+          "median": -3.0,
+          "std": 0.0
+        },
+        "delta_steering_reversals": {
+          "mean": 0.0,
+          "median": 0.0,
+          "std": 0.0
+        }
+      },
+      "NO_PREDICTIVE_RISK": {
+        "total_pairs": 1,
+        "collision_pairs": 1,
+        "delta_lead_time": {
+          "mean_s": 0.1,
+          "median_s": 0.1,
+          "std_s": 0.0,
+          "cohens_d": 0.0,
+          "count": 1
+        },
+        "delta_min_clearance": {
+          "mean_m": 0.0,
+          "median_m": 0.0,
+          "std_m": 0.0,
+          "cohens_d": 0.0
+        },
+        "delta_decision_changes": {
+          "mean": -2.0,
+          "median": -2.0,
+          "std": 0.0
+        },
+        "delta_steering_reversals": {
+          "mean": 1.0,
+          "median": 1.0,
+          "std": 0.0
+        }
+      }
+    }
+  },
+  "HIGH_NOISE": {
+    "variants": {
+      "FULL_PRISM": {
+        "total_runs": 1,
+        "collision_runs": 1,
+        "safe_runs": 0,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.0,
+        "mean_warning_lead_time_s": 2.25,
+        "median_warning_lead_time_s": 2.25,
+        "std_warning_lead_time_s": 0.0,
+        "mean_maintained_ratio": 1.0,
+        "mean_decision_changes": 6.0,
+        "mean_steering_reversals": 0.0,
+        "mean_min_clearance_m": -0.7,
+        "mean_safe_clearance_ratio": 0.7723,
+        "mean_latency_ms": 0.477
+      },
+      "NO_KALMAN": {
+        "total_runs": 1,
+        "collision_runs": 1,
+        "safe_runs": 0,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.0,
+        "mean_warning_lead_time_s": 2.6,
+        "median_warning_lead_time_s": 2.6,
+        "std_warning_lead_time_s": 0.0,
+        "mean_maintained_ratio": 1.0,
+        "mean_decision_changes": 34.0,
+        "mean_steering_reversals": 17.0,
+        "mean_min_clearance_m": -0.7,
+        "mean_safe_clearance_ratio": 0.7723,
+        "mean_latency_ms": 0.441
+      },
+      "POSITION_ONLY": {
+        "total_runs": 1,
+        "collision_runs": 1,
+        "safe_runs": 0,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.0,
+        "mean_warning_lead_time_s": 2.6,
+        "median_warning_lead_time_s": 2.6,
+        "std_warning_lead_time_s": 0.0,
+        "mean_maintained_ratio": 1.0,
+        "mean_decision_changes": 11.0,
+        "mean_steering_reversals": 3.0,
+        "mean_min_clearance_m": -0.7,
+        "mean_safe_clearance_ratio": 0.7723,
+        "mean_latency_ms": 0.493
+      },
+      "TTC_ONLY": {
+        "total_runs": 1,
+        "collision_runs": 1,
+        "safe_runs": 0,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.0,
+        "mean_warning_lead_time_s": 2.05,
+        "median_warning_lead_time_s": 2.05,
+        "std_warning_lead_time_s": 0.0,
+        "mean_maintained_ratio": 1.0,
+        "mean_decision_changes": 7.0,
+        "mean_steering_reversals": 2.0,
+        "mean_min_clearance_m": -0.7,
+        "mean_safe_clearance_ratio": 0.7723,
+        "mean_latency_ms": 0.504
+      },
+      "DCPA_ONLY": {
+        "total_runs": 1,
+        "collision_runs": 1,
+        "safe_runs": 0,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.0,
+        "mean_warning_lead_time_s": 2.7,
+        "median_warning_lead_time_s": 2.7,
+        "std_warning_lead_time_s": 0.0,
+        "mean_maintained_ratio": 0.9273,
+        "mean_decision_changes": 8.0,
+        "mean_steering_reversals": 0.0,
+        "mean_min_clearance_m": -0.7,
+        "mean_safe_clearance_ratio": 0.7723,
+        "mean_latency_ms": 0.484
+      },
+      "NO_PREDICTIVE_RISK": {
+        "total_runs": 1,
+        "collision_runs": 1,
+        "safe_runs": 0,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.0,
+        "mean_warning_lead_time_s": 2.25,
+        "median_warning_lead_time_s": 2.25,
+        "std_warning_lead_time_s": 0.0,
+        "mean_maintained_ratio": 0.9565,
+        "mean_decision_changes": 9.0,
+        "mean_steering_reversals": 1.0,
+        "mean_min_clearance_m": -0.7,
+        "mean_safe_clearance_ratio": 0.7723,
+        "mean_latency_ms": 0.542
+      }
+    },
+    "pairwise": {
+      "NO_KALMAN": {
+        "total_pairs": 1,
+        "collision_pairs": 1,
+        "delta_lead_time": {
+          "mean_s": -0.35,
+          "median_s": -0.35,
+          "std_s": 0.0,
+          "cohens_d": 0.0,
+          "count": 1
+        },
+        "delta_min_clearance": {
+          "mean_m": 0.0,
+          "median_m": 0.0,
+          "std_m": 0.0,
+          "cohens_d": 0.0
+        },
+        "delta_decision_changes": {
+          "mean": 28.0,
+          "median": 28.0,
+          "std": 0.0
+        },
+        "delta_steering_reversals": {
+          "mean": 17.0,
+          "median": 17.0,
+          "std": 0.0
+        }
+      },
+      "POSITION_ONLY": {
+        "total_pairs": 1,
+        "collision_pairs": 1,
+        "delta_lead_time": {
+          "mean_s": -0.35,
+          "median_s": -0.35,
+          "std_s": 0.0,
+          "cohens_d": 0.0,
+          "count": 1
+        },
+        "delta_min_clearance": {
+          "mean_m": 0.0,
+          "median_m": 0.0,
+          "std_m": 0.0,
+          "cohens_d": 0.0
+        },
+        "delta_decision_changes": {
+          "mean": 5.0,
+          "median": 5.0,
+          "std": 0.0
+        },
+        "delta_steering_reversals": {
+          "mean": 3.0,
+          "median": 3.0,
+          "std": 0.0
+        }
+      },
+      "TTC_ONLY": {
+        "total_pairs": 1,
+        "collision_pairs": 1,
+        "delta_lead_time": {
+          "mean_s": 0.2,
+          "median_s": 0.2,
+          "std_s": 0.0,
+          "cohens_d": 0.0,
+          "count": 1
+        },
+        "delta_min_clearance": {
+          "mean_m": 0.0,
+          "median_m": 0.0,
+          "std_m": 0.0,
+          "cohens_d": 0.0
+        },
+        "delta_decision_changes": {
+          "mean": 1.0,
+          "median": 1.0,
+          "std": 0.0
+        },
+        "delta_steering_reversals": {
+          "mean": 2.0,
+          "median": 2.0,
+          "std": 0.0
+        }
+      },
+      "DCPA_ONLY": {
+        "total_pairs": 1,
+        "collision_pairs": 1,
+        "delta_lead_time": {
+          "mean_s": -0.45,
+          "median_s": -0.45,
+          "std_s": 0.0,
+          "cohens_d": 0.0,
+          "count": 1
+        },
+        "delta_min_clearance": {
+          "mean_m": 0.0,
+          "median_m": 0.0,
+          "std_m": 0.0,
+          "cohens_d": 0.0
+        },
+        "delta_decision_changes": {
+          "mean": 2.0,
+          "median": 2.0,
+          "std": 0.0
+        },
+        "delta_steering_reversals": {
+          "mean": 0.0,
+          "median": 0.0,
+          "std": 0.0
+        }
+      },
+      "NO_PREDICTIVE_RISK": {
+        "total_pairs": 1,
+        "collision_pairs": 1,
+        "delta_lead_time": {
+          "mean_s": 0.0,
+          "median_s": 0.0,
+          "std_s": 0.0,
+          "cohens_d": 0.0,
+          "count": 1
+        },
+        "delta_min_clearance": {
+          "mean_m": 0.0,
+          "median_m": 0.0,
+          "std_m": 0.0,
+          "cohens_d": 0.0
+        },
+        "delta_decision_changes": {
+          "mean": 3.0,
+          "median": 3.0,
+          "std": 0.0
+        },
+        "delta_steering_reversals": {
+          "mean": 1.0,
+          "median": 1.0,
+          "std": 0.0
+        }
+      }
+    }
+  },
+  "LOW_NOISE": {
+    "variants": {
+      "FULL_PRISM": {
+        "total_runs": 1,
+        "collision_runs": 1,
+        "safe_runs": 0,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.0,
+        "mean_warning_lead_time_s": 2.5,
+        "median_warning_lead_time_s": 2.5,
+        "std_warning_lead_time_s": 0.0,
+        "mean_maintained_ratio": 1.0,
+        "mean_decision_changes": 6.0,
+        "mean_steering_reversals": 0.0,
+        "mean_min_clearance_m": -0.7,
+        "mean_safe_clearance_ratio": 0.7723,
+        "mean_latency_ms": 0.47
+      },
+      "NO_KALMAN": {
+        "total_runs": 1,
+        "collision_runs": 1,
+        "safe_runs": 0,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.0,
+        "mean_warning_lead_time_s": 2.6,
+        "median_warning_lead_time_s": 2.6,
+        "std_warning_lead_time_s": 0.0,
+        "mean_maintained_ratio": 1.0,
+        "mean_decision_changes": 13.0,
+        "mean_steering_reversals": 7.0,
+        "mean_min_clearance_m": -0.7,
+        "mean_safe_clearance_ratio": 0.7723,
+        "mean_latency_ms": 0.436
+      },
+      "POSITION_ONLY": {
+        "total_runs": 1,
+        "collision_runs": 1,
+        "safe_runs": 0,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.0,
+        "mean_warning_lead_time_s": 2.6,
+        "median_warning_lead_time_s": 2.6,
+        "std_warning_lead_time_s": 0.0,
+        "mean_maintained_ratio": 1.0,
+        "mean_decision_changes": 9.0,
+        "mean_steering_reversals": 3.0,
+        "mean_min_clearance_m": -0.7,
+        "mean_safe_clearance_ratio": 0.7723,
+        "mean_latency_ms": 0.498
+      },
+      "TTC_ONLY": {
+        "total_runs": 1,
+        "collision_runs": 1,
+        "safe_runs": 0,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.0,
+        "mean_warning_lead_time_s": 2.4,
+        "median_warning_lead_time_s": 2.4,
+        "std_warning_lead_time_s": 0.0,
+        "mean_maintained_ratio": 1.0,
+        "mean_decision_changes": 5.0,
+        "mean_steering_reversals": 0.0,
+        "mean_min_clearance_m": -0.7,
+        "mean_safe_clearance_ratio": 0.7723,
+        "mean_latency_ms": 0.491
+      },
+      "DCPA_ONLY": {
+        "total_runs": 1,
+        "collision_runs": 1,
+        "safe_runs": 0,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.0,
+        "mean_warning_lead_time_s": 2.7,
+        "median_warning_lead_time_s": 2.7,
+        "std_warning_lead_time_s": 0.0,
+        "mean_maintained_ratio": 0.9818,
+        "mean_decision_changes": 7.0,
+        "mean_steering_reversals": 0.0,
+        "mean_min_clearance_m": -0.7,
+        "mean_safe_clearance_ratio": 0.7723,
+        "mean_latency_ms": 0.472
+      },
+      "NO_PREDICTIVE_RISK": {
+        "total_runs": 1,
+        "collision_runs": 1,
+        "safe_runs": 0,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.0,
+        "mean_warning_lead_time_s": 2.45,
+        "median_warning_lead_time_s": 2.45,
+        "std_warning_lead_time_s": 0.0,
+        "mean_maintained_ratio": 1.0,
+        "mean_decision_changes": 5.0,
+        "mean_steering_reversals": 1.0,
+        "mean_min_clearance_m": -0.7,
+        "mean_safe_clearance_ratio": 0.7723,
+        "mean_latency_ms": 0.489
+      }
+    },
+    "pairwise": {
+      "NO_KALMAN": {
+        "total_pairs": 1,
+        "collision_pairs": 1,
+        "delta_lead_time": {
+          "mean_s": -0.1,
+          "median_s": -0.1,
+          "std_s": 0.0,
+          "cohens_d": 0.0,
+          "count": 1
+        },
+        "delta_min_clearance": {
+          "mean_m": 0.0,
+          "median_m": 0.0,
+          "std_m": 0.0,
+          "cohens_d": 0.0
+        },
+        "delta_decision_changes": {
+          "mean": 7.0,
+          "median": 7.0,
+          "std": 0.0
+        },
+        "delta_steering_reversals": {
+          "mean": 7.0,
+          "median": 7.0,
+          "std": 0.0
+        }
+      },
+      "POSITION_ONLY": {
+        "total_pairs": 1,
+        "collision_pairs": 1,
+        "delta_lead_time": {
+          "mean_s": -0.1,
+          "median_s": -0.1,
+          "std_s": 0.0,
+          "cohens_d": 0.0,
+          "count": 1
+        },
+        "delta_min_clearance": {
+          "mean_m": 0.0,
+          "median_m": 0.0,
+          "std_m": 0.0,
+          "cohens_d": 0.0
+        },
+        "delta_decision_changes": {
+          "mean": 3.0,
+          "median": 3.0,
+          "std": 0.0
+        },
+        "delta_steering_reversals": {
+          "mean": 3.0,
+          "median": 3.0,
+          "std": 0.0
+        }
+      },
+      "TTC_ONLY": {
+        "total_pairs": 1,
+        "collision_pairs": 1,
+        "delta_lead_time": {
+          "mean_s": 0.1,
+          "median_s": 0.1,
+          "std_s": 0.0,
+          "cohens_d": 0.0,
+          "count": 1
+        },
+        "delta_min_clearance": {
+          "mean_m": 0.0,
+          "median_m": 0.0,
+          "std_m": 0.0,
+          "cohens_d": 0.0
+        },
+        "delta_decision_changes": {
+          "mean": -1.0,
+          "median": -1.0,
+          "std": 0.0
+        },
+        "delta_steering_reversals": {
+          "mean": 0.0,
+          "median": 0.0,
+          "std": 0.0
+        }
+      },
+      "DCPA_ONLY": {
+        "total_pairs": 1,
+        "collision_pairs": 1,
+        "delta_lead_time": {
+          "mean_s": -0.2,
+          "median_s": -0.2,
+          "std_s": 0.0,
+          "cohens_d": 0.0,
+          "count": 1
+        },
+        "delta_min_clearance": {
+          "mean_m": 0.0,
+          "median_m": 0.0,
+          "std_m": 0.0,
+          "cohens_d": 0.0
+        },
+        "delta_decision_changes": {
+          "mean": 1.0,
+          "median": 1.0,
+          "std": 0.0
+        },
+        "delta_steering_reversals": {
+          "mean": 0.0,
+          "median": 0.0,
+          "std": 0.0
+        }
+      },
+      "NO_PREDICTIVE_RISK": {
+        "total_pairs": 1,
+        "collision_pairs": 1,
+        "delta_lead_time": {
+          "mean_s": 0.05,
+          "median_s": 0.05,
+          "std_s": 0.0,
+          "cohens_d": 0.0,
+          "count": 1
+        },
+        "delta_min_clearance": {
+          "mean_m": 0.0,
+          "median_m": 0.0,
+          "std_m": 0.0,
+          "cohens_d": 0.0
+        },
+        "delta_decision_changes": {
+          "mean": -1.0,
+          "median": -1.0,
+          "std": 0.0
+        },
+        "delta_steering_reversals": {
+          "mean": 1.0,
+          "median": 1.0,
+          "std": 0.0
+        }
+      }
+    }
+  },
+  "MEDIUM_NOISE": {
+    "variants": {
+      "FULL_PRISM": {
+        "total_runs": 1,
+        "collision_runs": 1,
+        "safe_runs": 0,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.0,
+        "mean_warning_lead_time_s": 2.4,
+        "median_warning_lead_time_s": 2.4,
+        "std_warning_lead_time_s": 0.0,
+        "mean_maintained_ratio": 1.0,
+        "mean_decision_changes": 10.0,
+        "mean_steering_reversals": 5.0,
+        "mean_min_clearance_m": -0.7,
+        "mean_safe_clearance_ratio": 0.7723,
+        "mean_latency_ms": 0.48
+      },
+      "NO_KALMAN": {
+        "total_runs": 1,
+        "collision_runs": 1,
+        "safe_runs": 0,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.0,
+        "mean_warning_lead_time_s": 2.6,
+        "median_warning_lead_time_s": 2.6,
+        "std_warning_lead_time_s": 0.0,
+        "mean_maintained_ratio": 1.0,
+        "mean_decision_changes": 18.0,
+        "mean_steering_reversals": 9.0,
+        "mean_min_clearance_m": -0.7,
+        "mean_safe_clearance_ratio": 0.7723,
+        "mean_latency_ms": 0.433
+      },
+      "POSITION_ONLY": {
+        "total_runs": 1,
+        "collision_runs": 1,
+        "safe_runs": 0,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.0,
+        "mean_warning_lead_time_s": 2.6,
+        "median_warning_lead_time_s": 2.6,
+        "std_warning_lead_time_s": 0.0,
+        "mean_maintained_ratio": 1.0,
+        "mean_decision_changes": 12.0,
+        "mean_steering_reversals": 6.0,
+        "mean_min_clearance_m": -0.7,
+        "mean_safe_clearance_ratio": 0.7723,
+        "mean_latency_ms": 0.505
+      },
+      "TTC_ONLY": {
+        "total_runs": 1,
+        "collision_runs": 1,
+        "safe_runs": 0,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.0,
+        "mean_warning_lead_time_s": 2.35,
+        "median_warning_lead_time_s": 2.35,
+        "std_warning_lead_time_s": 0.0,
+        "mean_maintained_ratio": 0.9375,
+        "mean_decision_changes": 11.0,
+        "mean_steering_reversals": 4.0,
+        "mean_min_clearance_m": -0.7,
+        "mean_safe_clearance_ratio": 0.7723,
+        "mean_latency_ms": 0.501
+      },
+      "DCPA_ONLY": {
+        "total_runs": 1,
+        "collision_runs": 1,
+        "safe_runs": 0,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.0,
+        "mean_warning_lead_time_s": 2.65,
+        "median_warning_lead_time_s": 2.65,
+        "std_warning_lead_time_s": 0.0,
+        "mean_maintained_ratio": 0.9815,
+        "mean_decision_changes": 8.0,
+        "mean_steering_reversals": 0.0,
+        "mean_min_clearance_m": -0.7,
+        "mean_safe_clearance_ratio": 0.7723,
+        "mean_latency_ms": 0.481
+      },
+      "NO_PREDICTIVE_RISK": {
+        "total_runs": 1,
+        "collision_runs": 1,
+        "safe_runs": 0,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.0,
+        "mean_warning_lead_time_s": 2.15,
+        "median_warning_lead_time_s": 2.15,
+        "std_warning_lead_time_s": 0.0,
+        "mean_maintained_ratio": 1.0,
+        "mean_decision_changes": 6.0,
+        "mean_steering_reversals": 2.0,
+        "mean_min_clearance_m": -0.7,
+        "mean_safe_clearance_ratio": 0.7723,
+        "mean_latency_ms": 0.508
+      }
+    },
+    "pairwise": {
+      "NO_KALMAN": {
+        "total_pairs": 1,
+        "collision_pairs": 1,
+        "delta_lead_time": {
+          "mean_s": -0.2,
+          "median_s": -0.2,
+          "std_s": 0.0,
+          "cohens_d": 0.0,
+          "count": 1
+        },
+        "delta_min_clearance": {
+          "mean_m": 0.0,
+          "median_m": 0.0,
+          "std_m": 0.0,
+          "cohens_d": 0.0
+        },
+        "delta_decision_changes": {
+          "mean": 8.0,
+          "median": 8.0,
+          "std": 0.0
+        },
+        "delta_steering_reversals": {
+          "mean": 4.0,
+          "median": 4.0,
+          "std": 0.0
+        }
+      },
+      "POSITION_ONLY": {
+        "total_pairs": 1,
+        "collision_pairs": 1,
+        "delta_lead_time": {
+          "mean_s": -0.2,
+          "median_s": -0.2,
+          "std_s": 0.0,
+          "cohens_d": 0.0,
+          "count": 1
+        },
+        "delta_min_clearance": {
+          "mean_m": 0.0,
+          "median_m": 0.0,
+          "std_m": 0.0,
+          "cohens_d": 0.0
+        },
+        "delta_decision_changes": {
+          "mean": 2.0,
+          "median": 2.0,
+          "std": 0.0
+        },
+        "delta_steering_reversals": {
+          "mean": 1.0,
+          "median": 1.0,
+          "std": 0.0
+        }
+      },
+      "TTC_ONLY": {
+        "total_pairs": 1,
+        "collision_pairs": 1,
+        "delta_lead_time": {
+          "mean_s": 0.05,
+          "median_s": 0.05,
+          "std_s": 0.0,
+          "cohens_d": 0.0,
+          "count": 1
+        },
+        "delta_min_clearance": {
+          "mean_m": 0.0,
+          "median_m": 0.0,
+          "std_m": 0.0,
+          "cohens_d": 0.0
+        },
+        "delta_decision_changes": {
+          "mean": 1.0,
+          "median": 1.0,
+          "std": 0.0
+        },
+        "delta_steering_reversals": {
+          "mean": -1.0,
+          "median": -1.0,
+          "std": 0.0
+        }
+      },
+      "DCPA_ONLY": {
+        "total_pairs": 1,
+        "collision_pairs": 1,
+        "delta_lead_time": {
+          "mean_s": -0.25,
+          "median_s": -0.25,
+          "std_s": 0.0,
+          "cohens_d": 0.0,
+          "count": 1
+        },
+        "delta_min_clearance": {
+          "mean_m": 0.0,
+          "median_m": 0.0,
+          "std_m": 0.0,
+          "cohens_d": 0.0
+        },
+        "delta_decision_changes": {
+          "mean": -2.0,
+          "median": -2.0,
+          "std": 0.0
+        },
+        "delta_steering_reversals": {
+          "mean": -5.0,
+          "median": -5.0,
+          "std": 0.0
+        }
+      },
+      "NO_PREDICTIVE_RISK": {
+        "total_pairs": 1,
+        "collision_pairs": 1,
+        "delta_lead_time": {
+          "mean_s": 0.25,
+          "median_s": 0.25,
+          "std_s": 0.0,
+          "cohens_d": 0.0,
+          "count": 1
+        },
+        "delta_min_clearance": {
+          "mean_m": 0.0,
+          "median_m": 0.0,
+          "std_m": 0.0,
+          "cohens_d": 0.0
+        },
+        "delta_decision_changes": {
+          "mean": -4.0,
+          "median": -4.0,
+          "std": 0.0
+        },
+        "delta_steering_reversals": {
+          "mean": -3.0,
+          "median": -3.0,
+          "std": 0.0
+        }
+      }
+    }
+  },
+  "NO_NOISE": {
+    "variants": {
+      "FULL_PRISM": {
+        "total_runs": 36,
+        "collision_runs": 24,
+        "safe_runs": 12,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.9167,
+        "mean_warning_lead_time_s": 2.9792,
+        "median_warning_lead_time_s": 2.525,
+        "std_warning_lead_time_s": 0.8828,
+        "mean_maintained_ratio": 1.0,
+        "mean_decision_changes": 4.28,
+        "mean_steering_reversals": 0.08,
+        "mean_min_clearance_m": 0.2868,
+        "mean_safe_clearance_ratio": 0.8001,
+        "mean_latency_ms": 0.604
+      },
+      "NO_KALMAN": {
+        "total_runs": 36,
+        "collision_runs": 24,
+        "safe_runs": 12,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.6667,
+        "mean_warning_lead_time_s": 2.6729,
+        "median_warning_lead_time_s": 2.35,
+        "std_warning_lead_time_s": 1.1177,
+        "mean_maintained_ratio": 1.0,
+        "mean_decision_changes": 4.19,
+        "mean_steering_reversals": 0.42,
+        "mean_min_clearance_m": 0.2868,
+        "mean_safe_clearance_ratio": 0.8001,
+        "mean_latency_ms": 0.559
+      },
+      "POSITION_ONLY": {
+        "total_runs": 36,
+        "collision_runs": 24,
+        "safe_runs": 12,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.6667,
+        "mean_warning_lead_time_s": 2.6667,
+        "median_warning_lead_time_s": 2.45,
+        "std_warning_lead_time_s": 1.1514,
+        "mean_maintained_ratio": 0.9983,
+        "mean_decision_changes": 4.31,
+        "mean_steering_reversals": 0.53,
+        "mean_min_clearance_m": 0.2868,
+        "mean_safe_clearance_ratio": 0.8001,
+        "mean_latency_ms": 0.606
+      },
+      "TTC_ONLY": {
+        "total_runs": 36,
+        "collision_runs": 24,
+        "safe_runs": 12,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.1667,
+        "mean_warning_lead_time_s": 2.5521,
+        "median_warning_lead_time_s": 2.35,
+        "std_warning_lead_time_s": 0.7662,
+        "mean_maintained_ratio": 0.9301,
+        "mean_decision_changes": 4.0,
+        "mean_steering_reversals": 0.14,
+        "mean_min_clearance_m": 0.2868,
+        "mean_safe_clearance_ratio": 0.8001,
+        "mean_latency_ms": 0.61
+      },
+      "DCPA_ONLY": {
+        "total_runs": 36,
+        "collision_runs": 24,
+        "safe_runs": 12,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 1.0,
+        "mean_warning_lead_time_s": 3.0437,
+        "median_warning_lead_time_s": 2.6,
+        "std_warning_lead_time_s": 0.8691,
+        "mean_maintained_ratio": 1.0,
+        "mean_decision_changes": 3.58,
+        "mean_steering_reversals": 0.06,
+        "mean_min_clearance_m": 0.2868,
+        "mean_safe_clearance_ratio": 0.8001,
+        "mean_latency_ms": 0.611
+      },
+      "NO_PREDICTIVE_RISK": {
+        "total_runs": 36,
+        "collision_runs": 24,
+        "safe_runs": 12,
+        "warning_detection_rate": 1.0,
+        "false_warning_rate": 0.6667,
+        "mean_warning_lead_time_s": 2.4021,
+        "median_warning_lead_time_s": 2.45,
+        "std_warning_lead_time_s": 0.2144,
+        "mean_maintained_ratio": 1.0,
+        "mean_decision_changes": 3.58,
+        "mean_steering_reversals": 0.44,
+        "mean_min_clearance_m": 0.2868,
+        "mean_safe_clearance_ratio": 0.8001,
+        "mean_latency_ms": 0.61
+      }
+    },
+    "pairwise": {
+      "NO_KALMAN": {
+        "total_pairs": 36,
+        "collision_pairs": 24,
+        "delta_lead_time": {
+          "mean_s": 0.3062,
+          "median_s": 0.0,
+          "std_s": 0.787,
+          "cohens_d": 0.3891,
+          "count": 24
+        },
+        "delta_min_clearance": {
+          "mean_m": 0.0,
+          "median_m": 0.0,
+          "std_m": 0.0,
+          "cohens_d": 0.0
+        },
+        "delta_decision_changes": {
+          "mean": -0.08,
+          "median": 0.0,
+          "std": 1.7
+        },
+        "delta_steering_reversals": {
+          "mean": 0.33,
+          "median": 0.0,
+          "std": 0.76
+        }
+      },
+      "POSITION_ONLY": {
+        "total_pairs": 36,
+        "collision_pairs": 24,
+        "delta_lead_time": {
+          "mean_s": 0.3125,
+          "median_s": 0.0,
+          "std_s": 0.8609,
+          "cohens_d": 0.363,
+          "count": 24
+        },
+        "delta_min_clearance": {
+          "mean_m": 0.0,
+          "median_m": 0.0,
+          "std_m": 0.0,
+          "cohens_d": 0.0
+        },
+        "delta_decision_changes": {
+          "mean": 0.03,
+          "median": 0.0,
+          "std": 1.72
+        },
+        "delta_steering_reversals": {
+          "mean": 0.44,
+          "median": 0.0,
+          "std": 0.77
+        }
+      },
+      "TTC_ONLY": {
+        "total_pairs": 36,
+        "collision_pairs": 24,
+        "delta_lead_time": {
+          "mean_s": 0.4271,
+          "median_s": 0.15,
+          "std_s": 0.6406,
+          "cohens_d": 0.6666,
+          "count": 24
+        },
+        "delta_min_clearance": {
+          "mean_m": 0.0,
+          "median_m": 0.0,
+          "std_m": 0.0,
+          "cohens_d": 0.0
+        },
+        "delta_decision_changes": {
+          "mean": -0.28,
+          "median": 0.0,
+          "std": 1.72
+        },
+        "delta_steering_reversals": {
+          "mean": 0.06,
+          "median": 0.0,
+          "std": 0.23
+        }
+      },
+      "DCPA_ONLY": {
+        "total_pairs": 36,
+        "collision_pairs": 24,
+        "delta_lead_time": {
+          "mean_s": -0.0646,
+          "median_s": -0.05,
+          "std_s": 0.0477,
+          "cohens_d": -1.3531,
+          "count": 24
+        },
+        "delta_min_clearance": {
+          "mean_m": 0.0,
+          "median_m": 0.0,
+          "std_m": 0.0,
+          "cohens_d": 0.0
+        },
+        "delta_decision_changes": {
+          "mean": -0.69,
+          "median": 0.0,
+          "std": 1.69
+        },
+        "delta_steering_reversals": {
+          "mean": -0.03,
+          "median": 0.0,
+          "std": 0.38
+        }
+      },
+      "NO_PREDICTIVE_RISK": {
+        "total_pairs": 36,
+        "collision_pairs": 24,
+        "delta_lead_time": {
+          "mean_s": 0.5771,
+          "median_s": 0.125,
+          "std_s": 0.7773,
+          "cohens_d": 0.7425,
+          "count": 24
+        },
+        "delta_min_clearance": {
+          "mean_m": 0.0,
+          "median_m": 0.0,
+          "std_m": 0.0,
+          "cohens_d": 0.0
+        },
+        "delta_decision_changes": {
+          "mean": -0.69,
+          "median": -1.0,
+          "std": 1.43
+        },
+        "delta_steering_reversals": {
+          "mean": 0.36,
+          "median": 0.0,
+          "std": 0.49
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+% Table V: Comparative Baseline Performance Evaluation
+\begin{table}[t]
+\caption{Comparative Baseline Performance Across Simulation Benchmark Runs}
+\label{tab:baselines}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\columnwidth}{Xcccc}
+\toprule
+\textbf{Navigation Method} & \textbf{Recall (\%)} & \textbf{FAR (\%)} & \textbf{Lead (s)} & \textbf{Flapping} \\
+\midrule
+Distance-Only ($d \le 3.0\text{m} / 1.8\text{m}$) & 100.0 & 66.7 & 1.66 & 19 \\
+Instantaneous TTC ($TTC \le 2.5\text{s}$) & 100.0 & 16.7 & 2.51 & 14 \\
+Distance + Velocity Heuristic & 100.0 & 66.7 & 2.39 & 16 \\
+\textbf{PRISM (Predictive Architecture)} & \textbf{100.0} & \textbf{15.4} & \textbf{2.99} & \textbf{8} \\
+\bottomrule
+\end{tabularx}
+\vspace{0.04cm}
+\par{\raggedright \scriptsize Evaluated over 40 multi-agent kinematic simulation runs (28 collision, 12 safe non-collision). Flapping denotes total steering direction reversals across all runs.\par}
+\end{table}

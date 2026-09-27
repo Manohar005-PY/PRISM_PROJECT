@@ -1,0 +1,31 @@
+% Table IV: Quantitative Evaluation Metrics Framework
+\begin{table}[t]
+\caption{Quantitative Evaluation Metrics Framework}
+\label{tab:metrics}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabularx}{\columnwidth}{p{2.4cm}X}
+\toprule
+\textbf{Metric} & \textbf{Operational Definition} \\
+\midrule
+\textbf{TTC Error} & RMSE $|\text{TTC}_{\text{est}} - \text{TTC}_{\text{GT}}|$ on closing hazards ($\text{s}$). \\
+\addlinespace[2pt]
+\textbf{CPA Error} & Mean spatial error $|d_{\text{CPA, est}} - d_{\text{CPA, GT}}|$ ($\text{m}$). \\
+\addlinespace[2pt]
+\textbf{Hazard Recall} & Ratio of warned collision runs ($N_{\text{warned}} / N_{\text{collision}}$). \\
+\addlinespace[2pt]
+\textbf{False Alarm Rate} & Ratio of warned safe runs ($N_{\text{warned}} / N_{\text{safe}}$). \\
+\addlinespace[2pt]
+\textbf{Warning Lead Time} & Time interval ($t_{\text{breach}} - t_{\text{alert}}$) prior to breach ($\text{s}$). \\
+\addlinespace[2pt]
+\textbf{Assoc. Coverage} & Ratio of detection frames with tracks ($N_{\text{assoc}} / N_{\text{det}}$). \\
+\addlinespace[2pt]
+\textbf{Track Coverage} & Ratio of total frames with active tracks ($N_{\text{track}} / N_{\text{total}}$). \\
+\addlinespace[2pt]
+\textbf{Switch Rate} & Frequency of alternating turn commands ($\text{Hz}$). \\
+\addlinespace[2pt]
+\textbf{Core Latency} & Algorithmic execution time per frame on mobile SoC ($\text{ms}$). \\
+\bottomrule
+\end{tabularx}
+\end{table}

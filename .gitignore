@@ -1,0 +1,134 @@
+# ==============================================================================
+# PRISM Root .gitignore — Clean GitHub Release Configuration
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Datasets & Test Recordings (Explicitly Excluded per User Request)
+# ------------------------------------------------------------------------------
+experiments/datasets/
+datasets/
+data/telemetry_recordings/
+data/
+*.bag
+*.jsonl
+sample_recording.jsonl
+telemetry_log.jsonl
+
+# Video files (raw test recordings, benchmark runs)
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.webm
+*.flv
+
+# Benchmark run outputs & failure logs
+experiments/evaluation/results/failures/
+experiments/evaluation/results/run_metrics/
+experiments/real_world/part20/runs/
+experiments/real_world/part20/failures/
+experiments/real_world/part21/latency/
+experiments/ablation/part19/runs/
+experiments/comparison/part18/runs/
+experiments/**/runs/
+experiments/**/run_metrics/
+experiments/results/raw/
+experiments/results/*.csv
+
+# ------------------------------------------------------------------------------
+# 2. Machine Learning Weights & Large Model Checkpoints
+# ------------------------------------------------------------------------------
+yolov8n.pt
+*.pt
+*.pth
+*.onnx
+*.tflite
+*.weights
+*.bin
+*.h5
+*.ckpt
+
+# ------------------------------------------------------------------------------
+# 3. Archives & Compressed Packages
+# ------------------------------------------------------------------------------
+PRISM-paper.zip
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+
+# ------------------------------------------------------------------------------
+# 4. Android Build Artifacts & IDE Caches
+# ------------------------------------------------------------------------------
+android/.gradle/
+android/**/.gradle/
+android/build/
+android/**/build/
+android/.idea/
+android/**/.idea/
+android/.kotlin/
+android/**/.kotlin/
+android/local.properties
+android/**/local.properties
+*.apk
+*.aab
+*.dex
+*.flat
+*.class
+Captures/
+.externalNativeBuild/
+.cxx/
+
+# ------------------------------------------------------------------------------
+# 5. Python Artifacts & Virtual Environments
+# ------------------------------------------------------------------------------
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ------------------------------------------------------------------------------
+# 6. Operating System & Editor Metadata
+# ------------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# JetBrains / VSCode / Eclipse IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+*~

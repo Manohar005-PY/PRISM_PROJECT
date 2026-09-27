@@ -1,0 +1,12 @@
+run_id,scenario_family,first_warning_time_s,time_in_warning_s,min_clearance_m,decision_changes,category,is_implementation_defect,rationale
+S03_crossing_miss_run_0004,S03_lateral_crossing,0.2,0.45,0.9192,4,Near-Miss Lateral Clearance Boundary,False,"Pedestrian crosses path with safe CPA (1.2m-1.5m), but enters proactive avoidance safety margin."
+S04_moving_away_run_0001,S04_moving_away,0.0,0.2,1.8,2,Forward Vehicle Proximity Caution,False,Leading pedestrian walking ahead in same direction within 3.0m forward corridor triggers cautious slowdown.
+S04_moving_away_run_0002,S04_moving_away,0.0,0.15,2.6,1,Forward Vehicle Proximity Caution,False,Leading pedestrian walking ahead in same direction within 3.0m forward corridor triggers cautious slowdown.
+S04_moving_away_run_0003,S04_moving_away,0.0,0.15,3.4,1,Forward Vehicle Proximity Caution,False,Leading pedestrian walking ahead in same direction within 3.0m forward corridor triggers cautious slowdown.
+S04_moving_away_run_0004,S04_moving_away,0.0,0.15,4.2,1,Forward Vehicle Proximity Caution,False,Leading pedestrian walking ahead in same direction within 3.0m forward corridor triggers cautious slowdown.
+S04_moving_away_run_0005,S04_moving_away,0.0,0.15,5.0,1,Forward Vehicle Proximity Caution,False,Leading pedestrian walking ahead in same direction within 3.0m forward corridor triggers cautious slowdown.
+S05_direction_change_run_0001,S05_direction_change,0.25,0.95,1.0686,2,Pre-Turn Head-On Trajectory Caution,False,Pedestrian approaches on collision course before abruptly turning at t=2.5s; PRISM appropriately warned prior to turn.
+S05_direction_change_run_0002,S05_direction_change,0.25,0.95,0.8133,2,Pre-Turn Head-On Trajectory Caution,False,Pedestrian approaches on collision course before abruptly turning at t=2.5s; PRISM appropriately warned prior to turn.
+S05_direction_change_run_0003,S05_direction_change,0.25,0.95,0.8,2,Pre-Turn Head-On Trajectory Caution,False,Pedestrian approaches on collision course before abruptly turning at t=2.5s; PRISM appropriately warned prior to turn.
+S05_direction_change_run_0004,S05_direction_change,0.25,0.95,0.8,2,Pre-Turn Head-On Trajectory Caution,False,Pedestrian approaches on collision course before abruptly turning at t=2.5s; PRISM appropriately warned prior to turn.
+S05_direction_change_run_0005,S05_direction_change,0.25,0.95,0.8,2,Pre-Turn Head-On Trajectory Caution,False,Pedestrian approaches on collision course before abruptly turning at t=2.5s; PRISM appropriately warned prior to turn.

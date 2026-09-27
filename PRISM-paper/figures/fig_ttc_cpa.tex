@@ -1,0 +1,36 @@
+% Figure 3: Collision Geometry and CPA/TTC Formulation (TikZ Diagram)
+\begin{figure}[!t]
+\centering
+\begin{tikzpicture}[scale=0.88, every node/.style={scale=0.80}]
+    % User / Ego at Origin
+    \draw[fill=blue!70] (0, 0) circle (3.5pt);
+    \node[below left, font=\scriptsize] at (0, 0) {User $(0, 0)$};
+    \draw[dashed, blue!40, fill=blue!5] (0, 0) circle (0.9);
+    \node[above left, blue!70, font=\tiny] at (-0.45, 0.45) {Envelope $R_{\text{eff}}$};
+
+    % Relative Coordinate Axes
+    \draw[->, black!40] (-0.8, 0) -- (4.0, 0) node[right, font=\scriptsize] {$+X$};
+    \draw[->, black!40] (0, -0.4) -- (0, 4.4) node[above, font=\scriptsize] {$+Z$};
+
+    % Obstacle Position
+    \draw[fill=red!70] (2.0, 3.6) circle (3.5pt);
+    \node[above right, font=\scriptsize] at (2.0, 3.6) {Obstacle $(X, Z)$};
+
+    % Relative Velocity Vector
+    \draw[thick, red!80!black, -{Stealth}] (2.0, 3.6) -- (0.7, 1.1) node[midway, right, font=\scriptsize] {$\mathbf{v}_{\text{rel}}$};
+
+    % Extrapolated Trajectory Ray
+    \draw[dotted, red!70, thick] (2.0, 3.6) -- (0.1, -0.2);
+
+    % CPA Point
+    \draw[fill=orange!80] (0.55, 0.72) circle (2.5pt);
+    \node[below right, orange!90!black, font=\tiny] at (0.55, 0.72) {$\mathbf{p}_{\text{CPA}}$};
+    \draw[dashed, orange!90!black] (0, 0) -- (0.55, 0.72) node[midway, below left, font=\tiny] {$d_{\text{CPA}}$};
+
+    % TTC Boundary Intersection
+    \draw[fill=purple!80] (0.65, 0.9) circle (2.5pt);
+    \node[above right, purple!90!black, font=\tiny] at (0.65, 0.9) {Intersection ($t = \text{TTC}$)};
+\end{tikzpicture}
+\caption{Relative collision geometry on the 2D ground plane: analytical derivation of Closest Point of Approach ($d_{\text{CPA}}$) and quadratic safety envelope boundary intersection (TTC).}
+\label{fig:ttc_cpa_geometry}
+\end{figure}

@@ -1,0 +1,409 @@
+{
+  "dataset_name": "prism_synthetic_benchmark_v1",
+  "evaluation_version": "17.0.0",
+  "created_at": "2026-09-19T10:14:51.191466+00:00",
+  "total_runs_evaluated": 40,
+  "total_frames_evaluated": 4540,
+  "scenario_families_evaluated": [
+    "S01_stationary",
+    "S02_head_on",
+    "S03_lateral_crossing",
+    "S04_moving_away",
+    "S05_direction_change",
+    "S06_multiple_objects",
+    "S07_corridor_squeeze",
+    "S08_measurement_noise"
+  ],
+  "noise_conditions_evaluated": [
+    "DROPOUT_ONLY",
+    "HIGH_NOISE",
+    "LOW_NOISE",
+    "MEDIUM_NOISE",
+    "NO_NOISE"
+  ],
+  "overall_state_estimation": {
+    "position_2d_macro": {
+      "n": 40,
+      "mean": 0.0101,
+      "median": 0.0008,
+      "std": 0.0231,
+      "min": 0.0,
+      "max": 0.1101,
+      "p25": 0.0006,
+      "p75": 0.0019,
+      "p95": 0.0493,
+      "mae": 0.0101,
+      "rmse": 0.0252
+    },
+    "position_rmse_macro": {
+      "n": 40,
+      "mean": 0.0174,
+      "median": 0.0027,
+      "std": 0.0328,
+      "min": 0.0,
+      "max": 0.1357,
+      "p25": 0.0021,
+      "p75": 0.0059,
+      "p95": 0.0946,
+      "mae": 0.0174,
+      "rmse": 0.0371
+    },
+    "velocity_2d_macro": {
+      "n": 40,
+      "mean": 0.0552,
+      "median": 0.0304,
+      "std": 0.0568,
+      "min": 0.0,
+      "max": 0.1964,
+      "p25": 0.0204,
+      "p75": 0.0659,
+      "p95": 0.1864,
+      "mae": 0.0552,
+      "rmse": 0.0792
+    },
+    "velocity_rmse_macro": {
+      "n": 40,
+      "mean": 0.1882,
+      "median": 0.1474,
+      "std": 0.1268,
+      "min": 0.0,
+      "max": 0.4628,
+      "p25": 0.1164,
+      "p75": 0.2779,
+      "p95": 0.4232,
+      "mae": 0.1882,
+      "rmse": 0.227
+    }
+  },
+  "overall_tracking": {
+    "mean_confirmation_rate": 1.0,
+    "total_id_switches": 1,
+    "total_fragmentations": 0,
+    "mean_mota": 0.9968,
+    "mean_idf1": 0.9985
+  },
+  "overall_prediction": {
+    "horizon_0.5s": {
+      "n": 40,
+      "mean": 0.043,
+      "median": 0.0178,
+      "std": 0.0561,
+      "min": 0.0,
+      "max": 0.2027,
+      "p25": 0.0117,
+      "p75": 0.0386,
+      "p95": 0.1822,
+      "mae": 0.043,
+      "rmse": 0.0707
+    },
+    "horizon_1.0s": {
+      "n": 40,
+      "mean": 0.0913,
+      "median": 0.0389,
+      "std": 0.1176,
+      "min": 0.0,
+      "max": 0.4191,
+      "p25": 0.0251,
+      "p75": 0.0844,
+      "p95": 0.3588,
+      "mae": 0.0913,
+      "rmse": 0.1489
+    },
+    "horizon_2.0s": {
+      "n": 40,
+      "mean": 0.2483,
+      "median": 0.1021,
+      "std": 0.3511,
+      "min": 0.0,
+      "max": 1.3294,
+      "p25": 0.0618,
+      "p75": 0.2212,
+      "p95": 1.2293,
+      "mae": 0.2483,
+      "rmse": 0.43
+    },
+    "horizon_3.0s": {
+      "n": 40,
+      "mean": 0.5028,
+      "median": 0.2266,
+      "std": 0.7214,
+      "min": 0.0,
+      "max": 3.1836,
+      "p25": 0.1226,
+      "p75": 0.4805,
+      "p95": 2.0421,
+      "mae": 0.5028,
+      "rmse": 0.8793
+    }
+  },
+  "overall_ttc_dcpa": {
+    "ttc_mae_macro": {
+      "n": 28,
+      "mean": 0.211,
+      "median": 0.1937,
+      "std": 0.0513,
+      "min": 0.1328,
+      "max": 0.3485,
+      "p25": 0.1793,
+      "p75": 0.2255,
+      "p95": 0.3139,
+      "mae": 0.211,
+      "rmse": 0.2172
+    },
+    "dcpa_mae_macro": {
+      "n": 40,
+      "mean": 0.0758,
+      "median": 0.0166,
+      "std": 0.11,
+      "min": 0.0,
+      "max": 0.3931,
+      "p25": 0.0,
+      "p75": 0.1038,
+      "p95": 0.3427,
+      "mae": 0.0758,
+      "rmse": 0.1336
+    },
+    "total_finite_vs_finite_samples": 2249,
+    "total_false_predicted_collisions": 161,
+    "total_missed_predicted_collisions": 25
+  },
+  "overall_risk": {
+    "horizon_1.0s": {
+      "tp": 913,
+      "tn": 2804,
+      "fp": 593,
+      "fn": 230,
+      "precision": 0.6062,
+      "recall": 0.7988,
+      "f1": 0.6893
+    },
+    "horizon_2.0s": {
+      "tp": 1448,
+      "tn": 2782,
+      "fp": 58,
+      "fn": 252,
+      "precision": 0.9615,
+      "recall": 0.8518,
+      "f1": 0.9033
+    },
+    "horizon_3.0s": {
+      "tp": 1501,
+      "tn": 2452,
+      "fp": 5,
+      "fn": 582,
+      "precision": 0.9967,
+      "recall": 0.7206,
+      "f1": 0.8364
+    }
+  },
+  "overall_warning": {
+    "lead_time_stats": {
+      "n": 28,
+      "mean": 2.9893,
+      "median": 2.7,
+      "std": 0.7845,
+      "min": 1.85,
+      "max": 4.7,
+      "p25": 2.45,
+      "p75": 3.2875,
+      "p95": 4.565,
+      "mae": 2.9893,
+      "rmse": 3.0905
+    },
+    "collision_run_count": 28,
+    "safe_run_count": 12,
+    "false_warning_count": 11,
+    "false_warning_rate_on_safe_runs": 0.9167,
+    "event_level_metrics": {
+      "tp": 28,
+      "fn": 0,
+      "fp": 11,
+      "tn": 1,
+      "precision": 0.7179,
+      "recall": 1.0,
+      "f1_score": 0.8358,
+      "miss_rate": 0.0
+    }
+  },
+  "overall_avoidance": {
+    "mean_decision_changes_per_run": 4.2,
+    "total_steering_reversals": 8,
+    "mean_safe_clearance_ratio": 0.7973
+  },
+  "scenario_breakdown": {
+    "S01_stationary": {
+      "run_count": 5,
+      "position_mae_m": 0.0,
+      "mean_confirmation_rate": 1.0,
+      "total_id_switches": 0,
+      "mean_lead_time_s": 4.48,
+      "failures_count": 1
+    },
+    "S02_head_on": {
+      "run_count": 5,
+      "position_mae_m": 0.0009,
+      "mean_confirmation_rate": 1.0,
+      "total_id_switches": 0,
+      "mean_lead_time_s": 2.69,
+      "failures_count": 4
+    },
+    "S03_lateral_crossing": {
+      "run_count": 5,
+      "position_mae_m": 0.0012,
+      "mean_confirmation_rate": 1.0,
+      "total_id_switches": 0,
+      "mean_lead_time_s": 3.2167,
+      "failures_count": 9
+    },
+    "S04_moving_away": {
+      "run_count": 5,
+      "position_mae_m": 0.0016,
+      "mean_confirmation_rate": 1.0,
+      "total_id_switches": 0,
+      "mean_lead_time_s": null,
+      "failures_count": 0
+    },
+    "S05_direction_change": {
+      "run_count": 5,
+      "position_mae_m": 0.0327,
+      "mean_confirmation_rate": 1.0,
+      "total_id_switches": 1,
+      "mean_lead_time_s": null,
+      "failures_count": 1
+    },
+    "S06_multiple_objects": {
+      "run_count": 5,
+      "position_mae_m": 0.0007,
+      "mean_confirmation_rate": 1.0,
+      "total_id_switches": 0,
+      "mean_lead_time_s": 2.45,
+      "failures_count": 4
+    },
+    "S07_corridor_squeeze": {
+      "run_count": 5,
+      "position_mae_m": 0.0005,
+      "mean_confirmation_rate": 1.0,
+      "total_id_switches": 0,
+      "mean_lead_time_s": 2.49,
+      "failures_count": 0
+    },
+    "S08_measurement_noise": {
+      "run_count": 5,
+      "position_mae_m": 0.043,
+      "mean_confirmation_rate": 1.0,
+      "total_id_switches": 0,
+      "mean_lead_time_s": 2.7,
+      "failures_count": 20
+    }
+  },
+  "noise_breakdown": {
+    "NO_NOISE": {
+      "run_count": 36,
+      "mean_position_mae_m": 0.0053,
+      "mean_velocity_mae_mps": 0.048,
+      "mean_prediction_mae_1s_m": 0.0804,
+      "mean_prediction_mae_2s_m": 0.2315,
+      "mean_ttc_mae_s": 0.2134,
+      "mean_track_confirmation_rate": 1.0,
+      "total_id_switches": 1,
+      "mean_mota": 0.9986,
+      "mean_warning_lead_time_s": 3.0375,
+      "total_false_warnings": 11
+    },
+    "LOW_NOISE": {
+      "run_count": 1,
+      "mean_position_mae_m": 0.0233,
+      "mean_velocity_mae_mps": 0.0808,
+      "mean_prediction_mae_1s_m": 0.1127,
+      "mean_prediction_mae_2s_m": 0.244,
+      "mean_ttc_mae_s": 0.1782,
+      "mean_track_confirmation_rate": 1.0,
+      "total_id_switches": 0,
+      "mean_mota": 1.0,
+      "mean_warning_lead_time_s": 2.7,
+      "total_false_warnings": 0
+    },
+    "MEDIUM_NOISE": {
+      "run_count": 1,
+      "mean_position_mae_m": 0.0801,
+      "mean_velocity_mae_mps": 0.1859,
+      "mean_prediction_mae_1s_m": 0.29,
+      "mean_prediction_mae_2s_m": 0.6004,
+      "mean_ttc_mae_s": 0.2193,
+      "mean_track_confirmation_rate": 1.0,
+      "total_id_switches": 0,
+      "mean_mota": 0.9604,
+      "mean_warning_lead_time_s": 2.7,
+      "total_false_warnings": 0
+    },
+    "HIGH_NOISE": {
+      "run_count": 1,
+      "mean_position_mae_m": 0.1101,
+      "mean_velocity_mae_mps": 0.1851,
+      "mean_prediction_mae_1s_m": 0.3202,
+      "mean_prediction_mae_2s_m": 0.655,
+      "mean_ttc_mae_s": 0.2131,
+      "mean_track_confirmation_rate": 1.0,
+      "total_id_switches": 0,
+      "mean_mota": 0.9604,
+      "mean_warning_lead_time_s": 2.7,
+      "total_false_warnings": 0
+    },
+    "DROPOUT_ONLY": {
+      "run_count": 1,
+      "mean_position_mae_m": 0.0006,
+      "mean_velocity_mae_mps": 0.0294,
+      "mean_prediction_mae_1s_m": 0.0374,
+      "mean_prediction_mae_2s_m": 0.0982,
+      "mean_ttc_mae_s": 0.1763,
+      "mean_track_confirmation_rate": 1.0,
+      "total_id_switches": 0,
+      "mean_mota": 1.0,
+      "mean_warning_lead_time_s": 2.7,
+      "total_false_warnings": 0
+    }
+  },
+  "risk_calibration_bins": [
+    {
+      "bin_label": "[0-20]",
+      "min_score": 0.0,
+      "max_score": 20.0,
+      "total_samples": 1760,
+      "collision_events": 0,
+      "empirical_collision_frequency": 0.0
+    },
+    {
+      "bin_label": "[20-40]",
+      "min_score": 20.0,
+      "max_score": 40.0,
+      "total_samples": 146,
+      "collision_events": 14,
+      "empirical_collision_frequency": 0.0959
+    },
+    {
+      "bin_label": "[40-60]",
+      "min_score": 40.0,
+      "max_score": 60.0,
+      "total_samples": 890,
+      "collision_events": 337,
+      "empirical_collision_frequency": 0.3787
+    },
+    {
+      "bin_label": "[60-80]",
+      "min_score": 60.0,
+      "max_score": 80.0,
+      "total_samples": 677,
+      "collision_events": 668,
+      "empirical_collision_frequency": 0.9867
+    },
+    {
+      "bin_label": "[80-100]",
+      "min_score": 80.0,
+      "max_score": 100.0,
+      "total_samples": 1067,
+      "collision_events": 1064,
+      "empirical_collision_frequency": 0.9972
+    }
+  ],
+  "total_failures_identified": 39
+}

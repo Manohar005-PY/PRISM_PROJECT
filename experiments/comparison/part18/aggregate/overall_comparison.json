@@ -1,0 +1,151 @@
+{
+  "dataset_name": "prism_synthetic_benchmark_v1",
+  "comparison_version": "18.0.0",
+  "created_at": "2026-09-19T14:57:13.380572+00:00",
+  "total_runs_evaluated": 40,
+  "total_collision_runs": 28,
+  "total_safe_runs": 12,
+  "predictive_advantage": {
+    "total_collision_runs": 28,
+    "paired_lead_time_samples": 28,
+    "mean_delta_lead_time_s": 1.3286,
+    "median_delta_lead_time_s": 1.3,
+    "std_delta_lead_time_s": 0.7782,
+    "min_delta_lead_time_s": 0.0,
+    "max_delta_lead_time_s": 3.05,
+    "earlier_warning_count": 24,
+    "earlier_warning_rate": 0.8571,
+    "prism_missed_events": 0,
+    "baseline_missed_events": 0,
+    "prism_mean_lead_time_s": 2.9893,
+    "baseline_mean_lead_time_s": 1.6607,
+    "relative_lead_time_improvement_pct": 80.0
+  },
+  "overall_warning_summary": {
+    "prism_collision_warning_detection_rate": 1.0,
+    "baseline_collision_warning_detection_rate": 1.0,
+    "prism_mean_lead_time_s": 2.9893,
+    "baseline_mean_lead_time_s": 1.6607,
+    "mean_lead_time_advantage_s": 1.3286,
+    "prism_false_warning_rate_on_safe_runs": 0.9167,
+    "baseline_false_warning_rate_on_safe_runs": 0.6667
+  },
+  "overall_avoidance_summary": {
+    "prism_mean_decision_changes": 4.2,
+    "baseline_mean_decision_changes": 5.55,
+    "prism_total_steering_reversals": 8,
+    "baseline_total_steering_reversals": 19
+  },
+  "scenario_breakdown": {
+    "S01_stationary": {
+      "total_runs": 5,
+      "collision_runs": 5,
+      "prism_mean_lead_time_s": 4.48,
+      "baseline_mean_lead_time_s": 2.2,
+      "mean_delta_lead_time_s": 2.28,
+      "prism_earlier_warning_count": 5,
+      "comparative_failures": 0
+    },
+    "S02_head_on": {
+      "total_runs": 5,
+      "collision_runs": 5,
+      "prism_mean_lead_time_s": 2.69,
+      "baseline_mean_lead_time_s": 1.1,
+      "mean_delta_lead_time_s": 1.59,
+      "prism_earlier_warning_count": 5,
+      "comparative_failures": 0
+    },
+    "S03_lateral_crossing": {
+      "total_runs": 5,
+      "collision_runs": 3,
+      "prism_mean_lead_time_s": 3.2167,
+      "baseline_mean_lead_time_s": 1.7,
+      "mean_delta_lead_time_s": 1.5167,
+      "prism_earlier_warning_count": 3,
+      "comparative_failures": 1
+    },
+    "S04_moving_away": {
+      "total_runs": 5,
+      "collision_runs": 0,
+      "prism_mean_lead_time_s": null,
+      "baseline_mean_lead_time_s": null,
+      "mean_delta_lead_time_s": null,
+      "prism_earlier_warning_count": 0,
+      "comparative_failures": 4
+    },
+    "S05_direction_change": {
+      "total_runs": 5,
+      "collision_runs": 0,
+      "prism_mean_lead_time_s": null,
+      "baseline_mean_lead_time_s": null,
+      "mean_delta_lead_time_s": null,
+      "prism_earlier_warning_count": 0,
+      "comparative_failures": 0
+    },
+    "S06_multiple_objects": {
+      "total_runs": 5,
+      "collision_runs": 5,
+      "prism_mean_lead_time_s": 2.45,
+      "baseline_mean_lead_time_s": 2.25,
+      "mean_delta_lead_time_s": 0.2,
+      "prism_earlier_warning_count": 1,
+      "comparative_failures": 0
+    },
+    "S07_corridor_squeeze": {
+      "total_runs": 5,
+      "collision_runs": 5,
+      "prism_mean_lead_time_s": 2.49,
+      "baseline_mean_lead_time_s": 1.5,
+      "mean_delta_lead_time_s": 0.99,
+      "prism_earlier_warning_count": 5,
+      "comparative_failures": 0
+    },
+    "S08_measurement_noise": {
+      "total_runs": 5,
+      "collision_runs": 5,
+      "prism_mean_lead_time_s": 2.7,
+      "baseline_mean_lead_time_s": 1.23,
+      "mean_delta_lead_time_s": 1.47,
+      "prism_earlier_warning_count": 5,
+      "comparative_failures": 0
+    }
+  },
+  "noise_breakdown": {
+    "DROPOUT_ONLY": {
+      "total_runs": 1,
+      "collision_runs": 1,
+      "prism_mean_lead_time_s": 2.7,
+      "baseline_mean_lead_time_s": 1.2,
+      "mean_delta_lead_time_s": 1.5
+    },
+    "HIGH_NOISE": {
+      "total_runs": 1,
+      "collision_runs": 1,
+      "prism_mean_lead_time_s": 2.7,
+      "baseline_mean_lead_time_s": 1.4,
+      "mean_delta_lead_time_s": 1.3
+    },
+    "LOW_NOISE": {
+      "total_runs": 1,
+      "collision_runs": 1,
+      "prism_mean_lead_time_s": 2.7,
+      "baseline_mean_lead_time_s": 1.15,
+      "mean_delta_lead_time_s": 1.55
+    },
+    "MEDIUM_NOISE": {
+      "total_runs": 1,
+      "collision_runs": 1,
+      "prism_mean_lead_time_s": 2.7,
+      "baseline_mean_lead_time_s": 1.2,
+      "mean_delta_lead_time_s": 1.5
+    },
+    "NO_NOISE": {
+      "total_runs": 36,
+      "collision_runs": 24,
+      "prism_mean_lead_time_s": 3.0375,
+      "baseline_mean_lead_time_s": 1.7313,
+      "mean_delta_lead_time_s": 1.3063
+    }
+  },
+  "total_comparative_failures": 5
+}
