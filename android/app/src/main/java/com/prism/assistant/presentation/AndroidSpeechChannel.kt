@@ -6,10 +6,12 @@ import android.speech.tts.TextToSpeech
 import android.util.Log
 import com.prism.assistant.bridge.PrismPresentationCue
 import java.util.Locale
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * Speech presentation channel adapting Android TextToSpeech with emergency interrupt capability,
- * multi-tier locale fallback, lifecycle re-initialization, and speech rate-limiting hysteresis.
+ * sentence completion protection, multi-tier locale fallback, lifecycle re-initialization,
+ * and speech rate-limiting hysteresis.
  */
 class AndroidSpeechChannel(
     context: Context,
@@ -23,6 +25,10 @@ class AndroidSpeechChannel(
     private var pendingCue: PrismPresentationCue? = null
     private var lastSpokenText: String? = null
     private var lastSpeechTimeMs: Long = 0L
+    private var lastSpokenPriority: String? = null
+    private var activeUtteranceStartTimeMs: Long = 0L
+
+    private val isSpeakingActive = AtomicBoolean(false)
 
     init {
         initialize()
@@ -98,15 +104,19 @@ class AndroidSpeechChannel(
                     .build()
                 tts?.setAudioAttributes(audioAttributes)
 
-                // 2. Set utterance progress listener for audio ducking lifecycle
+                // 2. Set utterance progress listener for audio ducking lifecycle and speech state tracking
                 tts?.setOnUtteranceProgressListener(object : android.speech.tts.UtteranceProgressListener() {
                     override fun onStart(utteranceId: String?) {
+                        isSpeakingActive.set(true)
+                        activeUtteranceStartTimeMs = System.currentTimeMillis()
                         requestAudioDucking()
                     }
                     override fun onDone(utteranceId: String?) {
+                        isSpeakingActive.set(false)
                         abandonAudioDucking()
                     }
                     override fun onError(utteranceId: String?) {
+                        isSpeakingActive.set(false)
                         abandonAudioDucking()
                     }
                 })
@@ -147,6 +157,13 @@ class AndroidSpeechChannel(
 
     fun isAvailable(): Boolean = isReady
 
+    /**
+     * Checks if the TTS engine is actively speaking an utterance.
+     */
+    fun isSpeaking(): Boolean {
+        return isSpeakingActive.get() || (tts?.isSpeaking == true)
+    }
+
     fun deliver(cue: PrismPresentationCue): Boolean {
         if (cue.channel != "speech" || cue.text.isNullOrBlank()) return false
 
@@ -163,38 +180,61 @@ class AndroidSpeechChannel(
 
         val text = cue.text.trim()
         val now = System.currentTimeMillis()
+        val isEmergency = (cue.priority == "emergency")
+        val currentlySpeaking = isSpeaking()
 
-        // Hysteresis cooldown: Prevent speech from cancelling itself 30 times a second
-        val minIntervalMs = when (cue.priority) {
-            "emergency" -> 1000L  // Minimum 1.0s between emergency announcements
-            "urgent" -> 1600L     // Minimum 1.6s between urgent turns
-            else -> 2500L         // Minimum 2.5s between warnings/cautions
+        // 1. Completion Protection: NEVER interrupt ongoing speech unless it is an EMERGENCY stop!
+        if (currentlySpeaking) {
+            if (!isEmergency) {
+                // Non-emergency instructions must not cut off previous decision before it finishes speaking
+                Log.d("PRISM_SPEECH", "Speech in progress; suppressing non-emergency cue to allow sentence completion: '$text'")
+                return false
+            } else {
+                // If an emergency announcement is ALREADY speaking and started recently (<1.2s), let it finish saying "Stop!"
+                if (lastSpokenPriority == "emergency" && (now - activeUtteranceStartTimeMs < 1200L)) {
+                    Log.d("PRISM_SPEECH", "Emergency announcement already actively speaking; suppressing self-interruption: '$text'")
+                    return false
+                }
+            }
         }
 
-        val isDifferentUtterance = (text != lastSpokenText)
-        val cooldownPassed = (now - lastSpeechTimeMs >= minIntervalMs)
+        // 2. Minimum Cooldown Intervals between utterances
+        val minIntervalMs = when (cue.priority) {
+            "emergency" -> 1000L  // Minimum 1.0s between emergency announcements
+            "urgent" -> 1800L     // Minimum 1.8s between urgent directional guidance
+            else -> 2500L         // Minimum 2.5s between warnings/cautions/info
+        }
 
-        // For urgent/emergency cues, speak if different or cooldown passed; for low priority, require cooldown
-        if (!cooldownPassed && !isDifferentUtterance && cue.priority != "emergency") {
+        val elapsed = now - lastSpeechTimeMs
+
+        // Non-emergency cues ALWAYS require the cooldown interval to pass since speech was started
+        if (!isEmergency && elapsed < minIntervalMs) {
+            Log.d("PRISM_SPEECH", "Speech cooldown active ($elapsed ms < $minIntervalMs ms); suppressing: '$text'")
             return false
         }
 
-        if (!cooldownPassed && text == lastSpokenText) {
+        // Repetitive identical text suppression: require extended interval (at least 3.0s)
+        if (text == lastSpokenText && elapsed < 3000L && !isEmergency) {
             return false
         }
 
         lastSpokenText = text
         lastSpeechTimeMs = now
+        lastSpokenPriority = cue.priority
+        activeUtteranceStartTimeMs = now
+        isSpeakingActive.set(true)
 
-        // Emergency or urgent cues pre-empt queued navigation chatter
-        val queueMode = if (cue.priority == "emergency" || cue.priority == "urgent") {
-            TextToSpeech.QUEUE_FLUSH  // Immediate preemption for emergency stop & urgent evasion
+        // Only true emergencies use QUEUE_FLUSH to preempt immediately;
+        // Routine or urgent directional guidance uses QUEUE_ADD (speaks cleanly since not currentlySpeaking)
+        val queueMode = if (isEmergency) {
+            TextToSpeech.QUEUE_FLUSH  // Immediate preemption for emergency safety stops
         } else {
             TextToSpeech.QUEUE_ADD
         }
 
-        Log.i("PRISM_SPEECH", "Speaking: '$text' [Priority: ${cue.priority}]")
-        val res = tts?.speak(text, queueMode, null, cue.messageId)
+        val utteranceId = cue.messageId.ifBlank { "speech_${now}" }
+        Log.i("PRISM_SPEECH", "Speaking: '$text' [Priority: ${cue.priority}, QueueMode: $queueMode]")
+        val res = tts?.speak(text, queueMode, null, utteranceId)
         return res == TextToSpeech.SUCCESS
     }
 
@@ -206,5 +246,6 @@ class AndroidSpeechChannel(
         tts = null
         isReady = false
         isInitializing = false
+        isSpeakingActive.set(false)
     }
 }

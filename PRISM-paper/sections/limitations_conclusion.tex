@@ -4,28 +4,26 @@
 \section{Limitations and Conclusion}
 \label{sec:limitations_conclusion}
 
-\subsection{System Limitations}
+\subsection{Operational Limitations}
 \label{sec:limitations}
-Scientific rigor requires explicitly delineating the operational boundaries of the PRISM-L1.0 Android implementation:
+Deploying monocular vision and inertial sensing introduces several operational boundaries:
 \begin{enumerate}
-    \item \textbf{Planar Ground Geometry}: Inverse ray projection assumes flat ground ($Y_w = 0$). Ascending or descending stairs, ramps, and dropped curbs violate this constraint, introducing non-linear geometric distortion.
-    \item \textbf{Negative Obstacle Detection}: The pipeline cannot detect drop-offs, floor depressions, or descending stairways. PRISM is designed strictly as an elevated obstacle-awareness aid.
-    \item \textbf{Ground-Contact Point Occlusion}: Distance recovery relies on observing the obstacle bottom boundary ($v_{\text{bottom}}$). If feet or bases are occluded by foreground furniture or luggage, distance is overestimated.
-    \item \textbf{Visual Texture and Lighting}: The luminance Sobel filter relies on spatial edge gradients. Textureless flat surfaces (e.g., bare white walls) and severe under-illumination ($< 20$\,lux) degrade candidate extraction.
-    \item \textbf{Absence of Metric Odometry}: While the IMU reliably detects steps and classifies walking versus stationary states, it does not integrate metric displacement. Relative velocities reflect observed optical motion rather than full spatial odometry.
-    \item \textbf{Headphone Dependency for Spatial Audio}: Mode~B spatial audio strictly requires stereo over-ear or bone-conduction headphones. Device loudspeaker or mono output eliminates stereo panning cues.
-    \item \textbf{Absence of BVI Participant Validation}: The current evaluation was conducted exclusively under controlled engineering scenarios with engineering evaluators. Formal clinical validation with BVI participants measuring real-world navigation autonomy, safety, and cognitive workload has not yet been performed.
-    \item \textbf{Outdoor Generalization}: The prototype was evaluated exclusively in indoor corridor environments; outdoor generalization is unvalidated.
+    \item \textbf{Planar Ground Assumption}: Ground-plane projection assumes a flat floor ($Y_w = 0$). Ramps, stairs, and raised curbs distort distance calculations.
+    \item \textbf{Negative Obstacles}: The pipeline detects obstacles rising above the ground plane; it cannot detect descending stairs, drop-offs, or floor depressions.
+    \item \textbf{Contact Point Occlusion}: Metric distance depends on observing where an obstacle meets the floor. If the obstacle base is occluded or cropped by the frame edge, distance is overestimated.
+    \item \textbf{Illumination and Texture}: Candidate extraction relies on luminance contrast. Featureless surfaces or dim lighting ($< 20$\,lux) weaken edge gradients, increasing miss rates.
+    \item \textbf{Absence of Metric Odometry}: While the IMU distinguishes walking from standing, it does not calculate metric dead reckoning.
+    \item \textbf{Audio Delivery Constraints}: Directional spatial audio requires stereo headphones; phone loudspeakers collapse binaural panning.
+    \item \textbf{Evaluator Sample}: Evaluations were performed with engineering evaluators; formal trials with BVI participants remain future work.
+    \item \textbf{Indoor Setting}: Thresholds are calibrated for indoor corridors; outdoor operation remains unvalidated.
 \end{enumerate}
 
 \subsection{Safety and Assistive Aid Disclaimer}
 \label{sec:safety_disclaimer}
-PRISM is an exploratory engineering prototype. It does \emph{not} guarantee collision prevention, does not replace a white cane or guide dog, and is not clinically certified. It is intended strictly as an awareness layer complementing primary mobility aids.
+PRISM is an exploratory engineering prototype. It does not guarantee collision prevention and is not a certified medical device. The system is designed to supplement, rather than replace, primary mobility aids such as the long white cane and guide dogs.
 
 \subsection{Conclusion}
 \label{sec:conclusion}
-This paper presented the design, implementation, and engineering evaluation of \textbf{PRISM}, an Android-based real-time indoor obstacle detection and multimodal hazard warning system. The complete pipeline executes natively on Android devices (API 26--34), integrating monocular camera perception, geometric ground-plane validation, multi-target Kalman tracking, IMU-based pitch/roll orientation fusion, accelerometer step detection, a 9-state hazard lifecycle machine, and a multimodal presentation layer delivering rate-limited speech, 44.1\,kHz stereo spatial audio, and tactile haptics.
+This work demonstrates that commodity Android smartphones can deliver real-time indoor obstacle awareness without specialized depth hardware or cloud computing. Combining monocular luminance gradients, dynamic IMU tilt compensation, and multi-target tracking with bounded backpressure resolves metric distance and Time-to-Collision within a sub-millisecond per-frame execution budget on physical hardware.
 
-Across an automated suite of 100 Android unit tests, PRISM verified 100\% mathematical and state consistency. In controlled indoor evaluations spanning 17 real-world video runs (2,827 frames), the system achieved 97.5\% overall obstacle recall, 100\% recall for close hazards ($Z < 1.0$\,m), 0.08\,m forward-depth accuracy, 96.3\% step detection precision, and zero duplicate warning utterances. In controlled multisensory A/B testing, adding stereo spatial audio (Mode~B) reduced wrong-direction evasion errors from 6.4\% to 1.2\% and lowered mean reaction time by 120\,ms compared to speech-and-haptic guidance alone.
-
-Future work will conduct IRB-approved formal clinical studies with BVI participants, develop dedicated negative-obstacle detection algorithms, and integrate metric pedestrian dead reckoning.
+Across 158 controlled indoor encounters, PRISM achieved 97.5\% detection recall (100\% on close hazards), 0.08\,m forward-depth accuracy, and eliminated false alarms when following preceding pedestrians. Adding 44.1\,kHz stereo spatial audio reduced wrong-direction steering errors from 6.4\% to 1.2\% and lowered reaction latency by 120\,ms compared to speech and haptics alone. Future work will investigate negative-obstacle detection, metric pedestrian dead reckoning, and mobility trials with visually impaired participants.

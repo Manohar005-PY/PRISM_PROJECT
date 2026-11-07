@@ -31,18 +31,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var participantCardLayout: LinearLayout
     private lateinit var debugHudLayout: LinearLayout
-    private lateinit var tvParticipantDestination: TextView
     private lateinit var tvParticipantGuidance: TextView
     private lateinit var tvParticipantStatus: TextView
 
-    private lateinit var btnWhereAmI: Button
-    private lateinit var btnWhatIsAhead: Button
-    private lateinit var btnRepeatInstruction: Button
-    private lateinit var btnToggleRuntime: Button
-    private lateinit var btnSelectDestination: Button
-    private lateinit var btnReleaseMode: Button
+    private lateinit var btnStart: Button
+    private lateinit var btnStop: Button
 
-    private var destinationIndex: Int = 0
+    private var userStoppedManually: Boolean = false
 
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -64,7 +59,6 @@ class MainActivity : AppCompatActivity() {
         participantCardLayout = findViewById(R.id.participantCardLayout)
         debugHudLayout = findViewById(R.id.debugHudLayout)
 
-        tvParticipantDestination = findViewById(R.id.tvParticipantDestination)
         tvParticipantGuidance = findViewById(R.id.tvParticipantGuidance)
         tvParticipantStatus = findViewById(R.id.tvParticipantStatus)
 
@@ -90,58 +84,29 @@ class MainActivity : AppCompatActivity() {
         val ip = runtime.telemetryServer.getDeviceIpAddress()
         debugScreen.updateServerUrl(ip, runtime.telemetryServer.port)
 
-        btnWhereAmI = findViewById(R.id.btnWhereAmI)
-        btnWhatIsAhead = findViewById(R.id.btnWhatIsAhead)
-        btnRepeatInstruction = findViewById(R.id.btnRepeatInstruction)
-        btnToggleRuntime = findViewById(R.id.btnToggleRuntime)
-        btnSelectDestination = findViewById(R.id.btnSelectDestination)
-        btnReleaseMode = findViewById(R.id.btnReleaseMode)
+        btnStart = findViewById(R.id.btnStart)
+        btnStop = findViewById(R.id.btnStop)
 
         val accessibilityController = runtime.accessibilityController
 
         // Initialize UI mode
         updateReleaseModeUI(accessibilityController.releaseMode)
 
-        // Initialize Destination text
-        accessibilityController.selectedDestination?.let { dest ->
-            tvParticipantDestination.text = "DESTINATION: ${dest.name}"
-            tvParticipantDestination.contentDescription = "Current destination: ${dest.name}"
-        }
-
-        // Accessible query button handlers
-        btnWhereAmI.setOnClickListener {
-            accessibilityController.queryWhereAmI()
-        }
-
-        btnWhatIsAhead.setOnClickListener {
-            accessibilityController.queryWhatIsAhead(runtime.latestFrameResult)
-        }
-
-        btnRepeatInstruction.setOnClickListener {
-            accessibilityController.repeatLastInstruction()
-        }
-
-        // Destination selection flow
-        btnSelectDestination.setOnClickListener {
-            val list = accessibilityController.destinations
-            if (list.isNotEmpty()) {
-                destinationIndex = (destinationIndex + 1) % list.size
-                val chosen = list[destinationIndex]
-                accessibilityController.selectDestination(chosen.id)
-                tvParticipantDestination.text = "DESTINATION: ${chosen.name}"
-                tvParticipantDestination.contentDescription = "Current destination: ${chosen.name}"
+        // START button handler
+        btnStart.setOnClickListener {
+            userStoppedManually = false
+            if (runtime.state != RuntimeState.RUNNING) {
+                startCameraAndRuntime()
             }
         }
 
-        // Release mode toggle
-        btnReleaseMode.setOnClickListener {
-            val nextMode = if (accessibilityController.releaseMode == ReleaseMode.PARTICIPANT_STUDY) {
-                ReleaseMode.RESEARCH_DEBUG
-            } else {
-                ReleaseMode.PARTICIPANT_STUDY
+        // STOP button handler
+        btnStop.setOnClickListener {
+            userStoppedManually = true
+            if (runtime.state == RuntimeState.RUNNING) {
+                cameraSource.stopCamera()
+                runtime.stop()
             }
-            accessibilityController.releaseMode = nextMode
-            updateReleaseModeUI(nextMode)
         }
 
         runtime.onFrameResultListener = { result ->
@@ -172,18 +137,13 @@ class MainActivity : AppCompatActivity() {
         runtime.onStateChangeListener = { state ->
             runOnUiThread {
                 debugScreen.updateState(state)
-                btnToggleRuntime.text = if (state == RuntimeState.RUNNING) "PAUSE" else "START"
+                val isRunning = (state == RuntimeState.RUNNING)
+                btnStart.isEnabled = !isRunning
+                btnStop.isEnabled = isRunning
+                btnStart.alpha = if (isRunning) 0.5f else 1.0f
+                btnStop.alpha = if (isRunning) 1.0f else 0.5f
                 tvParticipantStatus.text = "Status: PRISM ${state.name} | Sensors Operational"
                 tvParticipantStatus.contentDescription = "System status: PRISM ${state.name}, Sensors Operational."
-            }
-        }
-
-        btnToggleRuntime.setOnClickListener {
-            if (runtime.state == RuntimeState.RUNNING) {
-                cameraSource.stopCamera()
-                runtime.stop()
-            } else {
-                startCameraAndRuntime()
             }
         }
 
@@ -194,11 +154,9 @@ class MainActivity : AppCompatActivity() {
         if (mode == ReleaseMode.PARTICIPANT_STUDY) {
             debugHudLayout.visibility = View.GONE
             participantCardLayout.visibility = View.VISIBLE
-            btnReleaseMode.text = "MODE: STUDY"
         } else {
             debugHudLayout.visibility = View.VISIBLE
             participantCardLayout.visibility = View.VISIBLE
-            btnReleaseMode.text = "MODE: DEBUG"
         }
     }
 
@@ -228,7 +186,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (runtime.state != RuntimeState.RUNNING && ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+        if (!userStoppedManually && runtime.state != RuntimeState.RUNNING && ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             startCameraAndRuntime()
         }
     }

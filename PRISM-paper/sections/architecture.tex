@@ -4,19 +4,23 @@
 \section{PRISM System Architecture}
 \label{sec:architecture}
 
-PRISM is implemented as a modular, unidirectional real-time perception and warning architecture natively on Android (Fig.~\ref{fig:pipeline_architecture}). The architecture decouples hardware sensor ingestion, algorithmic state estimation, threat arbitration, and multimodal presentation.
+PRISM processes camera and inertial sensor inputs through an autonomous, unidirectional pipeline running natively on Android (Fig.~\ref{fig:pipeline_architecture}). The architecture decouples image acquisition, geometric reconstruction, kinematic tracking, collision arbitration, and multimodal guidance into modular stages.
 
 \input{figures/fig_pipeline.tex}
 
-The software architecture enforces four design principles:
+The software architecture follows four design principles:
 \begin{enumerate}
-    \item \textbf{Unidirectional Pipeline Flow}: Sensor measurements flow strictly forward through perception, geometric validation, tracking, hazard lifecycle, and presentation. No backward mutations exist between stages.
-    \item \textbf{Immutable Typed Data Contracts}: Subsystems communicate through immutable Kotlin data classes. Raw detections are encapsulated in \texttt{CandidateCluster}, geometric metrics in \texttt{CandidateGeometry}, tracking states in \texttt{TrackInfo}, navigation decisions in \texttt{PrismDecision}, and audio-haptic cues in \texttt{PrismPresentationCue}.
-    \item \textbf{Metric Cartesian Ground Space}: Downstream tracking, kinematics, collision geometry, and hazard arbitration operate in metric Cartesian ground coordinates $(X, Z) \in \mathbb{R}^2$ (lateral $X$, forward $Z$ in meters).
-    \item \textbf{Single-Frame Bounded Backpressure}: The perception loop maintains a bounded queue depth $N = 1$ to guarantee that variable processing times never induce queue latency accumulation.
+    \item \textbf{Forward-Only Dataflow}: Information travels strictly downstream from sensor drivers to output actuators without circular dependencies or backward state mutation.
+    \item \textbf{Immutable Typed Contracts}: Subsystems exchange immutable Kotlin data classes (\texttt{CandidateCluster}, \texttt{TrackInfo}, \texttt{PrismDecision}, \texttt{SpatialCue}), ensuring thread-safe transfers across coroutine scopes.
+    \item \textbf{Ground-Plane Metric Space}: Spatial tracking, kinematics, and corridor bounds operate in Cartesian coordinates $(X, Z) \in \mathbb{R}^2$ referenced to the floor nadir directly below the camera.
+    \item \textbf{Bounded Backpressure}: The vision loop enforces a single-frame buffer ($N = 1$) via CameraX \texttt{STRATEGY\_KEEP\_ONLY\_LATEST}, dropping stale frames to prevent latency accumulation.
 \end{enumerate}
 
 \input{tables/tab_configuration.tex}
 
 \subsection{Android Host and Runtime Lifecycle}
-The Android host is anchored by \texttt{PrismApplication} and \texttt{MainActivity}. The lifecycle is managed by \texttt{PrismRuntime}, which coordinates concurrent worker threads for camera frame analysis, sensor event listeners, and multimodal presentation channels. The runtime maintains three operating states: \texttt{RUNNING} (active processing), \texttt{DEGRADED} (sensor dropout or inter-frame delta $\Delta t > 0.25$\,s), and \texttt{STOPPED}. All thresholds are frozen in the \texttt{PRISM-L1.0-config.json} specification (Table~\ref{tab:configuration}) for reproducible execution.
+The application structure pairs \texttt{PrismApplication} for dependency lifecycle management with \texttt{MainActivity} for user interaction. The interface provides a Jetpack Compose dashboard (\texttt{PrismScreen}, Fig.~\ref{fig:app_interface}) featuring high-contrast banners, live camera corridor view, and accessible controls. \texttt{PrismRuntime} coordinates concurrent coroutines that ingest CameraX frames, listen for IMU events via \texttt{SensorEventListener}, dispatch multimodal guidance, and stream JSONL telemetry on port 8080.
+
+\input{figures/fig_app_interface.tex}
+
+The runtime manages three operational states: \texttt{RUNNING} (nominal processing), \texttt{DEGRADED} (sensor dropout or frame interval $\Delta t > 0.25$\,s, falling back to proximity thresholding), and \texttt{STOPPED} (unbound listeners). Clock skew causing negative intervals ($\Delta t < 0$) commands an immediate fail-safe \texttt{EMERGENCY\_STOP}. System constants are frozen in \texttt{PRISM-L1.0-config.json}~\cite{PRISM-L1.0-config,PRISM-L1.0-README} (Table~\ref{tab:configuration}).

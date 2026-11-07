@@ -288,6 +288,9 @@ class DeterministicPrismBridge(
     private var lastActionChangeTimestamp: Double = 0.0
     private var lastPrimaryThreatId: Int? = null
     private var hadActiveHazardLastFrame: Boolean = false
+    private var lastGlobalWarningTimestamp: Double = 0.0
+    private var lastGlobalWarningSeverity: WarningSeverity = WarningSeverity.CLEAR
+    private var lastGlobalSpokenText: String? = null
 
     var userMotionMode: UserMotionInferenceMode = UserMotionInferenceMode.USER_MOTION_MODE_IMU_FUSED
     var latestUserMotionEstimate: UserMotionEstimate = UserMotionEstimate()
@@ -308,6 +311,9 @@ class DeterministicPrismBridge(
         lastActionChangeTimestamp = 0.0
         lastPrimaryThreatId = null
         hadActiveHazardLastFrame = false
+        lastGlobalWarningTimestamp = 0.0
+        lastGlobalWarningSeverity = WarningSeverity.CLEAR
+        lastGlobalSpokenText = null
         latestUserMotionEstimate = UserMotionEstimate()
         multisensoryMode = MultisensoryMode.MODE_B_SPEECH_SPATIAL_HAPTIC
     }
@@ -563,6 +569,9 @@ class DeterministicPrismBridge(
             if (hadActiveHazardLastFrame) {
                 cues.add(PrismPresentationCue("speech", "info", "warn:clear", "Path clear.", null, 0.70, 0.8, null))
                 hadActiveHazardLastFrame = false
+                lastGlobalWarningSeverity = WarningSeverity.CLEAR
+                lastGlobalSpokenText = "Path clear."
+                lastGlobalWarningTimestamp = timestamp
             }
             cues.add(
                 PrismPresentationCue("visual", "info", "continue:safe", "[SAFE] CONTINUE", null, 0.2, 0.5, null)
@@ -682,14 +691,30 @@ class DeterministicPrismBridge(
             )
         }
 
-        // Select Primary Threat
+        // Select Primary Threat with Hysteresis
         // If an unheld emergency exists (e.g. newly arrived Track 2), prioritize it so Track 1's hold doesn't suppress it
         val unheldEmergency = riskEvals.find {
             it.track.hazardState != HazardLifecycleState.HAZARD_PERSISTING &&
             it.track.hazardState != HazardLifecycleState.HAZARD_CLEARED &&
             ((it.track.z < 1.0 && (it.inCorridor || it.track.x in -0.6..0.6)) || it.riskScore >= 85.0)
         }
-        val primary = unheldEmergency ?: (riskEvals.maxByOrNull { it.riskScore } ?: riskEvals.first())
+        val candidatePrimary = unheldEmergency ?: (riskEvals.maxByOrNull { it.riskScore } ?: riskEvals.first())
+
+        val previousPrimaryEval = if (lastPrimaryThreatId != null) {
+            riskEvals.find { it.track.trackId == lastPrimaryThreatId }
+        } else null
+
+        // Hysteresis: retain existing primary threat unless candidate is emergency or significantly higher risk (+12.0)
+        val primary = if (unheldEmergency != null) {
+            unheldEmergency
+        } else if (previousPrimaryEval != null &&
+                   previousPrimaryEval.track.hazardState != HazardLifecycleState.HAZARD_CLEARED &&
+                   candidatePrimary.track.trackId != previousPrimaryEval.track.trackId &&
+                   candidatePrimary.riskScore < (previousPrimaryEval.riskScore + 12.0)) {
+            previousPrimaryEval
+        } else {
+            candidatePrimary
+        }
         val primaryTrack = primary.track
         val distZ = primaryTrack.z
         val posX = primaryTrack.x
@@ -715,6 +740,11 @@ class DeterministicPrismBridge(
         val riskScore: Double
         val ttc: Double?
         var recommendedHeading: Double? = null
+
+        val isCurrentActionTurn = (lastDecisionAction in listOf("turn_left", "turn_right"))
+        val isCurrentActionSlow = (lastDecisionAction == "slow_down")
+        val turnDistThreshold = if (isCurrentActionTurn) 2.85 else 2.60
+        val slowDistThreshold = if (isCurrentActionSlow) 4.25 else 4.00
 
         when {
             // Persistent hazard hold
@@ -750,7 +780,7 @@ class DeterministicPrismBridge(
                 }
             }
             // Turn evasion with directional hysteresis (prevent rapid L/R chattering when posX ~ 0)
-            distZ < 2.6 && (primary.inCorridor || primary.threatConfidence >= 0.70) && primaryTrack.vz <= 0.15 -> {
+            distZ < turnDistThreshold && (primary.inCorridor || primary.threatConfidence >= 0.70) && primaryTrack.vz <= 0.15 -> {
                 val desiredAction = if (preferredTurnDirection != null && abs(posX) < 0.25) {
                     preferredTurnDirection!!
                 } else if (leftCorridorBlocked && !rightCorridorBlocked) {
@@ -778,7 +808,7 @@ class DeterministicPrismBridge(
                 primaryTrack.hazardState = HazardLifecycleState.ACTION_REQUIRED
             }
             // Medium range slowdown
-            distZ < 4.0 && (primary.inCorridor || primary.threatConfidence >= 0.70) && primaryTrack.vz <= 0.15 -> {
+            distZ < slowDistThreshold && (primary.inCorridor || primary.threatConfidence >= 0.70) && primaryTrack.vz <= 0.15 -> {
                 action = "slow_down"
                 riskLvl = "medium"
                 riskScore = primary.riskScore
@@ -797,8 +827,12 @@ class DeterministicPrismBridge(
         }
 
         // 7. Presentation Warning Layer (Spatial, Graduated, Deduplicated)
-        val spatialDir = WarningMessageGenerator.defaultConfig.classify(posX)
-        val distBand = WarningMessageGenerator.quantizeDistance(distZ)
+        val prevSpatialDir = try { SpatialDirection.valueOf(primaryTrack.lastWarnedDirection) } catch (_: Exception) { null }
+        val prevDistBand = try { DistanceBand.valueOf(primaryTrack.lastWarnedDistanceBand) } catch (_: Exception) { null }
+        val prevSeverity = try { WarningSeverity.valueOf(primaryTrack.lastWarnedSeverity) } catch (_: Exception) { null }
+
+        val spatialDir = WarningMessageGenerator.defaultConfig.classify(posX, prevSpatialDir)
+        val distBand = WarningMessageGenerator.quantizeDistance(distZ, prevDistBand)
         val movement = WarningMessageGenerator.classifyMovement(primaryTrack.vx, primaryTrack.vz, posX)
         val severity = when {
             primaryTrack.hazardState == HazardLifecycleState.HAZARD_PERSISTING -> WarningSeverity.EMERGENCY
@@ -809,7 +843,8 @@ class DeterministicPrismBridge(
                 distZ = distZ,
                 inCorridor = primary.inCorridor,
                 vz = primaryTrack.vz,
-                activeTracks = activeTrackRecords.size
+                activeTracks = activeTrackRecords.size,
+                previousSeverity = prevSeverity
             )
         }
 
@@ -822,6 +857,9 @@ class DeterministicPrismBridge(
             hadActiveHazardLastFrame = true
         } else if (isDeescalatingToClear) {
             hadActiveHazardLastFrame = false
+            lastGlobalWarningSeverity = WarningSeverity.CLEAR
+            lastGlobalSpokenText = "Path clear."
+            lastGlobalWarningTimestamp = timestamp
         }
 
         val warnContext = WarningContext(
@@ -846,25 +884,32 @@ class DeterministicPrismBridge(
         val warningMsg = WarningMessageGenerator.generate(warnContext)
 
         val isNewSeverity = (severity.name != primaryTrack.lastWarnedSeverity)
+        val isSeverityEscalation = (severity.level > lastGlobalWarningSeverity.level)
         val isNewDirection = (spatialDir.name != primaryTrack.lastWarnedDirection)
         val isNewDistanceBand = (distBand.name != primaryTrack.lastWarnedDistanceBand)
         val isMovementChanged = (movement != primaryTrack.lastWarnedMovement &&
                 movement in listOf(MovementState.CROSSING_FROM_LEFT, MovementState.CROSSING_FROM_RIGHT))
-        val isCooldownExpired = (timestamp - primaryTrack.lastWarningTimestamp) >= 1.5
+        val isTrackCooldownExpired = (timestamp - primaryTrack.lastWarningTimestamp) >= 1.5
+        val isGlobalCooldownExpired = (timestamp - lastGlobalWarningTimestamp) >= 1.5
         val isActionChanged = (action != primaryTrack.lastWarnedAction)
 
         val shouldEmitSpeech = when {
-            primaryTrack.hazardState == HazardLifecycleState.HAZARD_PERSISTING -> isCooldownExpired
+            primaryTrack.hazardState == HazardLifecycleState.HAZARD_PERSISTING -> isTrackCooldownExpired && isGlobalCooldownExpired
             severity == WarningSeverity.EMERGENCY -> {
-                primaryTrack.lastWarnedSeverity != "EMERGENCY" ||
-                        isCooldownExpired ||
-                        isActionChanged
+                lastGlobalWarningSeverity != WarningSeverity.EMERGENCY ||
+                        primaryTrack.lastWarnedSeverity != "EMERGENCY" ||
+                        (timestamp - lastGlobalWarningTimestamp) >= 1.2 ||
+                        (isActionChanged && (timestamp - lastGlobalWarningTimestamp) >= 1.0)
+            }
+            isSeverityEscalation -> {
+                true
             }
             severity in listOf(WarningSeverity.URGENT, WarningSeverity.DIRECTIONAL) -> {
-                isNewSeverity || isMovementChanged || (isNewDirection && isCooldownExpired) || isActionChanged || isCooldownExpired
+                isGlobalCooldownExpired && (isNewSeverity || isMovementChanged || isActionChanged || isTrackCooldownExpired)
             }
             severity in listOf(WarningSeverity.CAUTION, WarningSeverity.AWARE) -> {
-                isNewSeverity || isMovementChanged || ((timestamp - primaryTrack.lastWarningTimestamp) >= 2.0 && (isNewDirection || isNewDistanceBand))
+                (timestamp - lastGlobalWarningTimestamp) >= 2.0 &&
+                        (isNewSeverity || isMovementChanged || ((timestamp - primaryTrack.lastWarningTimestamp) >= 2.0 && (isNewDirection || isNewDistanceBand)))
             }
             severity == WarningSeverity.CLEAR -> {
                 isDeescalatingToClear
@@ -1028,8 +1073,14 @@ class DeterministicPrismBridge(
             primaryTrack.warningState = severity.name
         }
 
+        if (shouldEmitSpeech && warningMsg.speech != null) {
+            lastGlobalWarningTimestamp = timestamp
+            lastGlobalWarningSeverity = severity
+            lastGlobalSpokenText = warningMsg.speech
+        }
+
         val shouldEmitHaptic = (multisensoryMode != MultisensoryMode.SPEECH_ONLY) && (warningMsg.hapticPattern != null)
-        if (shouldEmitHaptic && warningMsg.hapticPattern != null) {
+        if (shouldEmitHaptic) {
             val prioTag = when (warningMsg.priority) {
                 AudioPriority.EMERGENCY -> "emergency"
                 AudioPriority.SAFETY_WARNING -> "urgent"
@@ -1074,7 +1125,10 @@ class DeterministicPrismBridge(
             )
         )
 
-        lastDecisionAction = action
+        if (action != lastDecisionAction) {
+            lastDecisionAction = action
+            lastActionChangeTimestamp = timestamp
+        }
         lastPrimaryThreatId = primaryTrack.trackId
 
         val trackList = activeTrackRecords.map {

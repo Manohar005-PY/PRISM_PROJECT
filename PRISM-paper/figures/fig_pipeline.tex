@@ -1,68 +1,7 @@
-% Figure 1: PRISM Android System Pipeline Architecture (TikZ Diagram)
+% Figure 1: PRISM Android System Pipeline Architecture (Monochrome 300 DPI)
 \begin{figure}[!t]
 \centering
-\begin{tikzpicture}[
-    scale=0.88, every node/.style={transform shape},
-    stage/.style={
-        rectangle, rounded corners=2.5pt,
-        minimum width=6.8cm, minimum height=0.55cm,
-        text centered, align=center,
-        draw=black!75, fill=blue!6,
-        inner sep=2.5pt
-    },
-    sensor/.style={
-        rectangle, rounded corners=2.5pt,
-        minimum width=3.25cm, minimum height=0.50cm,
-        text centered, align=center,
-        draw=black!75, fill=green!8,
-        inner sep=2pt
-    },
-    pres/.style={
-        rectangle, rounded corners=2.5pt,
-        minimum width=2.12cm, minimum height=0.50cm,
-        text centered, align=center,
-        draw=black!75, fill=orange!10,
-        inner sep=2pt
-    },
-    arrow/.style={-{Stealth[scale=0.85]}, thick, draw=black!70}
-]
-    % Sensor Layer
-    \node (cam) [sensor] at (-1.78, 0) {\textbf{\scriptsize Rear Camera (CameraX)}\\[-1.5pt]\tiny $N=1$ Bounded Backpressure};
-    \node (imu) [sensor] at (1.78, 0) {\textbf{\scriptsize Built-in IMU Sensors}\\[-1.5pt]\tiny Accel + Gyro (\texttt{SENSOR\_DELAY\_GAME})};
-
-    % Processing Pipeline Stages
-    \node (s1) [stage, below=0.25cm of $(cam.south)!0.5!(imu.south)$] {\textbf{\scriptsize 1. SPATIAL PERCEPTION \& EXTRACTION}\\[-1.5pt]\tiny $32 \times 24$ Luminance Grid, Sobel Energy ($E > 38f$), 4-Connectivity BFS};
-    
-    \node (s2) [stage, below=0.22cm of s1] {\textbf{\scriptsize 2. GEOMETRIC GROUND VALIDATION}\\[-1.5pt]\tiny Pinhole Ground Intersection ($Y_w=0$), Pitch/Roll Correction, $R(Z) = 0.04 + 0.015Z$};
-    
-    \node (s3) [stage, below=0.22cm of s2] {\textbf{\scriptsize 3. MULTI-TARGET TRACKING \& MOTION FUSION}\\[-1.5pt]\tiny Mahalanobis Gating, Constant-Velocity Kalman Filter, Step Detector \& State Machine};
-    
-    \node (s4) [stage, below=0.22cm of s3] {\textbf{\scriptsize 4. COLLISION ASSESSMENT \& DECISION ARBITRATION}\\[-1.5pt]\tiny Analytical CPA / Quadratic TTC, Spatial Risk ($0\text{--}100$), Corridor Clearance Hysteresis};
-    
-    \node (s5) [stage, below=0.22cm of s4] {\textbf{\scriptsize 5. HAZARD LIFECYCLE \& WARNING GENERATION}\\[-1.5pt]\tiny 9-State Hazard FSM, 6 Severity Tiers, 7 Spatial Sectors, 1.5s Cooldown Gate};
-
-    % Multimodal Output
-    \node (sp) [pres, below=0.25cm of s5.south west, xshift=1.06cm] {\textbf{\scriptsize Speech (TTS)}\\[-1.5pt]\tiny Audio Ducking};
-    \node (aud) [pres, right=0.22cm of sp] {\textbf{\scriptsize Spatial Audio}\\[-1.5pt]\tiny 44.1\,kHz Stereo PCM};
-    \node (hap) [pres, right=0.22cm of aud] {\textbf{\scriptsize Tactile Haptic}\\[-1.5pt]\tiny VibrationEffect};
-
-    % Telemetry Sink
-    \node (telem) [stage, below=0.22cm of aud, fill=gray!8] {\textbf{\scriptsize 6. ANDROID TELEMETRY \& EVALUATION SINK}\\[-1.5pt]\tiny Per-Frame JSONL Logging (20 Fields), Embedded HTTP/SSE Stream (Port 8080)};
-
-    % Connecting Arrows
-    \draw [arrow] (cam.south) -- (cam.south |- s1.north);
-    \draw [arrow] (imu.south) -- (imu.south |- s1.north);
-    \draw [arrow] (s1) -- (s2);
-    \draw [arrow] (s2) -- (s3);
-    \draw [arrow] (s3) -- (s4);
-    \draw [arrow] (s4) -- (s5);
-    \draw [arrow] (s5.south -| sp.north) -- (sp.north);
-    \draw [arrow] (s5.south -| aud.north) -- (aud.north);
-    \draw [arrow] (s5.south -| hap.north) -- (hap.north);
-    \draw [arrow] (aud.south) -- (telem.north);
-\end{tikzpicture}
-\vspace{-0.15cm}
-\caption{PRISM Android system architecture: unidirectional pipeline from on-device sensor acquisition through geometric validation, tracking, hazard lifecycle arbitration, multimodal accessibility rendering, and telemetry logging.}
+\includegraphics[width=\columnwidth]{figures/fig_pipeline.png}
+\caption{PRISM Android system pipeline architecture (black and white): unidirectional execution flow from CameraX image acquisition and IMU sensor registration through spatial candidate extraction, geometric ground projection, multi-target tracking, hazard lifecycle arbitration, multimodal presentation, and telemetry streaming.}
 \label{fig:pipeline_architecture}
-\vspace{-0.3cm}
 \end{figure}

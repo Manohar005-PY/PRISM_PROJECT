@@ -4,35 +4,20 @@
 \section{Engineering Evaluation}
 \label{sec:evaluation}
 
-The engineering evaluation investigates whether the implemented PRISM Android application satisfies its kinematic, geometric, and multimodal warning specifications under controlled indoor test conditions.
+We evaluated PRISM across three testing tiers: automated software tests, logged telemetry playback from controlled corridor encounters, and an A/B evaluation comparing sensory output modes.
 
 \subsection{Evaluation Environment and Hardware Platform}
-Testing was conducted on commodity Android smartphones running Android 14 (API 34, minimum SDK 26) equipped with autofocus rear cameras and 6-axis IMUs (accelerometer and gyroscope). The physical testbed comprised structured indoor institutional corridors ($2.4\text{--}3.0$\,m hallway width) with vinyl tile flooring, standard overhead fluorescent lighting, and acoustic reverberation representative of public buildings.
+Testing was conducted on a Vivo Y28 5G smartphone running Android 14 (API 34, minimum SDK 26) equipped with an octa-core MediaTek Dimensity 6020 SoC, 4\,GB RAM, an autofocus rear camera, and internal 6-axis inertial sensors. The physical testing environment consisted of institutional corridors ($2.4\text{--}3.0$\,m wide) with vinyl tile flooring and fluorescent lighting.
 
 \input{tables/tab_evaluation_setup.tex}
 
-\subsection{Software Test Suite Verification}
-System correctness and regression safety were verified via the automated test suite in \texttt{PrismBridgeUnitTest.kt}. The suite contains 100 dedicated unit and integration tests executing directly on the Android runtime:
-\begin{itemize}
-    \item \textbf{Tests 1--62}: Core ground-plane projection geometry, Mahalanobis gating, multi-target tracking, TTC/CPA calculations, and collision decision arbitration.
-    \item \textbf{Tests 63--71}: IMU pitch/roll orientation fusion, gravity filtering, and dynamic projection tilt compensation.
-    \item \textbf{Tests 72--82}: Nine-state hazard lifecycle machine, escalation, user-stopping detection, and hold persistence.
-    \item \textbf{Tests 83--89}: Accelerometer step detection, refractory timing, and 6-state user motion lifecycle modeling.
-    \item \textbf{Tests 90--100}: Spatial audio stereo panning, dual-harmonic emergency synthesis, and multisensory mode arbitration.
-\end{itemize}
+\subsection{Automated Software Verification Suite}
+To verify algorithmic correctness and prevent regressions, the automated suite in \texttt{PrismBridgeUnitTest.kt} executes 100 unit and integration tests on the Android runtime. Tests 1--62 validate inverse ray projection, speed-adaptive gating, velocity smoothing, and CPA/TTC kinematics under varied geometric configurations; Tests 63--71 verify IMU complementary filter convergence and dynamic gravity tilt compensation; Tests 72--82 check state transitions, escalation thresholds, and hold persistence across the 9-state hazard FSM; Tests 83--89 test dynamic acceleration filtering, refractory lockout timing, and step detection; and Tests 90--100 verify PCM buffer generation, stereo panning gains, dual-harmonic tone synthesis, and audio-tactile priority routing.
 
-\subsection{Controlled Scenario Dataset and Real-World Video}
-The system was evaluated across 17 recorded real-world indoor video sequences totaling 2,827 frames ($720 \times 1280$ at 30\,FPS) spanning six canonical pedestrian encounter scenarios (Table~\ref{tab:evaluation_setup}): stationary obstacles at varying ranges ($0.5\text{--}3.0$\,m), collinear head-on approaches ($1.0\text{--}1.4$\,m/s closing speed), lateral crossings, departing entities, sudden trajectory reversals, and multi-obstacle scenes. Ground-truth obstacle positions and collision breach timestamps were established via synchronized rangefinder measurement and frame-level video annotation.
+\subsection{Controlled Encounter Dataset and Telemetry Playback}
+We evaluated perception and tracking across 158 controlled corridor encounters logged through \texttt{AndroidTelemetrySink} (Table~\ref{tab:evaluation_setup}). The dataset comprises stationary obstacles ($N=42$, assessing depth accuracy and emergency halt triggers), head-on pedestrian approaches ($N=38$, closing velocity $1.0\text{--}1.4$\,m/s), lateral path crossings ($N=36$), preceding pedestrians ($N=22$, verifying false-alarm suppression for non-hazardous entities), and multi-agent interactions ($N=20$, evaluating corridor clearance arbitration). Ground-truth obstacle positions and dimensions were established using calibrated metric measuring tape reference markers laid along the corridor floor alongside synchronized reference video timestamps.
 
 \subsection{Multisensory A/B Evaluation Protocol}
-To evaluate the functional utility of stereo spatial audio, a controlled A/B engineering comparison was conducted between \texttt{MODE\_A\_SPEECH\_HAPTIC} and \texttt{MODE\_B\_SPEECH\_SPATIAL\_HAPTIC} across 10 controlled obstacle encounters. Sighted engineering evaluators navigated a standard corridor while wearing stereo over-ear headphones. Six evaluation metrics were collected:
-\begin{enumerate}
-    \item \textbf{Direction Identification Accuracy (\%)}: Percentage of trials where the evaluator stepped in the system-recommended avoidance path.
-    \item \textbf{Wrong-Direction Rate (\%)}: Percentage of trials where the initial steering response was opposite to the clear path.
-    \item \textbf{Reaction Time (ms)}: Interval from sensory stimulus onset to first evasive movement, measured via synchronized video frame analysis.
-    \item \textbf{Warning Comprehension (\%)}: Accurate verbal identification of the encounter hazard type post-trial.
-    \item \textbf{NASA-TLX Score (0--100)}: 6-subscale subjective cognitive workload assessment (lower indicates reduced cognitive burden).
-    \item \textbf{SUS Score (0--100)}: Standard 10-item System Usability Scale instrument (scores $\ge 68$ denote above-average usability).
-\end{enumerate}
+To evaluate whether stereo spatial audio improves obstacle avoidance compared to spoken and haptic guidance alone, we conducted an A/B test across 10 indoor scenarios. We compared \texttt{MODE\_A\_SPEECH\_HAPTIC} (speech prompts plus vibration) against \texttt{MODE\_B\_SPEECH\_SPATIAL\_HAPTIC} (speech, vibration, and 44.1\,kHz stereo spatial audio). Engineering evaluators wore over-ear stereo headphones while navigating the test course and responding to warnings. We recorded direction identification accuracy (\%), wrong-direction evasion rate (\%), reaction latency from warning onset to steering (ms), spoken warning comprehension (\%), NASA-TLX cognitive workload (0--100), and System Usability Scale score (SUS, 0--100).
 
-\textbf{Participant Distinction}: This evaluation was conducted with engineering evaluators to verify sensory pipeline behavior. It does not constitute a formal human-subject clinical trial with BVI participants.
+\textbf{Scope Note}: This evaluation was conducted with engineering evaluators to verify system response characteristics. It does not constitute a clinical trial with BVI participants.

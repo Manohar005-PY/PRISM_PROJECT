@@ -2,7 +2,7 @@
 % PRISM: Real-Time Android System for Indoor Obstacle Detection and
 %        Multimodal Warning — Implementation and Engineering Evaluation
 %
-% Target Venue: IEEE Conference / Transactions on Accessible Computing
+% Target Venue: IEEE Conference / Transactions on Accessible Computing [VENUE TO CONFIRM]
 % Format: IEEEtran 2-Column Conference Format (Strict 6-Page Limit)
 % Target System: Android Implementation (API 26-34) / PRISM-L1.0 Frozen
 % Scope: EXCLUSIVELY Android Implementation and Engineering Evaluation
@@ -30,6 +30,32 @@
 
 \hyphenation{op-tical net-works semi-conduc-tor}
 
+% -------------------------------------------------------------------------
+% COMPACT FLOAT & CAPTION SPACING (6-PAGE ENFORCEMENT)
+% -------------------------------------------------------------------------
+\setlength{\textfloatsep}{7pt plus 1pt minus 2pt}
+\setlength{\floatsep}{6pt plus 1pt minus 2pt}
+\setlength{\intextsep}{6pt plus 1pt minus 2pt}
+\setlength{\abovecaptionskip}{3pt}
+\setlength{\belowcaptionskip}{2pt}
+
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\bottomfraction}{0.95}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.85}
+\renewcommand{\dbltopfraction}{0.95}
+\renewcommand{\dblfloatpagefraction}{0.85}
+
+% Macro for multi-row author formatting in IEEEtran conference mode
+\makeatletter
+\newcommand{\linebreakand}{%
+  \end{@IEEEauthorhalign}
+  \hfill\mbox{}\par
+  \vskip 1ex
+  \mbox{}\hfill\begin{@IEEEauthorhalign}
+}
+\makeatother
+
 \begin{document}
 
 % -------------------------------------------------------------------------
@@ -38,9 +64,35 @@
 \title{PRISM: Real-Time Android System for Indoor Obstacle Detection and Multimodal Warning -- Implementation and Engineering Evaluation}
 
 \author{
-    \IEEEauthorblockN{Anonymous Authors}
-    \IEEEauthorblockA{Department of Computer Science and Mobile Systems\\
-    Institution Details Omitted for Double-Blind Review}
+    \IEEEauthorblockN{D Manohar}
+    \IEEEauthorblockA{Department of Computer Science\\
+    MVJ College of Engineering\\
+    Bengaluru, India\\
+    dmanoharwork@gmail.com}
+    \and
+    \IEEEauthorblockN{Chethan Kumar B S}
+    \IEEEauthorblockA{Department of Computer Science\\
+    MVJ College of Engineering\\
+    Bengaluru, India\\
+    the.suryaputraa@gmail.com}
+    \and
+    \IEEEauthorblockN{Arun}
+    \IEEEauthorblockA{Department of Computer Science\\
+    MVJ College of Engineering\\
+    Bengaluru, India\\
+    mandulaarun04@gmail.com}
+    \linebreakand
+    \IEEEauthorblockN{Deeraj A S}
+    \IEEEauthorblockA{Department of Computer Science\\
+    MVJ College of Engineering\\
+    Bengaluru, India\\
+    shirahattideeraj@gmail.com}
+    \and
+    \IEEEauthorblockN{Sujitha K L}
+    \IEEEauthorblockA{Department of Computer Science\\
+    MVJ College of Engineering\\
+    Bengaluru, India\\
+    sujitha@mvjce.edu.in}
 }
 
 \maketitle
@@ -49,11 +101,11 @@
 % ABSTRACT
 % -------------------------------------------------------------------------
 \begin{abstract}
-Navigating dynamic indoor environments poses significant spatial awareness challenges for blind and visually impaired (BVI) individuals. Conventional electronic travel aids rely predominantly on fixed-distance proximity alarms, frequently inducing alert fatigue on departing entities and providing insufficient reaction lead time on fast-closing obstacles. This paper presents the design, implementation, and engineering evaluation of \textbf{PRISM}, an on-device Android application (API 26--34) providing real-time obstacle detection and multimodal hazard guidance. 
+Primary mobility aids such as the long white cane and guide dogs detect immediate obstacles within physical reach, but cannot alert blind and visually impaired (BVI) pedestrians to dynamic hazards closing from beyond a few meters. Electronic travel aids often rely on static proximity alarms that sound whenever an obstacle breaches a fixed distance threshold, causing nuisance alerts for preceding pedestrians while providing inadequate reaction time for fast-closing head-on encounters. We present \textbf{PRISM}, an on-device Android system (API 26--34) that combines monocular vision, IMU kinematics, and multimodal feedback for real-time indoor obstacle awareness.
 
-PRISM integrates camera and IMU sensor ingestion via CameraX with single-frame bounded backpressure ($N=1$), monocular luminance gradient candidate extraction, planar ground-plane inverse ray projection with dynamic IMU pitch/roll gravity compensation, multi-target constant-velocity Kalman tracking, analytical Time-to-Collision (TTC) and Closest Point of Approach (CPA) kinematics, an accelerometer-based step detector and user ego-motion state machine, a 9-state hazard encounter lifecycle, and a multimodal presentation layer delivering rate-limited speech, 44.1\,kHz stereo spatial audio, and tactile haptics.
+PRISM ingests camera and IMU streams on commodity smartphones using bounded single-frame backpressure ($N=1$). Candidate obstacles are extracted from monocular luminance gradients and projected onto a metric ground plane using dynamic IMU tilt compensation. A multi-target tracker estimates relative obstacle velocities, feeding analytical Time-to-Collision (TTC) and Closest Point of Approach (CPA) calculations. An onboard accelerometer step detector tracks user ego-motion to prevent false alarms when the user stops. A 9-state hazard lifecycle arbitrates collision risk, issuing rate-limited spoken alerts, tactile haptics, and 44.1\,kHz stereo spatial audio.
 
-Software correctness is verified across an automated suite of 100 Android unit tests passing with zero failures. In controlled indoor evaluations across 17 recorded video runs (2,827 frames), PRISM achieved 97.5\% overall obstacle detection recall, 100\% recall on close hazards ($Z < 1.0$\,m), 0.08\,m forward-depth accuracy, 96.3\% step detection precision, and zero duplicate warning utterances. In controlled multisensory A/B scenario testing with engineering evaluators, adding stereo spatial audio reduced wrong-direction steering errors from 6.4\% to 1.2\% and decreased mean reaction latency by 120\,ms compared to speech-and-haptic feedback. The algorithmic core executes in approximately 3.2\,ms per frame. PRISM is classified as an exploratory engineering prototype and does not replace primary mobility aids.
+Software correctness is verified across an automated suite of 100 Android unit tests with a 100\% pass rate. Across 158 controlled encounter playbacks, PRISM achieved 97.5\% overall detection recall (100\% for hazards within 1.0\,m), 0.08\,m forward-depth error (P95: 0.19\,m), 96.3\% step detection precision, and zero duplicate warning utterances. In controlled A/B testing with engineering evaluators, adding stereo spatial audio reduced wrong-direction evasion errors from 6.4\% to 1.2\% and lowered reaction latency by 120\,ms compared to speech-and-haptic feedback. Algorithmic execution requires 3.2\,ms per frame on testbeds and 0.36\,ms live. PRISM is an exploratory engineering prototype and does not replace primary mobility aids.
 \end{abstract}
 
 \begin{IEEEkeywords}

@@ -144,6 +144,18 @@ class AccessibilityController(
             return false
         }
 
+        // Same priority rate-limiting to prevent repetitive chattering
+        if (priority.rank == lastSpokenPriority.rank && (now - lastSpeechTimestampMs < 1500L) && !forceImmediate) {
+            if (text == lastGuidanceInstruction || speechChannel?.isSpeaking() == true) {
+                return false
+            }
+        }
+
+        // Sentence completion protection: non-emergency announcements must not interrupt speech in progress
+        if (priority != AudioPriority.EMERGENCY && !forceImmediate && speechChannel?.isSpeaking() == true) {
+            return false
+        }
+
         val prioTag = when (priority) {
             AudioPriority.EMERGENCY -> "emergency"
             AudioPriority.SAFETY_WARNING -> "urgent"

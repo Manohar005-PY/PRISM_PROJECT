@@ -36,15 +36,51 @@ data class SpatialMappingConfig(
     val slightThreshold: Double = 0.40,
     val regularThreshold: Double = 0.85
 ) {
-    fun classify(x: Double): SpatialDirection {
-        return when {
-            x < -regularThreshold -> SpatialDirection.FAR_LEFT
-            x < -slightThreshold -> SpatialDirection.LEFT
-            x < -centerThreshold -> SpatialDirection.SLIGHTLY_LEFT
-            x <= centerThreshold -> SpatialDirection.CENTER
-            x <= slightThreshold -> SpatialDirection.SLIGHTLY_RIGHT
-            x <= regularThreshold -> SpatialDirection.RIGHT
-            else -> SpatialDirection.FAR_RIGHT
+    fun classify(x: Double, previousDirection: SpatialDirection? = null): SpatialDirection {
+        if (previousDirection == null) {
+            return when {
+                x < -regularThreshold -> SpatialDirection.FAR_LEFT
+                x < -slightThreshold -> SpatialDirection.LEFT
+                x < -centerThreshold -> SpatialDirection.SLIGHTLY_LEFT
+                x <= centerThreshold -> SpatialDirection.CENTER
+                x <= slightThreshold -> SpatialDirection.SLIGHTLY_RIGHT
+                x <= regularThreshold -> SpatialDirection.RIGHT
+                else -> SpatialDirection.FAR_RIGHT
+            }
+        }
+        val h = 0.05 // Hysteresis margin
+        return when (previousDirection) {
+            SpatialDirection.CENTER -> when {
+                x < -(centerThreshold + h) -> SpatialDirection.SLIGHTLY_LEFT
+                x > (centerThreshold + h) -> SpatialDirection.SLIGHTLY_RIGHT
+                else -> SpatialDirection.CENTER
+            }
+            SpatialDirection.SLIGHTLY_LEFT -> when {
+                x > -centerThreshold + h -> SpatialDirection.CENTER
+                x < -(slightThreshold + h) -> SpatialDirection.LEFT
+                else -> SpatialDirection.SLIGHTLY_LEFT
+            }
+            SpatialDirection.SLIGHTLY_RIGHT -> when {
+                x < centerThreshold - h -> SpatialDirection.CENTER
+                x > (slightThreshold + h) -> SpatialDirection.RIGHT
+                else -> SpatialDirection.SLIGHTLY_RIGHT
+            }
+            SpatialDirection.LEFT -> when {
+                x > -slightThreshold + h -> SpatialDirection.SLIGHTLY_LEFT
+                x < -(regularThreshold + h) -> SpatialDirection.FAR_LEFT
+                else -> SpatialDirection.LEFT
+            }
+            SpatialDirection.RIGHT -> when {
+                x < slightThreshold - h -> SpatialDirection.SLIGHTLY_RIGHT
+                x > (regularThreshold + h) -> SpatialDirection.FAR_RIGHT
+                else -> SpatialDirection.RIGHT
+            }
+            SpatialDirection.FAR_LEFT -> {
+                if (x > -regularThreshold + h) SpatialDirection.LEFT else SpatialDirection.FAR_LEFT
+            }
+            SpatialDirection.FAR_RIGHT -> {
+                if (x < regularThreshold - h) SpatialDirection.RIGHT else SpatialDirection.FAR_RIGHT
+            }
         }
     }
 }
@@ -114,14 +150,41 @@ object WarningMessageGenerator {
 
     val defaultConfig = SpatialMappingConfig()
 
-    fun quantizeDistance(z: Double): DistanceBand {
-        return when {
-            z < 1.0 -> DistanceBand.CRITICAL
-            z < 1.8 -> DistanceBand.CLOSE
-            z < 2.8 -> DistanceBand.NEAR
-            z < 3.8 -> DistanceBand.MEDIUM
-            z < 4.8 -> DistanceBand.FAR
-            else -> DistanceBand.VERY_FAR
+    fun quantizeDistance(z: Double, previousBand: DistanceBand? = null): DistanceBand {
+        if (previousBand == null) {
+            return when {
+                z < 1.0 -> DistanceBand.CRITICAL
+                z < 1.8 -> DistanceBand.CLOSE
+                z < 2.8 -> DistanceBand.NEAR
+                z < 3.8 -> DistanceBand.MEDIUM
+                z < 4.8 -> DistanceBand.FAR
+                else -> DistanceBand.VERY_FAR
+            }
+        }
+        val margin = 0.12 // Schmitt trigger deadband
+        return when (previousBand) {
+            DistanceBand.CRITICAL -> if (z >= 1.0 + margin) DistanceBand.CLOSE else DistanceBand.CRITICAL
+            DistanceBand.CLOSE -> when {
+                z < 1.0 - margin -> DistanceBand.CRITICAL
+                z >= 1.8 + margin -> DistanceBand.NEAR
+                else -> DistanceBand.CLOSE
+            }
+            DistanceBand.NEAR -> when {
+                z < 1.8 - margin -> DistanceBand.CLOSE
+                z >= 2.8 + margin -> DistanceBand.MEDIUM
+                else -> DistanceBand.NEAR
+            }
+            DistanceBand.MEDIUM -> when {
+                z < 2.8 - margin -> DistanceBand.NEAR
+                z >= 3.8 + margin -> DistanceBand.FAR
+                else -> DistanceBand.MEDIUM
+            }
+            DistanceBand.FAR -> when {
+                z < 3.8 - margin -> DistanceBand.MEDIUM
+                z >= 4.8 + margin -> DistanceBand.VERY_FAR
+                else -> DistanceBand.FAR
+            }
+            DistanceBand.VERY_FAR -> if (z < 4.8 - margin) DistanceBand.FAR else DistanceBand.VERY_FAR
         }
     }
 
@@ -141,27 +204,34 @@ object WarningMessageGenerator {
         distZ: Double,
         inCorridor: Boolean,
         vz: Double,
-        activeTracks: Int
+        activeTracks: Int,
+        previousSeverity: WarningSeverity? = null
     ): WarningSeverity {
         return when {
             action == "emergency_stop" || riskScore >= 85.0 || (distZ < 1.0 && (inCorridor || abs(distZ) < 1.0)) -> {
                 WarningSeverity.EMERGENCY
             }
             action in listOf("turn_left", "turn_right") -> {
-                if (distZ < 1.8 || riskScore >= 65.0) WarningSeverity.URGENT else WarningSeverity.DIRECTIONAL
+                val urgentThreshold = if (previousSeverity == WarningSeverity.URGENT) 2.05 else 1.8
+                val scoreThreshold = if (previousSeverity == WarningSeverity.URGENT) 60.0 else 65.0
+                if (distZ < urgentThreshold || riskScore >= scoreThreshold) WarningSeverity.URGENT else WarningSeverity.DIRECTIONAL
             }
             action == "slow_down" -> {
-                if (distZ < 2.0) WarningSeverity.URGENT else WarningSeverity.CAUTION
+                val urgentThreshold = if (previousSeverity == WarningSeverity.URGENT) 2.25 else 2.0
+                if (distZ < urgentThreshold) WarningSeverity.URGENT else WarningSeverity.CAUTION
             }
             activeTracks > 0 -> {
                 if (!inCorridor && (riskScore <= 25.0 || action == "continue")) {
                     WarningSeverity.CLEAR
                 } else if (vz > 0.15 || distZ >= 4.0 || riskScore <= 20.0) {
                     WarningSeverity.AWARE
-                } else if (distZ < 3.5 && (inCorridor || riskScore > 20.0)) {
-                    WarningSeverity.CAUTION
                 } else {
-                    WarningSeverity.AWARE
+                    val cautionDist = if (previousSeverity == WarningSeverity.CAUTION) 3.8 else 3.5
+                    if (distZ < cautionDist && (inCorridor || riskScore > 20.0)) {
+                        WarningSeverity.CAUTION
+                    } else {
+                        WarningSeverity.AWARE
+                    }
                 }
             }
             else -> WarningSeverity.CLEAR

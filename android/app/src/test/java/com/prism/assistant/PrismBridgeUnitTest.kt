@@ -2390,6 +2390,103 @@ class PrismBridgeUnitTest {
         assertFalse("Speech only must SUPPRESS spatial audio", resSpeechOnly.cues.any { it.channel == "spatial_audio" })
         assertFalse("Speech only must SUPPRESS haptic", resSpeechOnly.cues.any { it.channel == "haptic" })
     }
+
+    @Test
+    fun testPrimaryThreatHysteresisPreventsOscillation() {
+        val bridge = DeterministicPrismBridge()
+        bridge.initialize()
+
+        // Frame 1: Track 1 at x=-0.4, z=2.0 (left side, right clear -> turn_right). Track 2 at x=-1.4, z=2.05 (far left)
+        val obs1 = listOf(
+            PrismObservation(x = -0.4, z = 2.0, className = "obstacle"),
+            PrismObservation(x = -1.4, z = 2.05, className = "obstacle")
+        )
+        val res1 = bridge.processFrame(0.0, obs1)
+        val initialThreatId = res1.decision.primaryThreatId
+        assertEquals("turn_right", res1.decision.action)
+
+        // Frame 2: Minor sensor noise reports Track 2 slightly closer (z=1.98 vs Track 1 at z=1.99)
+        // With risk difference < 12.0, primary threat hysteresis MUST preserve Track 1 and turn_right
+        val obs2 = listOf(
+            PrismObservation(x = -0.4, z = 1.99, className = "obstacle"),
+            PrismObservation(x = -1.4, z = 1.98, className = "obstacle")
+        )
+        val res2 = bridge.processFrame(0.033, obs2)
+        assertEquals("Primary threat hysteresis must prevent track swapping on minor noise", initialThreatId, res2.decision.primaryThreatId)
+        assertEquals("Action must remain stable turn_right", "turn_right", res2.decision.action)
+    }
+
+    @Test
+    fun testSchmittTriggerDistancePreventsActionChatter() {
+        val bridge = DeterministicPrismBridge()
+        bridge.initialize()
+
+        // Frame 1: Obstacle at z=2.5m -> triggers turn evasion (turn_left because x=0.3)
+        val res1 = bridge.processFrame(0.0, listOf(PrismObservation(x = 0.3, z = 2.5, className = "obstacle")))
+        assertEquals("turn_left", res1.decision.action)
+
+        // Frame 2: Stationary drift reports z=2.58m at t=1.0s (vz = 0.08 m/s <= 0.15)
+        // Below exit threshold 2.85m -> preserves turn_left
+        val res2 = bridge.processFrame(1.0, listOf(PrismObservation(x = 0.3, z = 2.58, className = "obstacle")))
+        assertEquals("Schmitt trigger must maintain turn evasion and avoid chattering to slow_down", "turn_left", res2.decision.action)
+    }
+
+    @Test
+    fun testGlobalWarningSpeechCooldownAcrossTracks() {
+        val bridge = DeterministicPrismBridge()
+        bridge.initialize()
+
+        // Frame 1: Track 1 at 2.2m emits speech warning
+        val res1 = bridge.processFrame(0.0, listOf(PrismObservation(x = -0.4, z = 2.2, className = "obstacle")))
+        assertTrue("Initial hazard must emit speech", res1.cues.any { it.channel == "speech" })
+
+        // Frame 2: 200ms later, Track 2 appears at 2.3m (different track, non-emergency)
+        val res2 = bridge.processFrame(0.2, listOf(
+            PrismObservation(x = -0.4, z = 2.2, className = "obstacle"),
+            PrismObservation(x = 0.5, z = 2.3, className = "obstacle")
+        ))
+        // Must be suppressed by global speech cooldown so Track 1's ongoing speech is not cut off
+        assertFalse("Global speech cooldown must suppress new track chatter within 1.5s", res2.cues.any { it.channel == "speech" })
+    }
+
+    @Test
+    fun testWarningSeverityHysteresisPreventsJitter() {
+        // Test WarningMessageGenerator severity hysteresis around 1.8m boundary
+        val sevUrgent = WarningMessageGenerator.mapToSeverity(
+            action = "turn_left",
+            riskScore = 55.0,
+            distZ = 1.7,
+            inCorridor = true,
+            vz = 0.0,
+            activeTracks = 1,
+            previousSeverity = null
+        )
+        assertEquals(WarningSeverity.URGENT, sevUrgent)
+
+        // Moving to 1.9m with previousSeverity = URGENT: should retain URGENT until 2.05m
+        val sevHeld = WarningMessageGenerator.mapToSeverity(
+            action = "turn_left",
+            riskScore = 55.0,
+            distZ = 1.9,
+            inCorridor = true,
+            vz = 0.0,
+            activeTracks = 1,
+            previousSeverity = WarningSeverity.URGENT
+        )
+        assertEquals("Hysteresis must hold URGENT at 1.9m to avoid chatter with DIRECTIONAL", WarningSeverity.URGENT, sevHeld)
+
+        // Moving to 2.15m: releases to DIRECTIONAL
+        val sevReleased = WarningMessageGenerator.mapToSeverity(
+            action = "turn_left",
+            riskScore = 55.0,
+            distZ = 2.15,
+            inCorridor = true,
+            vz = 0.0,
+            activeTracks = 1,
+            previousSeverity = WarningSeverity.URGENT
+        )
+        assertEquals("Beyond release threshold, releases to DIRECTIONAL", WarningSeverity.DIRECTIONAL, sevReleased)
+    }
 }
 
 

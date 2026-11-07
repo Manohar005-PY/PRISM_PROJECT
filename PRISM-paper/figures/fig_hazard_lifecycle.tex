@@ -1,46 +1,7 @@
-% Figure 3: Hazard Encounter Lifecycle State Machine (TikZ Diagram)
+% Figure 4: Hazard Encounter Lifecycle State Machine (Monochrome 300 DPI)
 \begin{figure}[!t]
 \centering
-\begin{tikzpicture}[
-    scale=0.82, every node/.style={transform shape},
-    state/.style={
-        rectangle, rounded corners=3pt,
-        minimum width=1.65cm, minimum height=0.48cm,
-        text centered, align=center,
-        draw=black!75, fill=blue!8,
-        font=\scriptsize, inner sep=2pt
-    },
-    crit/.style={state, fill=red!18, draw=red!80!black},
-    resp/.style={state, fill=orange!15, draw=orange!80!black},
-    clr/.style={state, fill=green!15, draw=green!70!black},
-    edge/.style={-{Stealth[scale=0.8]}, thick, draw=black!70, font=\tiny}
-]
-    % State nodes layout
-    \node (none) [state] at (0, 2.2) {\texttt{NONE}};
-    \node (det) [state, right=0.55cm of none] {\texttt{DETECTED}};
-    \node (aware) [state, right=0.55cm of det] {\texttt{AWARE}};
-    \node (caut) [state, below=0.6cm of aware] {\texttt{CAUTION}};
-    \node (act) [state, left=0.55cm of caut] {\texttt{ACTION\_REQ}};
-    \node (emerg) [crit, left=0.55cm of act] {\texttt{EMERGENCY}};
-    
-    \node (resp) [resp, below=0.6cm of emerg] {\texttt{USER\_RESP}};
-    \node (persist) [resp, right=0.55cm of resp] {\texttt{PERSISTING}};
-    \node (cleared) [clr, right=0.55cm of persist] {\texttt{CLEARED}};
-
-    % Transitions
-    \draw [edge] (none) -- node[above] {New Track} (det);
-    \draw [edge] (det) -- node[above] {Risk $>20$} (aware);
-    \draw [edge] (aware) -- node[right] {$Z < 4.0$\,m} (caut);
-    \draw [edge] (caut) -- node[above] {$Z < 2.6$\,m} (act);
-    \draw [edge] (act) -- node[above] {$Z < 1.0$\,m} (emerg);
-    \draw [edge] (emerg) -- node[left] {User Stopped} (resp);
-    \draw [edge] (resp) -- node[above] {Hold} (persist);
-    \draw [edge] (persist) -- node[above] {Cleared / Left} (cleared);
-    \draw [edge] (persist) to[bend left=25] node[left] {Resume Walk} (emerg);
-    \draw [edge] (cleared) to[bend right=40] node[right] {Path Clear} (none);
-\end{tikzpicture}
-\vspace{-0.15cm}
-\caption{PRISM 9-state hazard lifecycle state machine: manages encounter evolution from initial detection to emergency escalation, user response detection, hold persistence, and hazard clearance.}
+\includegraphics[width=\columnwidth]{figures/fig_hazard_lifecycle.png}
+\caption{PRISM 9-state hazard encounter lifecycle state machine (black and white): governs encounter progression from candidate detection to emergency escalation, user halt verification, hold persistence, and hallway clearance.}
 \label{fig:hazard_lifecycle}
-\vspace{-0.3cm}
 \end{figure}

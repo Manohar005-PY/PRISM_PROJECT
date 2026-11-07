@@ -4,22 +4,22 @@
 \section{Introduction}
 \label{sec:introduction}
 
-\IEEEPARstart{I}{ndependent} indoor mobility in dynamic, shared spaces---such as transit terminals, hospital corridors, and public buildings---presents critical spatial awareness challenges for blind and visually impaired (BVI) individuals. While traditional primary mobility tools (the long white cane and guide dogs) reliably detect immediate surfaces and drop-offs within a 1--2\,m radius, they do not provide advance awareness of dynamic pedestrians or obstacles approaching beyond physical reach~\cite{giudice2008blind,elmannai2017sensor}. Electronic Travel Aids (ETAs) have been explored to extend sensing range, yet most deployed systems operate under a \emph{reactive proximity paradigm}~\cite{tapu2020wearable,bai2017smart}, sounding alarms whenever any physical surface breaches a fixed distance boundary (e.g., $d \le 3.0$\,m).
+\IEEEPARstart{P}{rimary} mobility aids such as the long white cane and guide dogs reliably detect ground-level hazards within physical reach~\cite{giudice2008blind,elmannai2017sensor,roentgen2008electronic}. However, a standard cane sweep cannot alert blind and visually impaired (BVI) pedestrians to dynamic obstacles approaching from several meters away. Wearable and handheld Electronic Travel Aids (ETAs) attempt to extend this range~\cite{dakopoulos2009wearable}, but most rely on static proximity alarms~\cite{tapu2020wearable,bai2017smart,shoval1998auditory} that sound whenever an obstacle enters a fixed distance boundary.
 
-This reactive proximity formulation incurs two major operational failures:
+In shared indoor corridors, static proximity alarms cause two operational failures:
 \begin{enumerate}
-    \item \textbf{Departure False Alarms}: A pedestrian walking ahead of the user at the same speed poses zero collision hazard, yet proximity sensors trigger continuous alarms, causing alert fatigue~\cite{tapu2020wearable}.
-    \item \textbf{Late Warnings on Fast Approaches}: A pedestrian approaching at walking speed ($v_{\text{closing}} \approx 2.5$\,m/s) leaves under one second of reaction time if first alerted at a fixed 2.5\,m boundary, which is insufficient for human verbal decoding and motor evasion~\cite{lin2021real}.
+    \item \textbf{Preceding Pedestrian Alarms}: Walking behind someone at a matched pace triggers continuous alarms despite zero collision risk, inducing alert fatigue~\cite{tapu2020wearable}.
+    \item \textbf{Delayed Alerts on Head-On Encounters}: Pedestrians closing head-on at combined walking speeds ($2.0\text{--}2.5$\,m/s) leave under one second to react if an alert triggers at a static 2.5\,m boundary~\cite{lin2021real}.
 \end{enumerate}
 
-Active depth cameras (RGB-D, LiDAR) resolve some geometric ambiguities but introduce high power consumption, thermal dissipation, form-factor bulk, and sunlight degradation~\cite{zhao2020visual}. In contrast, commodity Android smartphones represent an attractive assistive computing platform: they are globally pervasive, integrate rear cameras and 6-axis inertial measurement units (IMUs), provide hardware-accelerated audio and vibration engines, and support accessible non-visual interfaces~\cite{faria2010electronic}.
+Active depth sensors (RGB-D, LiDAR) resolve metric scale directly, but their bulk, battery consumption, and cost hinder everyday smartphone deployment~\cite{zhao2020visual}. In contrast, commodity Android smartphones provide integrated cameras, 6-axis IMUs, and multimodal actuators~\cite{faria2010electronic,tapu2020wearable}. However, monocular mobile vision requires overcoming lack of direct depth, handset tilt motion, and frame latency under variable CPU load.
 
-To address these limitations, this paper presents \textbf{PRISM} (Probabilistic Real-time Infrastructure for Safe Mobility), a real-time Android application for indoor obstacle awareness. PRISM couples monocular camera vision with IMU sensor fusion on commodity Android smartphones, extracting candidate obstacles, validating physical geometry on the 2D ground plane, maintaining multi-object Kalman tracks, analytically computing Time-to-Collision (TTC) and Closest Point of Approach (CPA), arbitrating a 9-state hazard lifecycle, and delivering rate-limited multimodal warnings across speech, spatial audio, and haptics.
+PRISM (Probabilistic Real-time Infrastructure for Safe Mobility) addresses these constraints natively on Android (API 26--34). Operating entirely on-device, PRISM couples monocular ground-plane projection with dynamic IMU tilt compensation, multi-target tracking, analytical Time-to-Collision (TTC) kinematics, and an accelerometer step detector. Navigational guidance is delivered through rate-limited speech, haptics, and 44.1\,kHz stereo spatial audio~\cite{loomis1998navigation,bujacz2016sonification} that conveys safe evasion headings.
 
-\textbf{Contributions:} This paper presents:
+\textbf{Contributions:}
 \begin{enumerate}
-    \item The design and complete Android implementation of an end-to-end, on-device obstacle awareness pipeline executing on Android API 26--34 without external infrastructure or depth cameras.
-    \item A multi-stage geometric and temporal reasoning engine combining monocular ground-plane inverse projection with IMU pitch/roll gravity compensation, multi-object Kalman tracking, and accelerometer-based user ego-motion estimation.
-    \item A structured 9-state hazard encounter lifecycle and multimodal warning architecture featuring 44.1\,kHz stereo spatial audio that decouples hazard localization from escape steering.
-    \item An empirical engineering evaluation comprising an automated 100-test Android software suite, 17 recorded real-world indoor video runs (2,827 frames), and a controlled A/B evaluation of multisensory feedback modes.
+    \item An on-device Android obstacle awareness architecture (API 26--34) with bounded single-frame backpressure ($N=1$).
+    \item Monocular ground-plane inverse projection with dynamic IMU gravity compensation and multi-target velocity tracking.
+    \item A 9-state hazard lifecycle state machine and multimodal presentation layer using 44.1\,kHz stereo spatial audio to separate obstacle position from heading guidance.
+    \item An empirical engineering evaluation comprising a 100-test Android unit suite, 158 controlled encounter playbacks, and an A/B evaluation of sensory feedback modes.
 \end{enumerate}

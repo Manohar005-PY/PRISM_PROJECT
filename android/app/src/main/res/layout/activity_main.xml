@@ -26,20 +26,9 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/tvParticipantDestination"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="Current destination: North Concourse Exit"
-            android:text="DESTINATION: North Concourse Exit"
-            android:textColor="#38bdf8"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
             android:id="@+id/tvParticipantGuidance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
             android:accessibilityLiveRegion="assertive"
             android:contentDescription="Live guidance: Proceed forward along corridor."
             android:text="Proceed forward along corridor."
@@ -136,85 +125,43 @@
             android:textSize="11sp" />
     </LinearLayout>
 
-    <!-- Accessible Voice / Query Buttons Row -->
-    <LinearLayout
-        android:id="@+id/accessibleQueriesLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="8dp"
-        app:layout_constraintBottom_toTopOf="@id/bottomControlsLayout">
-
-        <Button
-            android:id="@+id/btnWhereAmI"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:layout_weight="1"
-            android:contentDescription="Query location: Where am I?"
-            android:minHeight="48dp"
-            android:text="Where Am I?"
-            android:textSize="13sp" />
-
-        <Button
-            android:id="@+id/btnWhatIsAhead"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:layout_weight="1"
-            android:contentDescription="Query obstacles: What is ahead?"
-            android:minHeight="48dp"
-            android:text="What's Ahead?"
-            android:textSize="13sp" />
-
-        <Button
-            android:id="@+id/btnRepeatInstruction"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:layout_weight="1"
-            android:contentDescription="Repeat last navigation instruction"
-            android:minHeight="48dp"
-            android:text="Repeat"
-            android:textSize="13sp" />
-    </LinearLayout>
-
-    <!-- Floating Action / Primary Controls -->
+    <!-- Primary Controls: START and STOP -->
     <LinearLayout
         android:id="@+id/bottomControlsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="12dp"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
-            android:id="@+id/btnToggleRuntime"
-            android:layout_width="wrap_content"
+            android:id="@+id/btnStart"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:contentDescription="Pause navigation"
-            android:minHeight="48dp"
-            android:text="PAUSE" />
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/safe_green"
+            android:contentDescription="Start PRISM navigation assistant"
+            android:minHeight="56dp"
+            android:text="START"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <Button
-            android:id="@+id/btnSelectDestination"
-            android:layout_width="wrap_content"
+            android:id="@+id/btnStop"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:contentDescription="Select navigation destination"
-            android:minHeight="48dp"
-            android:text="DESTINATION" />
-
-        <Button
-            android:id="@+id/btnReleaseMode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:contentDescription="Toggle UI mode between Participant and Research Debug"
-            android:minHeight="48dp"
-            android:text="MODE: STUDY" />
+            android:layout_weight="1"
+            android:backgroundTint="@color/critical_red"
+            android:contentDescription="Stop PRISM navigation assistant"
+            android:minHeight="56dp"
+            android:text="STOP"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

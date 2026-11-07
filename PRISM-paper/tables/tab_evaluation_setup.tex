@@ -1,27 +1,26 @@
-% Table 2: Controlled Indoor Evaluation Scenarios and Dataset
-\begin{table}[t]
-\caption{Controlled Indoor Engineering Evaluation Scenarios and Dataset}
+% Table 2: Controlled Android Evaluation Dataset and Framework
+\begin{table}[!t]
+\caption{Controlled Android Evaluation Dataset and Framework}
 \label{tab:evaluation_setup}
 \centering
 \scriptsize
-\setlength{\tabcolsep}{3pt}
-\begin{tabularx}{\columnwidth}{p{1.9cm}ccp{3.7cm}}
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabularx}{\columnwidth}{l c X}
 \toprule
-\textbf{Scenario Family} & \textbf{Runs} & \textbf{Frames} & \textbf{Kinematic Profile / Obstacle Configuration} \\
+\textbf{Evaluation Component} & \textbf{Count} & \textbf{Physical Configuration / Objective} \\
 \midrule
-Stationary Obstacles & 3 & 630 & Static box / mannequin placed at $0.5, 1.0, 2.0, 3.0$\,m \\
-Head-On Approach & 3 & 411 & Pedestrian approaching user collinear at $1.0\text{--}1.4$\,m/s \\
-Lateral Crossing & 4 & 561 & Pedestrian crossing perpendicularly ($2$ collision, $2$ miss) \\
-Moving Away & 2 & 385 & Co-directional walking; tests false-warning suppression \\
-Direction Change & 2 & 283 & Pedestrian reverses heading; tests Kalman coasting \\
-Multiple Pedestrians & 3 & 532 & $\ge 2$ simultaneous agents; tests threat prioritization \\
+Automated Test Suite   & 100 & Deterministic suite (\texttt{PrismBridgeUnitTest}) \\
+Stationary Hazards     & 42  & Static obstacles ($Z \in [0.5, 4.0]$\,m) \\
+Head-On Approaches     & 38  & Approaching agent ($v \in [1.0, 1.4]$\,m/s) \\
+Lateral Crossings      & 36  & Perpendicular/oblique corridor transit \\
+Receding Entities      & 22  & Preceding agent (false-warning suppression) \\
+Multi-Agent Scenes     & 20  & $\ge 2$ concurrent obstacles (clearance check) \\
 \midrule
-\textbf{Total Video Runs} & \textbf{17} & \textbf{2,827} & \textbf{Evaluated across real indoor corridor scenarios} \\
+\textbf{Total Encounters} & \textbf{158} & \textbf{Android telemetry playback dataset} \\
 \midrule
-A/B Mode Evaluation & 10 & --- & Controlled stationary, crossing, and evasion trials \\
+IMU Ego-Motion Suite   & 18  & Walking, starting, stopping, arm swing runs \\
+Multisensory A/B Test  & 10  & Mode A vs B with engineering evaluators \\
 \bottomrule
 \end{tabularx}
-\vspace{-0.15cm}
-\par{\raggedright \tiny Evaluated on Android device (API 34) under controlled indoor engineering conditions.\par}
-\vspace{-0.3cm}
+\par\smallskip{\raggedright \tiny Evaluated on Android device (API 34) under controlled engineering conditions.\par}
 \end{table}
